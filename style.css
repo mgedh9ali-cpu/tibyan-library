@@ -1,61 +1,48 @@
-/* تنسيق مكتبة تبيان - لمسة حيزوم */
+/* تنسيق عام للمكتبة */
 body {
-    background-color: #fdfaf5; /* لون ورقي مريح */
-    color: #3e3e3e;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Cairo', sans-serif;
     margin: 0;
     padding: 0;
-    text-align: center;
+    background-color: #f4ece1; /* لون ورقي قديم */
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* نقش خشبي خفيف */
+    color: #3e2723;
 }
 
+/* الهيدر الفخم */
 header {
-    background-color: #5d4037; /* بني خشبي فخم */
-    color: white;
-    padding: 50px 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #3e2723; /* بني غامق */
+    color: #d4af37; /* لون ذهبي للخط */
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 5px solid #d4af37;
 }
 
+/* قسم البحث وزر الإضافة */
 #search-section {
-    margin-top: 60px;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto 30px;
+    max-width: 600px;
 }
 
-input {
-    padding: 15px;
-    width: 300px;
-    border: 2px solid #d7ccc8;
-    border-radius: 30px;
-    outline: none;
-    font-size: 1rem;
+/* تنسيق كرت الكتاب */
+.book-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #d7ccc8;
 }
 
-button {
-    padding: 15px 30px;
-    background-color: #8d6e63;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-right: 10px;
-    transition: 0.3s;
+.book-card:hover {
+    transform: translateY(-10px); /* حركة خفيفة عند تمرير الماوس */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-button:hover {
-    background-color: #5d4037; /* بيغمق اللون عند اللمس */
-}
-
+/* تذييل الصفحة */
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #efebe9;
-    padding: 15px 0;
-    color: #5d4037;
-    font-weight: bold;
-}
-.main-logo {
-    width: 150px; /* حجم اللوغو */
-    height: auto;
-    margin-bottom: 15px;
+    background-color: #3e2723;
+    color: #efebe9;
+    padding: 20px;
+    margin-top: 50px;
+    text-align: center;
 }
