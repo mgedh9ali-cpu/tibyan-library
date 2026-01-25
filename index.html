@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة حيزوم النهائية</title>
+    <title>مكتبة تبيان الإلكترونية | نسخة حيزوم</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
-            --p: #2C1B18;    
-            --g: #D4AF37;    
-            --bg: #FDFCF9;   
-            --card: #ffffff; 
-            --text: #2C1B18; 
+            --p: #2C1B18;    /* بني غامق */
+            --g: #D4AF37;    /* ذهبي */
+            --bg: #FDFCF9;   /* خلفية فاتحة */
+            --card: #ffffff; /* لون الكرت */
+            --text: #2C1B18; /* لون النص */
             --gray: #999;
+        }
+
+        .dark-mode {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --p: #D4AF37;
+            --gray: #bbb;
         }
 
         body {
@@ -23,217 +32,272 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding-bottom: 110px;
+            transition: all 0.3s ease;
             direction: rtl;
         }
 
-        /* شاشة الدخول */
-        #login-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--p);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: white;
-            padding: 30px;
-            border-radius: 30px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 15px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-
-        .enter-btn {
-            background: var(--g);
-            color: var(--p);
-            border: none;
-            padding: 15px;
-            border-radius: 15px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* الهيدر المعدل مع الشعار بالزاوية */
         .main-header {
             background-color: var(--p);
             color: white;
-            padding: 45px 20px;
+            padding: 30px 20px;
             text-align: center;
             border-radius: 0 0 40px 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-container {
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid var(--p);
+            background: var(--card);
+            color: var(--text);
+            outline: none;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .book-card {
+            background: var(--card);
+            border-radius: 25px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
             position: relative;
         }
 
-        .header-logo {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            color: var(--g);
-            font-size: 35px;
-        }
-
-        .user-welcome {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 12px;
+        .book-card img {
+            width: 100%;
             border-radius: 15px;
-            margin: 15px;
-            text-align: center;
-            border: 1px dashed var(--g);
-            font-weight: bold;
+            height: 160px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            cursor: pointer;
         }
 
-        /* الأقسام */
-        .page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
+        .fav-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: #ff4757;
+            cursor: pointer;
+        }
+
+        .page-section {
+            display: none;
+            padding: 20px;
+            animation: slideUp 0.5s ease;
+        }
+
         .active-section { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .book-card { background: var(--card); border-radius: 20px; padding: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* الورد اليومي في "قائمتي" */
-        .ward-box {
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            background: var(--card);
+            margin-bottom: 12px;
+            border-radius: 20px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; width: 20px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--g); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .audio-player {
+            position: fixed;
+            bottom: 90px;
+            width: 90%;
+            left: 5%;
             background: var(--p);
             color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .ward-input {
-            width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px; border: none; outline: none;
-        }
-
-        /* الشريط السفلي للتنقل */
-        .nav-bar {
-            position: fixed;
-            bottom: 0; width: 100%;
-            background: var(--card);
-            display: flex;
-            padding: 15px 0;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+            display: none;
+            align-items: center;
+            gap: 15px;
             z-index: 1000;
         }
 
-        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
-        .nav-item.active { color: var(--p); font-weight: bold; }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--card);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+            z-index: 1100;
+        }
 
-        /* زر المالك المخفي */
-        #owner-nav { display: none; }
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 11px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-item i { display: block; font-size: 24px; margin-bottom: 5px; }
+        .nav-item.active { color: var(--p); font-weight: bold; }
+
+        #quoteCard {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            border-right: 8px solid var(--g);
+            color: #2C1B18;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="login-card">
-        <i class="fas fa-book-open" style="font-size: 40px; color: var(--g); margin-bottom: 10px;"></i>
-        <h2>مرحباً بك يا حيزوم 📚</h2>
-        <input type="text" id="userName" class="login-input" placeholder="اسمك الكريم">
-        <input type="number" id="userAge" class="login-input" placeholder="العمر">
-        <input type="text" id="userCountry" class="login-input" placeholder="البلد">
-        <button class="enter-btn" onclick="manualLogin()">دخول للمكتبة 🚀</button>
+<header class="main-header">
+    <h2 style="margin:0;">مكتبة تبيان الإلكترونية</h2>
+    <p style="margin:5px 0 0; font-size:14px; opacity:0.8;">عالم المعرفة بين يديك يا حيزوم ✨</p>
+</header>
+
+<main>
+    <section id="home" class="page-section active-section">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="ابحث عن كتاب أو قصيدة..." onkeyup="searchBooks()">
+        </div>
+        <div id="grid" class="book-grid">
+            </div>
+    </section>
+
+    <section id="mylist" class="page-section">
+        <h3>⭐ مفضلاتي</h3>
+        <div id="fav-grid" class="book-grid"></div>
+    </section>
+
+    <section id="snippets" class="page-section">
+        <div style="background:var(--p); color:white; padding:20px; border-radius:20px; margin-bottom:20px;">
+            <h3>📝 مقتطفات كحيلان</h3>
+            <p>توليد حكم إدلبية بذكاء صناعي.</p>
+        </div>
+        <button onclick="generateAIQuote()" style="width:100%; padding:18px; background:var(--g); border:none; border-radius:15px; font-weight:bold;">توليد مقتطف جديد ✨</button>
+        <div id="quoteContainer" style="display:none; margin-top:25px;">
+            <div id="quoteCard">
+                <p id="quoteText" style="font-size:18px; font-weight:500;"></p>
+                <small>— كحيلان الحكيم</small>
+            </div>
+            <button onclick="downloadQuote()" style="width:100%; margin-top:15px; padding:15px; background:#25D366; color:white; border:none; border-radius:15px;">حفظ الصورة</button>
+        </div>
+    </section>
+
+    <section id="profile" class="page-section">
+        <div style="text-align:center; padding:30px; background:var(--card); border-radius:30px;">
+            <i class="fas fa-user-circle" style="font-size:80px; color:var(--g)"></i>
+            <h2>حيزوم</h2>
+        </div>
+        <div class="setting-item" style="margin-top:20px;">
+            <span>الوضع الليلي</span>
+            <label class="switch"><input type="checkbox" id="darkToggle" onchange="toggleDark()"><span class="slider"></span></label>
+        </div>
+    </section>
+
+    <section id="owner" class="page-section">
+        <h3>🛠️ إضافة كتاب جديد</h3>
+        <div style="background:var(--card); padding:25px; border-radius:25px;">
+            <input type="text" id="bTitle" class="search-bar" placeholder="اسم الكتاب" style="margin-bottom:10px;">
+            <input type="text" id="bAudio" class="search-bar" placeholder="رابط MP3" style="margin-bottom:10px;">
+            <input type="text" id="bImg" class="search-bar" placeholder="رابط الصورة" style="margin-bottom:10px;">
+            <button onclick="addNewBook()" style="width:100%; padding:18px; background:var(--p); color:white; border:none; border-radius:15px;">نشر الآن 🚀</button>
+        </div>
+    </section>
+</main>
+
+<div id="player" class="audio-player">
+    <div style="flex:1">
+        <div id="track-title" style="font-size:12px; font-weight:bold;"></div>
+        <audio id="mainAudio" controls style="width:100%;"></audio>
     </div>
 </div>
 
-<div id="app-content" style="display:none;">
-    <header class="main-header">
-        <div class="header-logo"><i class="fas fa-book-quran"></i></div>
-        <h2 id="app-title" onclick="handleOwnerClick()" style="margin:0; cursor:pointer;">مكتبة تبيان</h2>
-        <p style="font-size:12px; opacity:0.8; margin-top:5px;">زادك العلمي والشرعي</p>
-    </header>
-
-    <div id="welcomeMsg" class="user-welcome"></div>
-
-    <main>
-        <section id="home" class="page-section active-section">
-            <div class="book-grid" id="mainGrid">
-                <div class="book-card">
-                    <img src="https://via.placeholder.com/150/2C1B18/white?text=Zad">
-                    <h4>مختصر زاد المعاد</h4>
-                </div>
-            </div>
-        </section>
-
-        <section id="mylist" class="page-section">
-            <div class="ward-box">
-                <h3 style="color:var(--g); margin-top:0;"><i class="fas fa-clock"></i> تنظيـم الورد اليومي</h3>
-                <label style="font-size:12px;">كم صفحة ناوي تقرأ اليوم؟</label>
-                <input type="number" id="wardPages" class="ward-input" placeholder="عدد الصفحات" onchange="saveWard()">
-                <label style="font-size:12px; display:block; margin-top:10px;">يمت بدك نذكرك؟</label>
-                <input type="time" id="wardTime" class="ward-input" onchange="saveWard()">
-                <p id="wardStatus" style="font-size:12px; margin-top:12px; color:var(--g); font-weight:bold;"></p>
-            </div>
-            <h3>⭐ كتبي المفضلة</h3>
-            <div id="favGrid" class="book-grid">
-                <p style="color:#999; font-size:13px;">المفضلة فاضية يا خاي..</p>
-            </div>
-        </section>
-
-        <section id="profile" class="page-section">
-            <div style="text-align:center; padding:30px; background:white; border-radius:30px; box-shadow:0 10px 20px rgba(0,0,0,0.05);">
-                <i class="fas fa-user-circle" style="font-size:80px; color:var(--g); margin-bottom:15px;"></i>
-                <h2 id="pName" style="margin:0;"></h2>
-                <p id="pInfo" style="color:#666;"></p>
-                <hr style="margin:20px 0; opacity:0.1;">
-                <button onclick="localStorage.clear(); location.reload();" style="background:#ff4757; color:white; border:none; padding:12px 25px; border-radius:15px; font-weight:bold;">تسجيل الخروج</button>
-            </div>
-        </section>
-
-        <section id="owner-zone" class="page-section">
-            <h3>🛠️ لوحة المالك</h3>
-            <div style="background:white; padding:20px; border-radius:20px;">
-                <input type="text" id="bTitle" class="login-input" placeholder="اسم الكتاب">
-                <input type="text" id="bImg" class="login-input" placeholder="رابط صورة الغلاف">
-                <button class="enter-btn" onclick="alert('تمت الإضافة للمكتبة بنجاح!')">نشر الكتاب 🚀</button>
-            </div>
-        </section>
-    </main>
-
-    <nav class="nav-bar">
-        <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-star"></i>قائمتي</button>
-        <button class="nav-item" onclick="nav('profile', this)"><i class="fas fa-user"></i>أنا</button>
-        <button id="owner-nav" class="nav-item" onclick="nav('owner-zone', this)"><i class="fas fa-user-shield"></i>المالك</button>
-    </nav>
-</div>
+<nav class="nav-bar">
+    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
+    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-star"></i>مفضلتي</button>
+    <button class="nav-item" onclick="nav('snippets', this)"><i class="fas fa-quote-right"></i>مقتطفات</button>
+    <button class="nav-item" onclick="nav('profile', this)"><i class="fas fa-user-cog"></i>أنا</button>
+    <button class="nav-item" onclick="nav('owner', this)"><i class="fas fa-plus-circle"></i>إضافة</button>
+</nav>
 
 <script>
-    let clickCount = 0;
+    const MY_KEY = "AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU";
+    let books = JSON.parse(localStorage.getItem('myBooks')) || [
+        {id: 1, title: 'مختصر زاد المعاد', audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', img: 'https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد'}
+    ];
+    let favorites = JSON.parse(localStorage.getItem('myFavs')) || [];
 
-    // تفعيل وضع المالك
-    function handleOwnerClick() {
-        clickCount++;
-        if (clickCount === 5) {
-            document.getElementById('owner-nav').style.display = 'block';
-            alert("أهلاً بك يا مالك تبيان! تم فتح لوحة التحكم 🛠️");
-            clickCount = 0;
-        }
-        setTimeout(() => clickCount = 0, 4000); 
-    }
-
-    function manualLogin() {
-        const name = document.getElementById('userName').value;
-        const age = document.getElementById('userAge').value;
-        const country = document.getElementById('userCountry').value;
-        if(!name || !age || !country) return alert("يا حيزوم عبي البيانات كاملة الله يرضى عليك!");
-        localStorage.setItem('tebyan_user', JSON.stringify({name, age, country}));
-        location.reload();
+    function renderBooks() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = books.map(book => `
+            <div class="book-card">
+                <button class="fav-btn" onclick="toggleFav(${book.id})">
+                    <i class="${favorites.includes(book.id) ? 'fas' : 'far'} fa-heart"></i>
+                </button>
+                <img src="${book.img}" onclick="playAudio('${book.title}', '${book.audio}', ${book.id})">
+                <h4>${book.title}</h4>
+            </div>
+        `).join('');
     }
 
     function nav(id, btn) {
@@ -241,34 +305,77 @@
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
+        if(id === 'mylist') renderFavs();
     }
 
-    function saveWard() {
-        const p = document.getElementById('wardPages').value;
-        const t = document.getElementById('wardTime').value;
-        localStorage.setItem('w_p', p);
-        localStorage.setItem('w_t', t);
-        document.getElementById('wardStatus').innerText = `تم الضبط: ${p} صفحة الساعة ${t} ✅`;
+    function playAudio(title, url, id) {
+        const player = document.getElementById('player');
+        const audio = document.getElementById('mainAudio');
+        document.getElementById('track-title').innerText = title;
+        audio.src = url;
+        player.style.display = 'flex';
+        audio.play();
     }
 
-    window.onload = () => {
-        const user = localStorage.getItem('tebyan_user');
-        if(user) {
-            const u = JSON.parse(user);
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            document.getElementById('welcomeMsg').innerText = `أهلاً بك يا حيزوم (${u.name}) من ${u.country} ✨`;
-            document.getElementById('pName').innerText = u.name;
-            document.getElementById('pInfo').innerText = `${u.age} سنة | ${u.country}`;
-            
-            // تحميل بيانات الورد
-            document.getElementById('wardPages').value = localStorage.getItem('w_p');
-            document.getElementById('wardTime').value = localStorage.getItem('w_t');
-            if(localStorage.getItem('w_p')) {
-                document.getElementById('wardStatus').innerText = `وردك: ${localStorage.getItem('w_p')} صفحات الساعة ${localStorage.getItem('w_t')}`;
-            }
-        }
-    };
+    function addNewBook() {
+        const t = document.getElementById('bTitle').value;
+        const a = document.getElementById('bAudio').value;
+        const i = document.getElementById('bImg').value || 'https://via.placeholder.com/150';
+        if(!t || !a) return alert("يا حيزوم عبي البيانات!");
+        
+        const newBook = { id: Date.now(), title: t, audio: a, img: i };
+        books.push(newBook);
+        localStorage.setItem('myBooks', JSON.stringify(books));
+        renderBooks();
+        alert("تمت الإضافة بنجاح!");
+        nav('home', document.querySelector('.fa-home').parentElement);
+    }
+
+    function toggleFav(id) {
+        if(favorites.includes(id)) favorites = favorites.filter(fid => fid !== id);
+        else favorites.push(id);
+        localStorage.setItem('myFavs', JSON.stringify(favorites));
+        renderBooks();
+    }
+
+    function renderFavs() {
+        const favGrid = document.getElementById('fav-grid');
+        const favBooks = books.filter(b => favorites.includes(b.id));
+        favGrid.innerHTML = favBooks.map(book => `
+            <div class="book-card">
+                <img src="${book.img}" onclick="playAudio('${book.title}', '${book.audio}', ${book.id})">
+                <h4>${book.title}</h4>
+            </div>
+        `).join('') || '<p style="grid-column:1/3; text-align:center;">القائمة فاضية يا خاي!</p>';
+    }
+
+    function toggleDark() { document.body.classList.toggle('dark-mode'); }
+
+    async function generateAIQuote() {
+        const text = document.getElementById('quoteText');
+        document.getElementById('quoteContainer').style.display = 'block';
+        text.innerText = "كحيلان عم يفتش بالكتب... ☕";
+        try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_KEY}`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({contents: [{parts: [{text: "أعطني مقتطفاً شرعياً بليغاً وقصيراً جداً بلهجة إدلبية محفزة كأنك كحيلان الحكيم."}]}]})
+            });
+            const data = await res.json();
+            text.innerText = data.candidates[0].content.parts[0].text;
+        } catch(e) { text.innerText = "ما مشي الحال، جرب بعد شوي!"; }
+    }
+
+    function downloadQuote() {
+        html2canvas(document.getElementById('quoteCard')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Tebyan.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+
+    window.onload = renderBooks;
 </script>
 </body>
 </html>
