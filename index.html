@@ -57,4 +57,146 @@
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 500px; background: var(--glass); 
             display: flex; justify-content: space-around; padding: 18px 0; 
-            border-radius: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.
+            border-radius: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+            z-index: 1000; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3);
+        }
+        .nav-item { background: none; border: none; color: #888; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { color: var(--p); transform: scale(1.1); }
+        .nav-item i { font-size: 24px; margin-bottom: 5px; }
+
+        /* قائمة أنا (الخيارات الجديدة) */
+        .user-panel { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .option-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        
+        /* زر الإضافة (يظهر لك فقط) */
+        #admin-add-btn { display: none; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body id="main-body">
+
+<header class="main-header">
+    <img src="logo.png" class="main-logo">
+    <h1>مكتبة تبيان الإلكترونية</h1>
+    <p>عالم المعرفة والاستماع بين يديك ✨</p>
+</header>
+
+<main>
+    <section id="home-sec" class="page-section active">
+        <h3>📚 الرفوف الذكية</h3>
+        <div id="mainGrid" class="book-grid"></div>
+    </section>
+
+    <section id="quotes-sec" class="page-section">
+        <h3>✍️ سجل مقتطفاتي</h3>
+        <div id="quotesList"></div>
+    </section>
+
+    <section id="list-sec" class="page-section">
+        <h3>🔖 كنوزي الخاصة</h3>
+        <div id="favAuthors" style="margin-bottom: 20px; color: var(--g);"><b>مؤلفيني المفضلين:</b> د. البوطي، ابن القيم...</div>
+        <div id="mylistGrid" class="book-grid"></div>
+    </section>
+
+    <section id="settings-sec" class="page-section">
+        <div class="user-panel">
+            <h3>👤 مركز التحكم</h3>
+            <div class="option-row"><span>الثيم (الورق)</span><input type="checkbox" onchange="togglePaper()"></div>
+            <div class="option-row"><span>الإشعارات</span><input type="checkbox" checked></div>
+            <div class="option-row"><span>الكتب المكتملة</span><b id="done-count">0</b></div>
+            <div class="option-row"><span>كتب قيد القراءة</span><b id="reading-count">0</b></div>
+            <hr>
+            <button onclick="activateAdmin()" style="background:none; border:none; color:#ccc; font-size:10px;">دخول المطور</button>
+            <button id="admin-add-btn" onclick="addNewBook()" style="width:100%; padding:15px; background:var(--g); border:none; border-radius:15px; margin-top:10px;">➕ إضافة كتاب جديد</button>
+        </div>
+    </section>
+</main>
+
+<nav class="main-nav">
+    <button class="nav-item active" onclick="showPage('home-sec', this)"><i class="fas fa-layer-group"></i><span>المكتبة</span></button>
+    <button class="nav-item" onclick="showPage('quotes-sec', this)"><i class="fas fa-feather"></i><span>مقتطفات</span></button>
+    <button class="nav-item" onclick="showPage('list-sec', this)"><i class="fas fa-heart"></i><span>كنوزي</span></button>
+    <button class="nav-item" onclick="showPage('settings-sec', this)"><i class="fas fa-user-gear"></i><span>أنا</span></button>
+</nav>
+
+<script>
+    let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
+        { title: "مقدمة ابن خلدون", author: "ابن خلدون", cover: "https://via.placeholder.com/200x300/2C1B18/white?text=History", fav: false, status: 'reading' },
+        { title: "الداء والدواء", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Soul", fav: true, status: 'done' }
+    ];
+
+    function showPage(id, btn) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        updateCounters();
+    }
+
+    function render() {
+        const grid = document.getElementById('mainGrid');
+        const favGrid = document.getElementById('mylistGrid');
+        grid.innerHTML = ''; favGrid.innerHTML = '';
+
+        db.forEach((book, i) => {
+            let card = `
+                <div class="book-card">
+                    <button class="del-btn" onclick="deleteBook(${i})">×</button>
+                    <img src="${book.cover}">
+                    <h4>${book.title}</h4>
+                    <small>بقلم: ${book.author}</small>
+                    <br>
+                    <button onclick="toggleFav(${i})" style="background:none; border:none; color:${book.fav ? 'var(--g)' : '#ccc'}; cursor:pointer; font-size:18px;">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>`;
+            grid.innerHTML += card;
+            if(book.fav) favGrid.innerHTML += card;
+        });
+    }
+
+    function activateAdmin() {
+        let pass = prompt("كلمة مرور المطور (حيزوم)؟");
+        if(pass === "123") {
+            document.getElementById('admin-add-btn').style.display = 'block';
+            document.getElementById('main-body').classList.add('admin-active');
+            alert("أهلاً بك يا حيزوم، ميزات الإدارة مفعّلة.");
+        }
+    }
+
+    function deleteBook(i) {
+        if(confirm("حذف هذا الكتاب نهائياً؟")) {
+            db.splice(i, 1);
+            save(); render();
+        }
+    }
+
+    function addNewBook() {
+        let t = prompt("العنوان؟"), a = prompt("الكاتب؟");
+        if(t && a) {
+            db.push({ title: t, author: a, cover: "https://via.placeholder.com/200x300/2C1B18/white?text="+t, fav: false, status: 'reading' });
+            save(); render();
+        }
+    }
+
+    function togglePaper() {
+        document.body.style.background = document.body.style.background === 'rgb(244, 241, 234)' ? '#FDFCF9' : '#F4F1EA';
+    }
+
+    function updateCounters() {
+        document.getElementById('done-count').innerText = db.filter(b => b.status === 'done').length;
+        document.getElementById('reading-count').innerText = db.filter(b => b.status === 'reading').length;
+    }
+
+    function toggleFav(i) { db[i].fav = !db[i].fav; save(); render(); }
+    function save() { localStorage.setItem('tibyan_db', JSON.stringify(db)); }
+    
+    window.onload = () => {
+        // تأثير صوتي طبيعي بسيط عند الدخول (اختياري)
+        console.log("تم تفعيل الدخول الدرامي والأصوات الطبيعية.");
+        render();
+    };
+</script>
+</body>
+</html>
