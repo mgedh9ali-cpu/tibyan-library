@@ -54,3 +54,8 @@ footer {
     color: #5d4037;
     font-weight: bold;
 }
+.main-logo {
+    width: 150px; /* حجم اللوغو */
+    height: auto;
+    margin-bottom: 15px;
+}
