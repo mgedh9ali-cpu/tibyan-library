@@ -19,32 +19,37 @@
         .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* لوحة المالك المطورة */
+        .upload-zone {
+            border: 2px dashed var(--g);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            background: #fff;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .upload-zone:hover { background: #fefcf0; border-color: var(--p); }
+        .upload-zone i { font-size: 40px; color: var(--g); margin-bottom: 10px; }
+        .upload-zone p { margin: 5px 0; font-size: 14px; color: var(--p); }
+        
+        .hidden-input { display: none; }
+
+        .progress-container { width: 100%; background: #eee; height: 10px; border-radius: 5px; margin-top: 10px; display: none; }
+        .progress-fill { background: var(--g); height: 100%; width: 0%; transition: 0.3s; }
+
         .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .book-card { background: var(--card); border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
-
-        /* قسم قائمتي الجديد */
-        .ward-box { background: var(--p); color: white; padding: 20px; border-radius: 25px; margin-bottom: 25px; }
-        .ward-input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px; border: none; }
-
-        /* تنسيق الكتب غير المكتملة */
-        .uncompleted-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
-        .uncompleted-card img { width: 60px; height: 80px; border-radius: 10px; margin-left: 15px; object-fit: cover; }
-        .progress-container { flex-grow: 1; }
-        .progress-bar { width: 100%; background: #eee; height: 8px; border-radius: 5px; margin-top: 8px; overflow: hidden; }
-        .progress-fill { background: var(--g); height: 100%; width: 60%; } /* مثال 60% */
-
-        .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .ach-card { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
-
-        .settings-item { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .dev-credit { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #eee; color: var(--gray); font-size: 13px; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
         .nav-item.active { color: var(--p); font-weight: bold; }
         .nav-item i { display: block; font-size: 20px; margin-bottom: 5px; }
         #owner-nav-btn { display: none; color: var(--g); }
+
+        .dev-credit { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #eee; color: var(--gray); font-size: 13px; }
     </style>
 </head>
 <body>
@@ -61,66 +66,55 @@
 
     <main>
         <section id="home" class="page-section active-section">
-            <h3 style="border-right: 4px solid var(--g); padding-right: 10px;">📚 الكتب العامة</h3>
             <div class="book-grid">
-                <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Book1"><h4>زاد المعاد</h4></div>
-                <div class="book-card"><img src="https://via.placeholder.com/150/D4AF37/white?text=Book2"><h4>تفسير الجلالين</h4></div>
+                <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Zad"><h4>زاد المعاد</h4></div>
+                <div class="book-card"><img src="https://via.placeholder.com/150/D4AF37/white?text=Riyad"><h4>رياض الصالحين</h4></div>
             </div>
         </section>
 
         <section id="mylist" class="page-section">
-            <div class="ward-box">
-                <h3 style="margin:0 0 10px; color:var(--g);"><i class="fas fa-history"></i> وردي ومتابعتي</h3>
-                <input type="number" class="ward-input" placeholder="عدد صفحات الورد اليومي">
-            </div>
-
-            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;"><i class="fas fa-spinner"></i> كتب لم تكتمل قراءتها</h3>
-            <div id="uncompleted-list">
-                <div class="uncompleted-card">
-                    <img src="https://via.placeholder.com/150/2C1B18/white?text=Book" alt="كتاب">
-                    <div class="progress-container">
-                        <h4 style="margin:0; font-size:14px;">مختصر صحيح البخاري</h4>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
-                        <span style="font-size:11px; color:var(--gray);">تم إنجاز 45%</span>
-                    </div>
-                </div>
-            </div>
+            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;">📚 كتب قيد القراءة</h3>
+            <p style="text-align:center; color:var(--gray);">القائمة فارغة حالياً.</p>
         </section>
 
         <section id="me" class="page-section">
-            <div style="text-align:center; padding:20px; background:white; border-radius:30px;">
+            <div style="text-align:center; padding:20px;">
                 <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
-                <h2 style="margin:10px 0;">الملف الشخصي</h2>
-                <div class="ach-grid">
-                    <div class="ach-card"><i class="fas fa-check-double"></i><br><b>7</b> كتب منتهية</div>
-                    <div class="ach-card"><i class="fas fa-clock"></i><br><b>22</b> ساعة قراءة</div>
-                </div>
+                <h2>ملفي الشخصي</h2>
             </div>
         </section>
 
         <section id="settings" class="page-section">
             <h3>⚙️ الإعدادات</h3>
-            <div class="settings-item"><span>تنبيهات القراءة</span><i class="fas fa-bell"></i></div>
-            <div class="settings-item"><span>مزامنة البيانات</span><i class="fas fa-sync"></i></div>
-            
-            <div class="dev-credit">
-                تطوير وبرمجة<br>
-                <b style="color:var(--text); font-size:15px;">أحمد محمد محمد علي</b>
-            </div>
+            <div class="dev-credit">تطوير وبرمجة<br><b>أحمد محمد محمد علي</b></div>
         </section>
 
         <section id="owner" class="page-section">
-            <h3 style="color:var(--g);">🛠️ لوحة المالك</h3>
-            <div style="background:white; padding:20px; border-radius:20px;">
-                <input type="text" class="search-bar" placeholder="أضف كتاباً جديداً" style="margin-bottom:10px;">
-                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px;">نشر</button>
+            <h3 style="color:var(--g);"><i class="fas fa-tools"></i> لوحة المالك - إضافة كتب</h3>
+            
+            <input type="text" id="bookTitleInput" class="search-bar" placeholder="اسم الكتاب" style="margin-bottom:15px;">
+
+            <div class="upload-zone" onclick="document.getElementById('coverInput').click()" ondrop="handleDrop(event, 'cover')" ondragover="handleDragOver(event)">
+                <i class="fas fa-image"></i>
+                <p id="coverStatus">اسحب صورة الغلاف هنا أو انقر للاختيار</p>
+                <input type="file" id="coverInput" class="hidden-input" accept="image/*" onchange="handleFile(this.files[0], 'cover')">
+                <div class="progress-container" id="coverProgress"><div class="progress-fill" id="coverFill"></div></div>
             </div>
+
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event, 'file')" ondragover="handleDragOver(event)">
+                <i class="fas fa-file-pdf"></i>
+                <p id="fileStatus">اسحب ملف الكتاب (PDF) هنا أو انقر للاختيار</p>
+                <input type="file" id="fileInput" class="hidden-input" accept=".pdf,.epub" onchange="handleFile(this.files[0], 'file')">
+                <div class="progress-container" id="fileProgress"><div class="progress-fill" id="fileFill"></div></div>
+            </div>
+
+            <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px; font-weight:bold; cursor:pointer;" onclick="publishBook()">نشر الكتاب في المكتبة 🚀</button>
         </section>
     </main>
 
     <nav class="nav-bar">
         <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list-ul"></i>قائمتي</button>
+        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list"></i>قائمتي</button>
         <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
         <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
         <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)"><i class="fas fa-user-shield"></i>المالك</button>
@@ -128,23 +122,57 @@
 </div>
 
 <script>
-    let isOwner = false;
     function checkCode() {
         const val = document.getElementById('searchField').value.toLowerCase();
         if(val === 'heizuom') {
-            isOwner = !isOwner;
-            document.getElementById('owner-nav-btn').style.display = isOwner ? 'block' : 'none';
+            const btn = document.getElementById('owner-nav-btn');
+            btn.style.display = btn.style.display === 'block' ? 'none' : 'block';
             document.getElementById('searchField').value = '';
-            alert(isOwner ? "مرحباً يا مالك تبيان 🛠️" : "تم العودة لوضع المستخدم ✨");
-            if(isOwner) nav('owner', document.getElementById('owner-nav-btn'));
-            else nav('home', document.querySelectorAll('.nav-item')[0]);
+            alert(btn.style.display === 'block' ? "مرحباً يا مالك 🛠️" : "تم العودة للوضع العادي");
         }
     }
+
     function nav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
+    }
+
+    // منطق الرفع والسحب
+    function handleDragOver(e) { e.preventDefault(); }
+    
+    function handleDrop(e, type) {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        handleFile(file, type);
+    }
+
+    function handleFile(file, type) {
+        if (!file) return;
+        const status = document.getElementById(type + 'Status');
+        const progress = document.getElementById(type + 'Progress');
+        const fill = document.getElementById(type + 'Fill');
+
+        status.innerText = "جاري معالجة: " + file.name;
+        progress.style.display = 'block';
+        
+        // محاكاة رفع (بما أننا في بيئة فرونت إند)
+        let p = 0;
+        const interval = setInterval(() => {
+            p += 10;
+            fill.style.width = p + '%';
+            if (p >= 100) {
+                clearInterval(interval);
+                status.innerText = "تم تجهيز الملف: " + file.name + " ✅";
+            }
+        }, 100);
+    }
+
+    function publishBook() {
+        const title = document.getElementById('bookTitleInput').value;
+        if(!title) return alert("يرجى إدخال اسم الكتاب أولاً");
+        alert("تم إرسال الكتاب '" + title + "' للنشر بنجاح! 🚀");
     }
 </script>
 </body>
