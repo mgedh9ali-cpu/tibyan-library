@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة حيزوم الذكية</title>
+    <title>مكتبة تبيان | نسخة حيزوم المطورة</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -34,7 +34,6 @@
             padding-bottom: 110px;
             transition: all 0.3s ease;
             direction: rtl;
-            overflow-x: hidden;
         }
 
         /* شاشة الدخول */
@@ -44,12 +43,9 @@
             background: var(--p);
             z-index: 9999;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
             padding: 20px;
-            box-sizing: border-box;
         }
 
         .login-card {
@@ -58,9 +54,7 @@
             border-radius: 30px;
             width: 100%;
             max-width: 400px;
-            color: var(--p);
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .login-input {
@@ -73,19 +67,18 @@
         }
 
         .google-btn {
-            background: #ffffff;
-            color: #757575;
+            background: white;
             border: 1px solid #ddd;
             padding: 12px;
             border-radius: 12px;
             width: 100%;
-            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .enter-btn {
@@ -97,176 +90,202 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            font-size: 16px;
         }
 
-        /* التنسيقات الأساسية */
+        /* تنسيقات الواجهة */
         .main-header {
             background-color: var(--p);
             color: white;
-            padding: 30px 20px;
+            padding: 25px;
             text-align: center;
             border-radius: 0 0 40px 40px;
         }
 
         .user-welcome {
-            background: rgba(212, 175, 55, 0.2);
+            background: rgba(212, 175, 55, 0.1);
             padding: 10px;
             border-radius: 15px;
             margin: 15px;
-            font-size: 14px;
             text-align: center;
             border: 1px dashed var(--g);
+            font-weight: bold;
         }
 
-        .search-container { padding: 20px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
-        .search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); background: var(--card); color: var(--text); outline: none; box-sizing: border-box; }
-        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 20px; }
-        .book-card { background: var(--card); border-radius: 25px; padding: 15px; text-align: center; box-shadow: 0 8px 15px rgba(0,0,0,0.05); position: relative; }
-        .book-card img { width: 100%; border-radius: 15px; height: 160px; object-fit: cover; cursor: pointer; }
-        .fav-btn { position: absolute; top: 20px; right: 20px; background: white; border: none; border-radius: 50%; width: 35px; height: 35px; color: #ff4757; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .page-section { display: none; padding: 20px; animation: slideUp 0.5s ease; }
+        .page-section { display: none; padding: 20px; animation: fadeIn 0.5s; }
         .active-section { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1100; }
-        .nav-item { background: none; border: none; color: var(--gray); font-size: 11px; flex: 1; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .book-card { background: var(--card); border-radius: 20px; padding: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
+
+        /* قسم الورد اليومي المطور */
+        .ward-box {
+            background: var(--p);
+            color: white;
+            padding: 20px;
+            border-radius: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .ward-box h3 { margin-top: 0; color: var(--g); }
+        
+        .ward-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ward-controls label { font-size: 13px; opacity: 0.8; }
+
+        .ward-controls input {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            outline: none;
+        }
+
+        .ward-controls input::placeholder { color: #ccc; }
+
+        /* الشريط السفلي */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--card);
+            display: flex;
+            padding: 15px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; }
         .nav-item.active { color: var(--p); font-weight: bold; }
-        .audio-player { position: fixed; bottom: 90px; width: 90%; left: 5%; background: var(--p); color: white; padding: 15px; border-radius: 25px; display: none; align-items: center; gap: 15px; z-index: 1000; }
-        .ward-container { background: var(--p); color: white; padding: 20px; border-radius: 25px; margin-bottom: 25px; }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
     <div class="login-card">
-        <h2 style="margin-top:0;">مرحباً بك في تبيان 📚</h2>
-        <p style="font-size: 14px; color: #666;">سجل دخولك لتبدأ رحلتك العلمية</p>
-        
+        <h2>مرحباً بك في تبيان 📚</h2>
         <button class="google-btn" onclick="googleLogin()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18">
             الدخول بواسطة جوجل
         </button>
-
-        <div style="margin: 10px 0; font-size: 12px; color: #999;">أو أدخل بياناتك يدوياً</div>
-
-        <input type="text" id="userName" class="login-input" placeholder="الاسم الكريم">
+        <div style="margin: 10px; font-size: 12px; color: #999;">أو أدخل بياناتك</div>
+        <input type="text" id="userName" class="login-input" placeholder="الاسم">
         <input type="number" id="userAge" class="login-input" placeholder="العمر">
         <input type="text" id="userCountry" class="login-input" placeholder="البلد">
-        
-        <button class="enter-btn" onclick="manualLogin()">دخول للمكتبة 🚀</button>
+        <button class="enter-btn" onclick="manualLogin()">دخول للمكتبة</button>
     </div>
 </div>
 
 <div id="app-content" style="display:none;">
     <header class="main-header">
-        <h2 style="margin:0;">مكتبة تبيان الإلكترونية</h2>
-        <p style="margin:5px 0 0; font-size:14px; opacity:0.8;">عالم المعرفة والورد اليومي</p>
+        <h2 style="margin:0;">مكتبة تبيان</h2>
+        <p style="font-size:12px; opacity:0.8;">زادك العلمي والشرعي يا حيزوم</p>
     </header>
 
     <div id="welcomeMsg" class="user-welcome"></div>
 
     <main>
         <section id="home" class="page-section active-section">
-            <div class="search-container">
-                <input type="text" id="searchInput" class="search-bar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-            </div>
-            <div id="grid" class="book-grid">
-                <div class="book-card">
-                    <button class="fav-btn" onclick="toggleFav(101)"><i class="far fa-heart"></i></button>
-                    <img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد" onclick="playAudio('زاد المعاد', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 101)">
-                    <h4>مختصر زاد المعاد</h4>
+            <div class="book-grid" id="mainGrid">
                 </div>
-            </div>
         </section>
 
         <section id="mylist" class="page-section">
-            <div class="ward-container">
-                <h3><i class="fas fa-mosque"></i> الورد اليومي</h3>
-                <input type="number" id="wardPages" placeholder="عدد الصفحات" style="width:45%; padding:10px; border-radius:10px; border:none;">
-                <input type="time" id="wardTime" style="width:45%; padding:10px; border-radius:10px; border:none;" onchange="saveWardSettings()">
-                <p id="wardStatus" style="font-size:12px; margin-top:10px;"></p>
+            <div class="ward-box">
+                <h3><i class="fas fa-book-open"></i> تنظيـم الورد اليومي</h3>
+                <div class="ward-controls">
+                    <label>كم صفحة بدك تقرأ اليوم؟</label>
+                    <input type="number" id="wardPages" placeholder="مثلاً: 20 صفحة" onchange="saveWard()">
+                    
+                    <label>يمت بدك يوصلك التذكير؟</label>
+                    <input type="time" id="wardTime" onchange="saveWard()">
+                </div>
+                <p id="wardSummary" style="margin-top:15px; font-size:12px; color:var(--g);"></p>
             </div>
-            <h3>⭐ مفضلاتي</h3>
-            <div id="fav-grid" class="book-grid"></div>
+
+            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;">⭐ كتبي المفضلة</h3>
+            <div id="favGrid" class="book-grid"></div>
         </section>
 
         <section id="snippets" class="page-section">
-            <button onclick="generateAIQuote()" style="width:100%; padding:18px; background:var(--g); border:none; border-radius:15px; font-weight:bold;">توليد مقتطف جديد ✨</button>
-            <div id="quoteContainer" style="display:none; margin-top:25px;">
-                <div id="quoteCard" style="background:white; padding:20px; border-radius:20px; border-right:8px solid var(--g);">
-                    <p id="quoteText"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="profile" class="page-section">
-            <div style="text-align:center; padding:20px; background:var(--card); border-radius:20px;">
-                <h3 id="profileName"></h3>
-                <p id="profileDetails"></p>
-                <button onclick="logout()" style="background:#ff4757; color:white; border:none; padding:10px 20px; border-radius:10px;">تسجيل الخروج</button>
+            <button onclick="getQuote()" style="width:100%; padding:15px; background:var(--g); border:none; border-radius:15px; font-weight:bold;">توليد مقتطف إدلبي ✨</button>
+            <div id="qBox" style="margin-top:20px; padding:20px; background:white; border-radius:15px; display:none;">
+                <p id="qText" style="font-style:italic;"></p>
             </div>
         </section>
     </main>
 
-    <div id="player" class="audio-player">
-        <div style="flex:1">
-            <div id="track-title" style="font-size:12px; font-weight:bold;"></div>
-            <audio id="mainAudio" controls style="width:100%; height:30px;"></audio>
-        </div>
-    </div>
-
     <nav class="nav-bar">
         <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
         <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-star"></i>قائمتي</button>
-        <button class="nav-item" onclick="nav('snippets', this)"><i class="fas fa-quote-right"></i>مقتطفات</button>
-        <button class="nav-item" onclick="nav('profile', this)"><i class="fas fa-user-cog"></i>أنا</button>
+        <button class="nav-item" onclick="nav('snippets', this)"><i class="fas fa-quote-left"></i>مقتطفات</button>
     </nav>
 </div>
 
 <script>
-    const MY_KEY = "AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU";
-    
-    // --- نظام الدخول ---
+    // --- بيانات المستخدم والدخول ---
     function manualLogin() {
         const name = document.getElementById('userName').value;
         const age = document.getElementById('userAge').value;
         const country = document.getElementById('userCountry').value;
-
-        if(!name || !age || !country) return alert("يا حيزوم عبي البيانات كاملة!");
-
-        const user = { name, age, country, method: 'Manual' };
-        localStorage.setItem('tebyan_user', JSON.stringify(user));
-        startApp();
+        if(!name || !age || !country) return alert("عبّي البيانات يا خاي!");
+        saveAndStart({ name, age, country });
     }
 
     function googleLogin() {
-        // محاكاة دخول جوجل
-        const user = { name: "حيزوم (عبر جوجل)", age: "20", country: "سوريا", method: 'Google' };
-        localStorage.setItem('tebyan_user', JSON.stringify(user));
-        startApp();
+        saveAndStart({ name: "حيزوم (Google)", age: "20", country: "سوريا" });
     }
 
-    function startApp() {
-        const user = JSON.parse(localStorage.getItem('tebyan_user'));
-        if(user) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            document.getElementById('welcomeMsg').innerText = `أهلاً بك يا ${user.name} من ${user.country} في مكتبتك ✨`;
-            document.getElementById('profileName').innerText = user.name;
-            document.getElementById('profileDetails').innerText = `${user.age} سنة | ${user.country}`;
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem('tebyan_user');
+    function saveAndStart(user) {
+        localStorage.setItem('user_data', JSON.stringify(user));
         location.reload();
     }
 
-    // --- بقية وظائف التطبيق ---
-    let books = JSON.parse(localStorage.getItem('lib_books')) || [
-        {id: 101, title: 'مختصر زاد المعاد', audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', img: 'https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد'}
+    // --- إدارة الورد اليومي ---
+    function saveWard() {
+        const pages = document.getElementById('wardPages').value;
+        const time = document.getElementById('wardTime').value;
+        localStorage.setItem('ward_pages', pages);
+        localStorage.setItem('ward_time', time);
+        updateWardUI();
+    }
+
+    function updateWardUI() {
+        const p = localStorage.getItem('ward_pages');
+        const t = localStorage.getItem('ward_time');
+        if(p && t) {
+            document.getElementById('wardSummary').innerText = `تم الضبط: ${p} صفحة الساعة ${t} 🕒`;
+        }
+    }
+
+    // تكنولوجيا التنبيه
+    function startReminderEngine() {
+        setInterval(() => {
+            const setTime = localStorage.getItem('ward_time');
+            const now = new Date();
+            const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            
+            if(setTime === currentTime) {
+                const user = JSON.parse(localStorage.getItem('user_data'));
+                alert(`يا ${user.name}! حان وقت الورد اليومي (${localStorage.getItem('ward_pages')} صفحات). لا تنسى نصيبك من العلم! 📖✨`);
+            }
+        }, 60000); // يفحص كل دقيقة
+    }
+
+    // --- وظائف التطبيق الأساسية ---
+    const books = [
+        {id:1, title: 'زاد المعاد', img: 'https://via.placeholder.com/150/2C1B18/white?text=Zad'},
+        {id:2, title: 'تفسير الجلالين', img: 'https://via.placeholder.com/150/D4AF37/white?text=Tafsir'}
     ];
-    let favorites = JSON.parse(localStorage.getItem('lib_favs')) || [];
+    let favs = JSON.parse(localStorage.getItem('user_favs')) || [];
 
     function nav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
@@ -277,56 +296,57 @@
     }
 
     function renderBooks() {
-        document.getElementById('grid').innerHTML = books.map(book => `
+        document.getElementById('mainGrid').innerHTML = books.map(b => `
             <div class="book-card">
-                <button class="fav-btn" onclick="toggleFav(${book.id})"><i class="${favorites.includes(book.id) ? 'fas' : 'far'} fa-heart"></i></button>
-                <img src="${book.img}" onclick="playAudio('${book.title}', '${book.audio}', ${book.id})">
-                <h4>${book.title}</h4>
+                <img src="${b.img}">
+                <h4>${b.title}</h4>
+                <button onclick="toggleFav(${b.id})" style="border:none; background:none; color:${favs.includes(b.id)?'red':'#ccc'}">
+                    <i class="fas fa-heart"></i>
+                </button>
             </div>
         `).join('');
     }
 
     function toggleFav(id) {
-        if(favorites.includes(id)) favorites = favorites.filter(fid => fid !== id);
-        else favorites.push(id);
-        localStorage.setItem('lib_favs', JSON.stringify(favorites));
+        if(favs.includes(id)) favs = favs.filter(i => i !== id);
+        else favs.push(id);
+        localStorage.setItem('user_favs', JSON.stringify(favs));
         renderBooks();
     }
 
     function renderFavs() {
-        const favList = books.filter(b => favorites.includes(b.id));
-        document.getElementById('fav-grid').innerHTML = favList.map(book => `
-            <div class="book-card"><img src="${book.img}" onclick="playAudio('${book.title}', '${book.audio}', ${book.id})"><h4>${book.title}</h4></div>
-        `).join('') || '<p>المفضلة خالية</p>';
+        const fItems = books.filter(b => favs.includes(b.id));
+        document.getElementById('favGrid').innerHTML = fItems.map(b => `
+            <div class="book-card"><img src="${b.img}"><h4>${b.title}</h4></div>
+        `).join('') || '<p style="font-size:12px; color:#999;">ما ضفت شي للمفضلة لسه..</p>';
     }
 
-    function playAudio(title, url, id) {
-        const player = document.getElementById('player');
-        const audio = document.getElementById('mainAudio');
-        document.getElementById('track-title').innerText = title;
-        audio.src = url;
-        player.style.display = 'flex';
-        audio.play();
+    async function getQuote() {
+        const box = document.getElementById('qBox');
+        box.style.display = 'block';
+        document.getElementById('qText').innerText = "كحيلان عم يجهزلك الحكمة... ☕";
+        // هنا نضع نص تجريبي (ويمكن ربطها بـ Gemini API كما في النسخ السابقة)
+        setTimeout(() => {
+            document.getElementById('qText').innerText = "يا حيزوم، العلم بالتعلم، والصبر بالتصبر، والورد اليومي هو وقود الروح! (حكمة كحيلانية)";
+        }, 1000);
     }
 
-    async function generateAIQuote() {
-        const text = document.getElementById('quoteText');
-        document.getElementById('quoteContainer').style.display = 'block';
-        text.innerText = "كحيلان يفكر... ☕";
-        try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_KEY}`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({contents: [{parts: [{text: "أعطني حكمة شرعية قصيرة بلهجة إدلبية."}]}]})
-            });
-            const data = await res.json();
-            text.innerText = data.candidates[0].content.parts[0].text;
-        } catch(e) { text.innerText = "خطأ في الاتصال!"; }
-    }
-
+    // تشغيل عند التحميل
     window.onload = () => {
-        if(localStorage.getItem('tebyan_user')) startApp();
-        renderBooks();
+        const user = localStorage.getItem('user_data');
+        if(user) {
+            const u = JSON.parse(user);
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            document.getElementById('welcomeMsg').innerText = `أهلاً بك يا ${u.name} من ${u.country} ✨`;
+            
+            // تحميل إعدادات الورد
+            document.getElementById('wardPages').value = localStorage.getItem('ward_pages');
+            document.getElementById('wardTime').value = localStorage.getItem('ward_time');
+            updateWardUI();
+            renderBooks();
+            startReminderEngine();
+        }
     };
 </script>
 </body>
