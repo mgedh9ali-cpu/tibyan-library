@@ -1,108 +1,90 @@
-// مكتبة الأجواء (السينما الصوتية)
-const moodLibrary = {
-    "مقدمة": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    "غابة": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
-    "بحر": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-    "رعب": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"
-};
+let currentBookIndex = null;
+let naturePlayer = new Audio(); naturePlayer.loop = true;
+const moodLibrary = { "مقدمة": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "هدوء": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" };
 
-let naturePlayer = new Audio();
-naturePlayer.loop = true;
+window.onload = () => { loadBooks(); updateAchievement(); setDailyChallenge(); };
 
-// تشغيل الموقع
-window.onload = () => { loadBooks(); };
+// --- البحث والعرض مع التصنيف ---
+function loadBooks(filter = "", category = "") {
+    const grid = document.getElementById('booksGrid'); grid.innerHTML = '';
+    const saved = JSON.parse(localStorage.getItem('myBooks')) || [];
+    
+    saved.forEach((book, index) => {
+        const matchesSearch = book.title.toLowerCase().includes(filter.toLowerCase());
+        const matchesCategory = category === "" || book.category === category;
 
-// التنقل بين الصفحات
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-    document.getElementById(pageId).classList.add('active-page');
-}
-
-// محرك الكتب
-function loadBooks(filter = "") {
-    const grid = document.getElementById('booksGrid');
-    grid.innerHTML = '';
-    const savedBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
-
-    savedBooks.forEach((book, index) => {
-        if (book.title.toLowerCase().includes(filter.toLowerCase())) {
+        if (matchesSearch && matchesCategory) {
             const card = document.createElement('div');
-            card.style = "min-width:140px; max-width:140px; background:white; padding:10px; border-radius:10px; text-align:center; position:relative; flex-shrink:0;";
+            card.style = "min-width:140px; background:white; padding:10px; border-radius:10px; text-align:center; position:relative; flex-shrink:0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);";
             card.innerHTML = `
-                <button onclick="deleteBook(${index})" style="position:absolute; top:5px; left:5px; background:red; color:white; border:none; border-radius:50%; cursor:pointer; width:20px; height:20px;">X</button>
-                <img src="${book.cover}" style="width:100%; height:180px; object-fit:cover; border-radius:8px;">
-                <h4 style="font-size:12px; height:30px; overflow:hidden; margin:5px 0;">${book.title}</h4>
-                <button onclick="openChapterEngine('${book.title}')" style="background:#3e2723; color:white; border:none; padding:8px; border-radius:5px; width:100%; cursor:pointer; font-size:11px;">فتح الفصول ✨</button>
+                <span style="position:absolute; top:5px; right:5px; background:#d4af37; color:white; font-size:8px; padding:2px 5px; border-radius:5px;">${book.category || 'عام'}</span>
+                <button onclick="deleteBook(${index})" style="position:absolute; top:5px; left:5px; background:red; color:white; border:none; border-radius:50%; width:18px; height:18px; cursor:pointer; font-size:10px;">X</button>
+                <img src="${book.cover}" style="width:100%; height:160px; object-fit:cover; border-radius:8px;">
+                <h4 style="font-size:11px; height:25px; overflow:hidden; margin:5px 0;">${book.title}</h4>
+                <div style="display:flex; gap:3px;">
+                    <button onclick="openBook(${index})" style="background:#3e2723; color:white; border:none; padding:5px; border-radius:5px; flex:1; cursor:pointer; font-size:10px;">قراءة</button>
+                    <button onclick="openNotes(${index})" style="background:#d4af37; color:white; border:none; padding:5px; border-radius:5px; flex:1; cursor:pointer; font-size:10px;">كناشة</button>
+                </div>
             `;
             grid.appendChild(card);
         }
     });
 }
 
+// --- إضافة كتاب جديد مع تصنيف ---
 function addNewBook() {
-    let title = prompt("اسم الكتاب؟");
-    let link = prompt("رابط الـ PDF:");
-    let cover = prompt("رابط الغلاف:");
-    if (title && link) {
-        const saved = JSON.parse(localStorage.getItem('myBooks')) || [];
-        saved.push({ title, link, cover: cover || 'https://placehold.co/100x150?text=Book' });
-        localStorage.setItem('myBooks', JSON.stringify(saved));
-        loadBooks();
+    let t = prompt("اسم الكتاب؟"), l = prompt("رابط PDF؟"), c = prompt("رابط الغلاف؟"), cat = prompt("التصنيف (شرعي، علمي، تقني)؟") || "عام";
+    if (t && l) {
+        let s = JSON.parse(localStorage.getItem('myBooks')) || [];
+        s.push({ title: t, link: l, cover: c || 'https://via.placeholder.com/150', category: cat, rank: 0, note: "" });
+        localStorage.setItem('myBooks', JSON.stringify(s)); 
+        loadBooks(); updateAchievement();
     }
 }
 
-function deleteBook(index) {
-    if(confirm("يا حيزوم، متأكد؟")) {
-        let saved = JSON.parse(localStorage.getItem('myBooks'));
-        saved.splice(index, 1);
-        localStorage.setItem('myBooks', JSON.stringify(saved));
-        loadBooks();
-    }
+// --- الكناشة (الملاحظات) ---
+function openNotes(index) {
+    currentBookIndex = index;
+    const book = JSON.parse(localStorage.getItem('myBooks'))[index];
+    document.getElementById('notes-section').style.display = 'block';
+    document.getElementById('note-book-title').innerText = book.title;
+    document.getElementById('book-note-input').value = book.note || "";
 }
 
-function searchBooks() {
-    loadBooks(document.getElementById('bookSearch').value);
+function saveNote() {
+    const saved = JSON.parse(localStorage.getItem('myBooks'));
+    saved[currentBookIndex].note = document.getElementById('book-note-input').value;
+    localStorage.setItem('myBooks', JSON.stringify(saved));
+    alert("تم الحفظ في كناشة حيزوم! 📌");
 }
 
-// محرك الفصول والتلخيص
-function openChapterEngine(title) {
-    const list = document.getElementById('chapters-list');
-    list.innerHTML = '';
-    const mockChapters = [
-        { name: "مقدمة هادئة", mood: "مقدمة" },
-        { name: "فصل الغابة", mood: "غابة" },
-        { name: "عاصفة بحرية", mood: "بحر" }
-    ];
-    mockChapters.forEach(ch => {
-        const btn = document.createElement('button');
-        btn.innerText = ch.name;
-        btn.onclick = () => playChapter(ch);
-        list.appendChild(btn);
-    });
-    document.getElementById('audio-status').innerText = "تم فتح فصول: " + title;
+// --- تحدي اليوم ---
+function setDailyChallenge() {
+    const saved = JSON.parse(localStorage.getItem('myBooks')) || [];
+    if (saved.length === 0) return;
+    const daily = saved[Math.floor(Math.random() * saved.length)];
+    document.getElementById('daily-challenge').style.display = 'block';
+    document.getElementById('challenge-task').innerText = `تحديك اليوم: ${daily.title}`;
+    document.getElementById('challenge-btn').onclick = () => window.open(daily.link, '_blank');
 }
 
-function playChapter(chapter) {
-    document.getElementById('current-chapter').innerHTML = `${chapter.name} <button onclick="getSummary('${chapter.name}')" style="background:#3498db; color:white; border:none; border-radius:5px; font-size:10px; cursor:pointer; padding:2px 5px;">لخّص ⚡</button>`;
-    if (moodLibrary[chapter.mood]) {
-        naturePlayer.src = moodLibrary[chapter.mood];
-        naturePlayer.play();
-        document.getElementById('natureBtn').innerText = "الجو: " + chapter.mood;
-    }
+// --- الإنجاز والصوتيات والدوال الأخرى ---
+function updateAchievement() {
+    const saved = JSON.parse(localStorage.getItem('myBooks')) || [];
+    const read = saved.filter(b => b.rank > 0).length;
+    document.getElementById('progress-bar').style.width = ((read / (saved.length || 1)) * 100) + "%";
+    document.getElementById('achievement-text').innerText = `أنجزت ${read} من ${saved.length} كتب.`;
 }
 
-function getSummary(chName) {
-    const area = document.getElementById('summary-area');
-    area.style.display = 'block';
-    document.getElementById('summary-text').innerText = `زبدة ${chName}: هذا الفصل يركز على الهدوء والذكاء في التعامل مع الأحداث المحيطة، وهو ملخص مقدم من محرك تبيان.`;
+function openBook(index) {
+    const saved = JSON.parse(localStorage.getItem('myBooks'));
+    saved[index].rank = (saved[index].rank || 0) + 1;
+    localStorage.setItem('myBooks', JSON.stringify(saved));
+    window.open(saved[index].link, '_blank');
+    loadBooks(); updateAchievement();
 }
 
-function exportSummary() {
-    const blob = new Blob([document.getElementById('summary-text').innerText], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.download = "tibyan_summary.txt";
-    a.href = window.URL.createObjectURL(blob);
-    a.click();
-}
-
-function closeSummary() { document.getElementById('summary-area').style.display = 'none'; }
+function deleteBook(i) { if(confirm("متأكد من الحذف؟")) { let s = JSON.parse(localStorage.getItem('myBooks')); s.splice(i, 1); localStorage.setItem('myBooks', JSON.stringify(s)); loadBooks(); updateAchievement(); } }
+function searchBooks() { loadBooks(document.getElementById('bookSearch').value); }
+function toggleNature() { naturePlayer.paused ? naturePlayer.play() : naturePlayer.pause(); }
+function exportLibrary() { const data = localStorage.getItem('myBooks'); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.download = 'tibyan_backup.json'; a.href = window.URL.createObjectURL(blob); a.click(); }
