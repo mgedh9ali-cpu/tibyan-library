@@ -1,27 +1,51 @@
-body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4ece1; color: #3e2723; direction: rtl; }
-header { background: #3e2723; color: #d4af37; text-align: center; padding: 15px; border-bottom: 4px solid #d4af37; }
-.main-logo { width: 50px; display: block; margin: auto; }
+:root {
+    --primary: #3E2723; --gold: #D4AF37; --bg: #F4F1EA; --white: #ffffff;
+}
 
-.filter-btn { background: white; border: 1px solid #d4af37; padding: 5px 12px; border-radius: 15px; cursor: pointer; margin: 2px; font-size: 11px; }
-.challenge-box { margin: 15px; padding: 10px; background: #fff3e0; border-radius: 12px; border: 2px dashed #ff9800; text-align: center; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--primary);
+    margin: 0; padding-bottom: 90px;
+    direction: rtl; transition: 0.3s;
+}
 
-#achievement-panel { margin: 15px; padding: 10px; background: white; border-radius: 10px; }
-.progress-container { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
-#progress-bar { background: #27ae60; width: 0%; height: 100%; transition: 0.5s; }
+header {
+    background: var(--primary); color: white;
+    text-align: center; padding: 25px;
+    border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
-#search-area { padding: 10px; text-align: center; }
-#bookSearch { width: 85%; padding: 10px; border-radius: 20px; border: 1px solid #d4af37; outline: none; }
-.add-btn { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
+#app-logo { width: 60px; filter: brightness(0) invert(1); margin-bottom: 10px; }
 
-.horizontal-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
-.horizontal-scroll::-webkit-scrollbar { display: none; }
+.app-section { display: none; padding: 15px; animation: fadeIn 0.5s ease; }
+.app-section.active { display: block; }
 
-#notes-section { background: #fffde7; padding: 15px; border-radius: 15px; margin: 15px; border: 1px solid #d4af37; }
-#book-note-input { width: 100%; height: 70px; border-radius: 8px; border: 1px solid #ccc; padding: 8px; font-family: 'Cairo'; }
-.save-note-btn { background: #3e2723; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; cursor: pointer; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-#audio-engine { margin: 15px; padding: 15px; background: white; border-radius: 15px; }
-#chapters-list button { padding: 5px 10px; background: #d4af37; color: white; border: none; border-radius: 10px; margin-left: 5px; font-size: 10px; cursor: pointer; }
+/* تصميم شبكة الكتب */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding-top: 15px; }
+.book-card { background: var(--white); border-radius: 15px; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative; }
+.book-card img { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; }
 
-.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #d4af37; }
-.bottom-nav button { background: none; border: none; color: white; cursor: pointer; }
+/* شريط التنقل السفلي الزجاجي */
+.bottom-nav {
+    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 500px; background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px); display: flex; justify-content: space-around;
+    padding: 12px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 2000; border: 1px solid rgba(255,255,255,0.3);
+}
+
+.nav-item { background: none; border: none; font-size: 11px; color: var(--primary); opacity: 0.6; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.nav-item.active { opacity: 1; color: var(--gold); }
+
+/* مشغل الصوت */
+#audio-panel {
+    position: fixed; bottom: 90px; left: 5%; width: 90%; background: var(--white);
+    border-radius: 20px; padding: 25px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    display: none; z-index: 3000; box-sizing: border-box;
+}
+
+.btn-primary { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: var(--primary); color: white; cursor: pointer; }
+.btn-telegram { width: 100%; padding: 12px; border-radius: 10px; border: none; background: #0088cc; color: white; cursor: pointer; font-weight: bold; }
