@@ -1,103 +1,83 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان الإلكترونية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --w: #ffffff; }
-        body { background: var(--bg); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; direction: rtl; }
-        
-        /* الهيدر */
-        .main-header { background: var(--p); color: var(--w); padding: 25px 20px; text-align: center; border-radius: 0 0 30px 30px; }
-        
-        /* أقسام الصفحة */
-        .page-section { display: none; padding: 20px; animation: fadeIn 0.5s; }
-        .active-section { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* الشريط السفلي */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
-        .nav-item { background: none; border: none; color: #999; cursor: pointer; text-align: center; font-size: 12px; transition: 0.3s; }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 4px; }
-        .nav-item.active { color: var(--p); font-weight: bold; }
-
-        /* تصميم بسيط للفورم (صفحة المالك) */
-        .admin-box { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .admin-box input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
-        .admin-box button { width: 100%; padding: 15px; background: var(--p); color: white; border: none; border-radius: 10px; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-<header class="main-header">
-    <h1>مكتبة تبيان</h1>
-    <p>بإدارة المالك حيزوم ✨</p>
-</header>
-
 <main>
     <section id="home" class="page-section active-section">
-        <h3>📚 المكتبة العامة</h3>
-        <p>هون رح تظهر كل الكتب المتاحة للكل...</p>
-    </section>
+        <div class="search-container" style="margin-bottom: 20px;">
+            <input type="text" id="searchInput" class="search-bar" placeholder="ابحث عن كتاب أو قصيدة..." onkeyup="searchBooks()">
+        </div>
+        
+        <div id="grid" class="book-grid">
+            <div class="book-card" onclick="playAudio('مختصر زاد المعاد', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد')">
+                <img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد">
+                <h4>مختصر زاد المعاد</h4>
+                <div class="book-meta">
+                    <span><i class="fas fa-headphones"></i> صوتي</span>
+                    <button class="fav-btn" onclick="addToMyList(event, 'مختصر زاد المعاد')"><i class="far fa-star"></i></button>
+                </div>
+            </div>
 
-    <section id="mylist" class="page-section">
-        <h3>⭐ قائمتي المفضلة</h3>
-        <p>الكتب والقصائد اللي حفظتها يا حيزوم...</p>
-    </section>
-
-    <section id="snippets" class="page-section">
-        <h3>📝 مقتطفات ذكية</h3>
-        <p>هون رح نعرض اقتباسات ومقتطفات سريعة...</p>
-    </section>
-
-    <section id="profile" class="page-section">
-        <h3>⚙️ إعدادات حسابي</h3>
-        <p>تعديل المظهر، الاسم، والملف الشخصي...</p>
-    </section>
-
-    <section id="owner" class="page-section">
-        <h3>🛠️ لوحة تحكم حيزوم</h3>
-        <div class="admin-box">
-            <input type="text" id="bTitle" placeholder="اسم الكتاب الجديد">
-            <input type="text" id="bAudio" placeholder="رابط ملف الصوت">
-            <button onclick="alert('جاهز للإضافة!')">نشر في المكتبة 🚀</button>
+            <div class="book-card" onclick="playAudio('روائع المختارة', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'https://via.placeholder.com/150/D4AF37/white?text=قصائد')">
+                <img src="https://via.placeholder.com/150/D4AF37/white?text=قصائد">
+                <h4>روائع المختارة</h4>
+                <div class="book-meta">
+                    <span><i class="fas fa-microphone"></i> رادود</span>
+                    <button class="fav-btn" onclick="addToMyList(event, 'روائع المختارة')"><i class="far fa-star"></i></button>
+                </div>
+            </div>
         </div>
     </section>
-</main>
 
-<nav class="nav-bar">
-    <button class="nav-item active" onclick="nav('home', this)">
-        <i class="fas fa-home"></i>الرئيسية
-    </button>
-    <button class="nav-item" onclick="nav('mylist', this)">
-        <i class="fas fa-star"></i>قائمتي
-    </button>
-    <button class="nav-item" onclick="nav('snippets', this)">
-        <i class="fas fa-quote-right"></i>مقتطفات
-    </button>
-    <button class="nav-item" onclick="nav('profile', this)">
-        <i class="fas fa-user-cog"></i>أنا
-    </button>
-    <button class="nav-item" onclick="nav('owner', this)">
-        <i class="fas fa-plus-circle"></i>إضافة كتاب
-    </button>
-</nav>
+    </main>
+
+<div id="player" class="audio-player">
+    <img id="player-img" src="" style="width: 40px; height: 40px; border-radius: 10px; display: none;">
+    <div style="flex:1">
+        <div id="track-title" style="font-size:12px; font-weight:bold;">جاري التشغيل...</div>
+        <audio id="mainAudio" controls style="width:100%; height:30px;"></audio>
+    </div>
+    <button onclick="closePlayer()" style="background:none; border:none; color:white; font-size:20px;">×</button>
+</div>
 
 <script>
-    // وظيفة التنقل بين القوائم
+    const MY_KEY = "AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU"; // مفتاحك محفوظ هون
+
+    // وظيفة التنقل
     function nav(id, btn) {
-        // إخفاء كل الأقسام
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        // إزالة التحديد عن كل الأزرار
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        
-        // إظهار القسم المطلوب وتحديد الزر
         document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
     }
-</script>
 
-</body>
-</html>
+    // وظيفة البحث الذكي
+    function searchBooks() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('book-card');
+        for (let card of cards) {
+            let title = card.getElementsByTagName('h4')[0].innerText.toLowerCase();
+            card.style.display = title.includes(input) ? "block" : "none";
+        }
+    }
+
+    // وظيفة تشغيل الصوت
+    function playAudio(title, url, img) {
+        const player = document.getElementById('player');
+        const audio = document.getElementById('mainAudio');
+        const pImg = document.getElementById('player-img');
+        
+        document.getElementById('track-title').innerText = title;
+        audio.src = url;
+        pImg.src = img;
+        pImg.style.display = 'block';
+        player.style.display = 'flex';
+        audio.play();
+    }
+
+    function closePlayer() {
+        document.getElementById('mainAudio').pause();
+        document.getElementById('player').style.display = 'none';
+    }
+
+    function addToMyList(event, title) {
+        event.stopPropagation(); // مشان ما يشتغل المشغل لما نضغط عالنجمة
+        alert("تمت إضافة '" + title + "' إلى قائمتك يا حيزوم! ⭐");
+    }
+</script>
