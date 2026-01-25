@@ -7,43 +7,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --w: #ffffff; }
-        
-        /* تأثير الدخول الدرامي */
         @keyframes intro { 0% { opacity:0; filter:blur(10px); } 100% { opacity:1; filter:blur(0); } }
-        
-        body { 
-            background: var(--bg); font-family: 'Segoe UI', sans-serif; margin: 0; 
-            padding-bottom: 100px; direction: rtl; animation: intro 1.5s ease;
-        }
-
-        .main-header { 
-            background: var(--p); color: var(--w); padding: 40px 20px; 
-            text-align: center; border-radius: 0 0 40px 40px; 
-        }
+        body { background: var(--bg); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; direction: rtl; animation: intro 1.5s ease; }
+        .main-header { background: var(--p); color: var(--w); padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; }
         .main-header h1 { margin: 10px 0 5px; font-size: 26px; }
         .main-header p { margin: 0; font-size: 14px; color: var(--g); }
         .main-logo { width: 80px; background: white; padding: 10px; border-radius: 20px; }
-
         .page-section { display: none; padding: 20px; }
         .page-section.active { display: block; }
-
-        /* شات كحيلان الفاخر */
         .chat-box { background: white; border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         #chat-display { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 10px; }
         .msg { padding: 10px; border-radius: 12px; font-size: 14px; max-width: 80%; line-height: 1.5; }
         .user-msg { background: #f0f0f0; align-self: flex-end; color: var(--p); }
         .bot-msg { background: var(--p); color: white; align-self: flex-start; border-right: 4px solid var(--g); }
-
         .chat-input { display: flex; gap: 10px; margin-top: 10px; }
         .chat-input input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
         .chat-input button { background: var(--g); border: none; padding: 10px 20px; border-radius: 10px; color: white; cursor: pointer; }
-
-        /* القائمة السفلية */
-        .nav-bar { 
-            position: fixed; bottom: 0; width: 100%; background: white; 
-            display: flex; justify-content: space-around; padding: 15px 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
-        }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-item { background: none; border: none; color: #999; cursor: pointer; text-align: center; font-family: inherit; }
         .nav-item.active { color: var(--p); font-weight: bold; }
         .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
@@ -61,7 +41,7 @@
     <section id="home" class="page-section active">
         <h3 style="color:var(--p)">📚 الرفوف الذكية</h3>
         <div id="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:15px; text-align: center; color: #888;">
-            جاري تحميل الكتب...
+            أهلاً بك يا حيزوم.. بانتظار إضافة كتبك!
         </div>
     </section>
 
@@ -69,7 +49,7 @@
         <h3>🤖 مجلس كحيلان الذكي</h3>
         <div class="chat-box">
             <div id="chat-display">
-                <div class="msg bot-msg">أهلاً يا حيزوم! معك كحيلان رفيقك الذكي بالمكتبة، شبيك لبيك.. أي كتاب ببالك أو سؤال بدك ياه أنا جاهز! ☕</div>
+                <div class="msg bot-msg">أهلاً يا حيزوم! أنا كحيلان رفيقك الذكي، شبيك لبيك.. أي سؤال بدك ياه أنا هون! ☕</div>
             </div>
             <div class="chat-input">
                 <input type="text" id="u-input" placeholder="اسأل كحيلان...">
@@ -95,8 +75,8 @@
 </nav>
 
 <script>
-    // ⚠️ انتبه يا حيزوم: حط المفتاح تبعك بين القوسين تحت مكان كلمة "حط_المفتاح_هون"
-    const MY_KEY = "حط_المفتاح_هون"; 
+    // ⚠️ لصق المفتاح تبعك هون يا حيزوم مكان الجملة المكتوبة
+    const MY_KEY = "AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU"; 
 
     function go(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -125,10 +105,10 @@
             const reply = data.candidates[0].content.parts[0].text;
             disp.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
         } catch (e) {
-            disp.innerHTML += `<div class="msg bot-msg">صار عندي التماس بالأسلاك يا حيزوم! تأكد من مفتاح الـ API.</div>`;
+            disp.innerHTML += `<div class="msg bot-msg">صار عندي التماس بالأسلاك يا حيزوم! جرب تأكد من المفتاح.</div>`;
         }
         disp.scrollTop = disp.scrollHeight;
     }
 </script>
 </body>
-</html>
+</html> 
