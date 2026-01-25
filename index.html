@@ -10,57 +10,61 @@
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="logo-container">
-            <img src="logo.png" alt="تبيان" class="app-logo">
-            <h1>تبيان</h1>
-            <p>حر بدون إزعاج ☕</p>
-        </div>
-    </header>
-
-    <main id="app-content">
-        <section id="home-sec" class="page-section active">
-            <div class="search-area">
-                <input type="text" id="mainSearch" placeholder="بحث حرف بحرف..." oninput="liveSearch()">
-            </div>
-            <h3 class="title-label">📚 مكتبتي الشاملة</h3>
-            <div id="mainGrid" class="book-grid"></div>
-        </section>
-
-        <section id="list-sec" class="page-section">
-            <h3 class="title-label">🔖 قائمتي الخاصة</h3>
-            <div id="mylistGrid" class="book-grid"></div>
-        </section>
-
-        <section id="settings-sec" class="page-section">
-            <div class="dev-card">
-                <i class="fas fa-user-shield"></i>
-                <h4>المطور: أحمد محمد محمد علي</h4>
-                <p>إصدار حيزوم الذهبي 16.0</p>
-                <div class="actions">
-                    <button class="action-btn" onclick="window.open('https://t.me/TibyanBooks_bot')">🤖 دعم تليجرام</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="audio-console" class="audio-console">
-        <h4 id="audio-title">اسم الكتاب</h4>
-        <div class="controls">
-            <button onclick="setQuality('low')">اقتصادية</button>
-            <button class="play-btn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
-            <button onclick="setQuality('high')">عالية HD</button>
-        </div>
-        <button class="close-btn" onclick="closeAudio()">إغلاق</button>
+<header class="main-header">
+    <div class="logo-circle">
+        <img src="logo.png" alt="تبيان">
     </div>
+    <h1>تبيان</h1>
+    <p>حر بدون إزعاج ☕</p>
+</header>
 
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="showPage('home-sec', this)"><i class="fas fa-house"></i><span>الرئيسية</span></button>
-        <button class="nav-item" onclick="addNewBook()"><i class="fas fa-plus-circle"></i><span>أضف</span></button>
-        <button class="nav-item" onclick="showPage('list-sec', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
-        <button class="nav-item" onclick="showPage('settings-sec', this)"><i class="fas fa-user-gear"></i><span>أنا</span></button>
-    </nav>
+<main id="app-content">
+    <section id="home-sec" class="page-section active">
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="mainSearch" placeholder="بحث ذكي حرف بحرف..." oninput="liveSearch()">
+        </div>
+        <h3 class="label">📚 المكتبة الشاملة</h3>
+        <div id="mainGrid" class="book-grid"></div>
+    </section>
 
-    <script src="app.js"></script>
+    <section id="list-sec" class="page-section">
+        <h3 class="label">🔖 كتبي المفضلة</h3>
+        <div id="mylistGrid" class="book-grid"></div>
+    </section>
+
+    <section id="settings-sec" class="page-section">
+        <div class="user-card">
+            <div class="user-icon"><i class="fas fa-user-tie"></i></div>
+            <h3>أحمد محمد محمد علي</h3>
+            <p>إصدار حيزوم الذهبي 16.0</p>
+            <hr>
+            <button class="menu-btn" onclick="saveSnippet()"><i class="fas fa-feather"></i> إضافة مقتطف</button>
+            <button class="menu-btn" onclick="window.open('https://t.me/TibyanBooks_bot')"><i class="fab fa-telegram"></i> دعم تليجرام المباشر</button>
+        </div>
+    </section>
+</main>
+
+<div id="audio-console" class="audio-panel">
+    <div class="audio-info">
+        <h4 id="audio-title">اسم الكتاب</h4>
+        <small>سينما صوتية تفاعلية 🎭</small>
+    </div>
+    <div class="audio-btns">
+        <button onclick="setQuality('low')">اقتصادية</button>
+        <button class="play-main" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+        <button onclick="setQuality('high')">عالية HD</button>
+    </div>
+    <button class="close-x" onclick="closeAudio()">✕</button>
+</div>
+
+<nav class="dock-nav">
+    <button class="dock-item active" onclick="showPage('home-sec', this)"><i class="fas fa-book-open"></i><span>الرئيسية</span></button>
+    <button class="dock-item" onclick="addNewBook()"><i class="fas fa-plus-circle"></i><span>أضف</span></button>
+    <button class="dock-item" onclick="showPage('list-sec', this)"><i class="fas fa-star"></i><span>قائمتي</span></button>
+    <button class="dock-item" onclick="showPage('settings-sec', this)"><i class="fas fa-shield-halved"></i><span>أنا</span></button>
+</nav>
+
+<script src="app.js"></script>
 </body>
 </html>
