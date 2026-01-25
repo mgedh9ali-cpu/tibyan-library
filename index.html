@@ -7,108 +7,141 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --w: #ffffff; }
-        @keyframes intro { 0% { opacity:0; filter:blur(10px); } 100% { opacity:1; filter:blur(0); } }
-        body { background: var(--bg); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; direction: rtl; animation: intro 1.5s ease; }
-        .main-header { background: var(--p); color: var(--w); padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; }
-        .main-header h1 { margin: 10px 0 5px; font-size: 26px; }
-        .main-header p { margin: 0; font-size: 14px; color: var(--g); }
-        .main-logo { width: 80px; background: white; padding: 10px; border-radius: 20px; }
-        .page-section { display: none; padding: 20px; }
-        .page-section.active { display: block; }
-        .chat-box { background: white; border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        #chat-display { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 10px; }
-        .msg { padding: 10px; border-radius: 12px; font-size: 14px; max-width: 80%; line-height: 1.5; }
-        .user-msg { background: #f0f0f0; align-self: flex-end; color: var(--p); }
-        .bot-msg { background: var(--p); color: white; align-self: flex-start; border-right: 4px solid var(--g); }
-        .chat-input { display: flex; gap: 10px; margin-top: 10px; }
-        .chat-input input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
-        .chat-input button { background: var(--g); border: none; padding: 10px 20px; border-radius: 10px; color: white; cursor: pointer; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
-        .nav-item { background: none; border: none; color: #999; cursor: pointer; text-align: center; font-family: inherit; }
+        body { background: var(--bg); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 150px; direction: rtl; }
+        
+        .main-header { background: var(--p); color: var(--w); padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        .search-container { padding: 15px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
+        .search-bar { width: 100%; padding: 12px; border-radius: 15px; border: 2px solid var(--p); outline: none; box-sizing: border-box; }
+
+        .book-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .book-card { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; }
+        .book-card:hover { transform: scale(1.02); }
+        .book-card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
+
+        /* مشغل الصوت */
+        .audio-player { 
+            position: fixed; bottom: 80px; width: 90%; left: 5%; 
+            background: var(--p); color: white; padding: 15px; 
+            border-radius: 20px; display: none; align-items: center; gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 999;
+        }
+        
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
+        .nav-item { background: none; border: none; color: #999; cursor: pointer; }
         .nav-item.active { color: var(--p); font-weight: bold; }
-        .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
+        
+        .page-section { display: none; padding: 10px; }
+        .active-section { display: block; }
+
+        /* شات كحيلان */
+        .chat-box { background: white; border-radius: 20px; padding: 15px; height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px; border-radius: 10px; max-width: 80%; }
+        .user { background: #eee; align-self: flex-end; }
+        .bot { background: var(--p); color: white; align-self: flex-start; }
     </style>
 </head>
 <body>
 
 <header class="main-header">
-    <img src="logo.png" class="main-logo" onerror="this.src='https://via.placeholder.com/80?text=T'">
-    <h1>مكتبة تبيان الإلكترونية</h1>
-    <p>عالم المعرفة والاستماع بين يديك ✨</p>
+    <h1>مكتبة تبيان</h1>
+    <p>عالم المعرفة والاستماع ✨</p>
 </header>
 
+<div class="search-container">
+    <input type="text" id="searchInput" class="search-bar" placeholder="ابحث عن كتاب أو قصيدة..." onkeyup="searchBooks()">
+</div>
+
 <main>
-    <section id="home" class="page-section active">
-        <h3 style="color:var(--p)">📚 الرفوف الذكية</h3>
-        <div id="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:15px; text-align: center; color: #888;">
-            أهلاً بك يا حيزوم.. بانتظار إضافة كتبك!
+    <section id="home" class="page-section active-section">
+        <div id="grid" class="book-grid">
+            <div class="book-card" onclick="playAudio('مختصر زاد المعاد', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+                <img src="https://via.placeholder.com/150/2C1B18/white?text=Book+1">
+                <h4>مختصر زاد المعاد</h4>
+                <small>صوتي</small>
+            </div>
+            <div class="book-card" onclick="playAudio('قصائد مختارة', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
+                <img src="https://via.placeholder.com/150/D4AF37/white?text=Audio">
+                <h4>قصائد مختارة</h4>
+                <small>رادود</small>
+            </div>
         </div>
     </section>
 
     <section id="ai" class="page-section">
-        <h3>🤖 مجلس كحيلان الذكي</h3>
-        <div class="chat-box">
-            <div id="chat-display">
-                <div class="msg bot-msg">أهلاً يا حيزوم! أنا كحيلان رفيقك الذكي، شبيك لبيك.. أي سؤال بدك ياه أنا هون! ☕</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="u-input" placeholder="اسأل كحيلان...">
-                <button onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </section>
-
-    <section id="me" class="page-section">
-        <div style="text-align:center;">
-            <i class="fas fa-user-circle" style="font-size:60px; color:var(--g)"></i>
-            <h3>الملف الشخصي</h3>
-            <p>مرحباً بك في تبيان الإلكترونية</p>
-            <button onclick="alert('قريباً: الثيم الورقي والإشعارات')" style="width:100%; padding:12px; background:var(--p); color:white; border:none; border-radius:10px;">إعدادات المظهر</button>
+        <h3>🤖 مجلس كحيلان</h3>
+        <div class="chat-box" id="chat"></div>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <input type="text" id="u-in" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ccc;">
+            <button onclick="ask()" style="padding:10px; background:var(--g); border:none; border-radius:10px; color:white;">إرسال</button>
         </div>
     </section>
 </main>
 
+<div id="player" class="audio-player">
+    <i class="fas fa-music"></i>
+    <div style="flex:1">
+        <div id="track-title" style="font-size:12px; font-weight:bold;">اسم المقطع</div>
+        <audio id="mainAudio" controls style="width:100%; height:30px;"></audio>
+    </div>
+    <button onclick="closePlayer()" style="background:none; border:none; color:white; font-size:20px;">×</button>
+</div>
+
 <nav class="nav-bar">
-    <button class="nav-item active" onclick="go('home', this)"><i class="fas fa-book"></i>المكتبة</button>
-    <button class="nav-item" onclick="go('ai', this)"><i class="fas fa-robot"></i>كحيلان</button>
-    <button class="nav-item" onclick="go('me', this)"><i class="fas fa-cog"></i>أنا</button>
+    <button class="nav-item active" onclick="show('home', this)"><i class="fas fa-book"></i></button>
+    <button class="nav-item" onclick="show('ai', this)"><i class="fas fa-robot"></i></button>
 </nav>
 
 <script>
-    //"AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU"
+    // المفتاح تبعك صار هون جاهز
     const MY_KEY = "AIzaSyC_Q_wn2HmNoEGaTAbflvivPklJD2I_5pU"; 
 
-    function go(id, btn) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    function show(id, btn) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
     }
 
-    async function askAI() {
-        const inp = document.getElementById('u-input');
-        const disp = document.getElementById('chat-display');
-        const userText = inp.value;
-        if(!userText) return;
+    function searchBooks() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('book-card');
+        for (let card of cards) {
+            let title = card.getElementsByTagName('h4')[0].innerText.toLowerCase();
+            card.style.display = title.includes(input) ? "block" : "none";
+        }
+    }
 
-        disp.innerHTML += `<div class="msg user-msg">${userText}</div>`;
-        inp.value = '';
-        disp.scrollTop = disp.scrollHeight;
+    function playAudio(title, url) {
+        const player = document.getElementById('player');
+        const audio = document.getElementById('mainAudio');
+        document.getElementById('track-title').innerText = title;
+        audio.src = url;
+        player.style.display = 'flex';
+        audio.play();
+    }
 
+    function closePlayer() {
+        const audio = document.getElementById('mainAudio');
+        audio.pause();
+        document.getElementById('player').style.display = 'none';
+    }
+
+    async function ask() {
+        const inp = document.getElementById('u-in');
+        const chat = document.getElementById('chat');
+        if(!inp.value) return;
+        chat.innerHTML += `<div class="msg user">${inp.value}</div>`;
+        const q = inp.value; inp.value = '';
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_KEY}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: "أنت كحيلان المساعد الذكي لمكتبة تبيان الإلكترونية، صديقك المطور هو حيزوم. رد بلهجة إدلبية ودودة ومختصرة: " + userText }] }] })
+                method: "POST", headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({contents:[{parts:[{text:"أنت كحيلان، رد بلهجة إدلبية: " + q}]}]})
             });
             const data = await res.json();
-            const reply = data.candidates[0].content.parts[0].text;
-            disp.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
-        } catch (e) {
-            disp.innerHTML += `<div class="msg bot-msg">صار عندي التماس بالأسلاك يا حيزوم! جرب تأكد من المفتاح.</div>`;
-        }
-        disp.scrollTop = disp.scrollHeight;
+            chat.innerHTML += `<div class="msg bot">${data.candidates[0].content.parts[0].text}</div>`;
+        } catch { chat.innerHTML += `<div class="msg bot">في مشكلة بالخط يا حيزوم!</div>`; }
+        chat.scrollTop = chat.scrollHeight;
     }
 </script>
 </body>
-</html> 
+</html>
