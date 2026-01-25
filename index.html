@@ -53,4 +53,19 @@
         </section>
 
         <section id="audio-engine">
-            <h3 id="current-chapter">المشغل الذكي 🎭
+            <h3 id="current-chapter">المشغل الذكي 🎭</h3>
+            <audio id="main-player" controls style="width:100%"></audio>
+            <div id="chapters-list" class="horizontal-scroll"></div>
+            <button id="natureBtn" onclick="toggleNature()">تفاعل الطبيعة 🌿</button>
+        </section>
+    </div>
+
+    <nav class="bottom-nav">
+        <button onclick="showPage('home')">🏠 الرئيسية</button>
+        <button onclick="exportLibrary()">📂 تصدير</button>
+        <button onclick="alert('تبيان v8.0 - المطور حيزوم')">⚙️ الإعدادات</button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
