@@ -3,407 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | النسخة الملكية لحيزوم</title>
-    
+    <title>مكتبة تبيان | نسخة المالك حيزوم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* --- 1. الألوان والتنسيقات الأساسية --- */
-        :root {
-            --p: #2C1B18;    /* البني الغامق (لون الفخامة) */
-            --g: #D4AF37;    /* الذهبي الملكي */
-            --bg: #FDFCF9;   /* لون الورق القديم */
-            --card: #ffffff; /* لون الكروت */
-            --text: #2C1B18; /* لون الخط */
-        }
+        :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --card: #ffffff; --text: #2C1B18; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 120px; direction: rtl; }
+        .main-header { background: var(--p); color: white; padding: 20px; text-align: center; border-radius: 0 0 30px 30px; cursor: pointer; }
+        
+        .page-section { display: none; padding: 15px; animation: fadeIn 0.4s; }
+        .active-section { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            padding-bottom: 150px; /* مساحة مشان القائمة السفلية */
-            direction: rtl;
-            overflow-x: hidden;
-        }
+        .book-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .book-card { background: var(--card); border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
+        .book-card img { width: 100%; border-radius: 10px; height: 140px; object-fit: cover; }
 
-        /* --- 2. الهيدر العلوي --- */
-        .main-header {
-            background: var(--p);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            border-radius: 0 0 40px 40px;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            transition: 0.3s;
-        }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
+        .nav-item { background: none; border: none; color: #999; font-size: 11px; flex: 1; text-align: center; cursor: pointer; }
+        .nav-item.active { color: var(--p); font-weight: bold; }
+        .nav-item i { display: block; font-size: 22px; margin-bottom: 4px; }
+        
+        #admin-btn { display: none; color: var(--g); }
 
-        .main-header h3 {
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
+        button.action-btn { width: 100%; padding: 15px; background: var(--p); color: white; border: none; border-radius: 12px; font-weight: bold; }
 
-        /* --- 3. أقسام الصفحة --- */
-        .page-section {
-            display: none;
-            padding: 20px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+        /* ميزة اختيار الأصوات - نافذة منبثقة أنيقة */
+        .voice-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .voice-modal { background: white; width: 85%; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .voice-option { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; color: var(--p); font-weight: bold; cursor: pointer; }
+        .voice-option:last-child { border: none; }
+        .voice-option i { color: var(--g); }
 
-        .active-section {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- 4. شبكة الكتب (الرئيسية) --- */
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* كتابين جنب بعض */
-            gap: 20px;
-            padding: 10px;
-        }
-
-        .book-card {
-            background: var(--card);
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #eee;
-        }
-
-        .book-card:active {
-            transform: scale(0.95);
-        }
-
-        .book-card img {
-            width: 100%;
-            height: 160px;
-            border-radius: 15px;
-            object-fit: cover;
-            margin-bottom: 12px;
-        }
-
-        .book-card h4 {
-            margin: 0;
-            font-size: 16px;
-            color: var(--p);
-        }
-
-        /* --- 5. واجهة اختيار الصوت (Modal) --- */
-        .voice-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none; /* مخفية افتراضياً */
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-        }
-
-        .voice-modal {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
-        .voice-option {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px;
-            margin-bottom: 10px;
-            background: #f9f9f9;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid #eee;
-        }
-
-        .voice-option:hover {
-            background: #f0f0f0;
-            border-color: var(--g);
-        }
-
-        .voice-option i {
-            color: var(--g);
-            font-size: 20px;
-        }
-
-        /* --- 6. مشغل الصوت السفلي --- */
-        .audio-player-bar {
-            position: fixed;
-            bottom: 90px;
-            width: 92%;
-            left: 4%;
-            background: var(--p);
-            color: white;
-            padding: 15px;
-            border-radius: 25px;
-            display: none; /* يظهر عند التشغيل */
-            align-items: center;
-            gap: 15px;
-            z-index: 2000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        /* --- 7. الشريط السفلي (Navigation) --- */
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: var(--card);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
-            z-index: 2500;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 12px;
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .nav-item i {
-            display: block;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .nav-item.active {
-            color: var(--p);
-            font-weight: bold;
-        }
-
-        #admin-btn {
-            display: none; /* مخفي للمالك فقط */
-            color: var(--g);
-        }
-
-        /* --- 8. نماذج الإدخال (صفحة الإضافة) --- */
-        .form-container {
-            background: white;
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 15px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .action-btn {
-            width: 100%;
-            padding: 18px;
-            background: var(--p);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-        }
+        /* مشغل الصوت الصغير */
+        .mini-player { position: fixed; bottom: 80px; width: 92%; left: 4%; background: var(--p); color: white; padding: 10px; border-radius: 15px; display: none; align-items: center; gap: 10px; z-index: 1500; }
     </style>
 </head>
 <body onload="checkStatus()">
 
 <header class="main-header" onclick="activateAdmin()">
     <h3 id="logo">مكتبة تبيان ✨</h3>
-    <small id="status-hint" style="opacity: 0.6; font-size: 11px;">الأصوات مُختارة بعناية لراحة الأذن 🤍</small>
+    <small id="status-hint" style="opacity: 0.5; font-size: 10px;">(النسخة العامة)</small>
 </header>
 
 <main>
     <section id="home" class="page-section active-section">
         <div id="grid" class="book-grid">
-            <div class="book-card" onclick="openVoiceSelection('مختصر زاد المعاد')">
-                <img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد">
-                <h4>مختصر زاد المعاد</h4>
-                <small style="color:var(--g)">متعدد الأصوات 🎧</small>
+            <div class="book-card" onclick="openVoiceSelector('كتاب ترحيبي', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+                <img src="https://via.placeholder.com/150/2C1B18/white?text=Tebyan">
+                <h4>كتاب ترحيبي</h4>
             </div>
         </div>
     </section>
 
     <section id="add-panel" class="page-section">
-        <div class="form-container">
-            <h3 style="text-align: center; margin-bottom: 20px;">إضافة كتاب جديد للمكتبة 🚀</h3>
-            <input type="text" id="bTitle" placeholder="اسم الكتاب">
-            <input type="text" id="bImg" placeholder="رابط صورة الغلاف">
+        <div style="background: white; padding: 20px; border-radius: 20px;">
+            <h3 style="text-align: center;">إضافة كتاب جديد للمكتبة 🚀</h3>
+            <input type="text" id="bTitle" placeholder="عنوان الكتاب">
+            <input type="text" id="bAudio" placeholder="رابط الصوت (الأساسي)">
+            <input type="text" id="bImg" placeholder="رابط الغلاف">
             <button class="action-btn" onclick="publishBook()">نشر الكتاب لكل المستخدمين</button>
         </div>
     </section>
 
     <section id="profile" class="page-section">
-        <div class="form-container" style="text-align: center;">
-            <h4>أهلاً بك في مكتبتك الشخصية</h4>
-            <p style="color:#666">هنا ستجد تفضيلاتك وسجل الاستماع قريباً.</p>
+        <div style="text-align: center; padding: 20px;">
+            <h4>إعدادات المستخدم</h4>
+            <p>أهلاً بك يا حيزوم في مكتبتك</p>
         </div>
     </section>
 </main>
 
-<div id="voiceOverlay" class="voice-overlay" onclick="closeVoices()">
+<div id="voiceOverlay" class="voice-overlay" onclick="this.style.display='none'">
     <div class="voice-modal" onclick="event.stopPropagation()">
-        <h4 id="modalTitle" style="text-align: center; color: var(--p); margin-bottom: 20px;">اختر الصوت المفضل:</h4>
-        
-        <div class="voice-option" onclick="startAudio('صوت المكتبة 📚')">
-            <span>صوت المكتبة 📚</span> <i class="fas fa-play-circle"></i>
-        </div>
-        <div class="voice-option" onclick="startAudio('صوت المعرفة 🧠')">
-            <span>صوت المعرفة 🧠</span> <i class="fas fa-play-circle"></i>
-        </div>
-        <div class="voice-option" onclick="startAudio('صوت الأدب ✍️')">
-            <span>صوت الأدب ✍️</span> <i class="fas fa-play-circle"></i>
-        </div>
-        <div class="voice-option" onclick="startAudio('صوت هادئ 🤍')">
-            <span>صوت هادئ 🤍</span> <i class="fas fa-play-circle"></i>
-        </div>
-        <div class="voice-option" onclick="startAudio('صوت الليل 🌙')">
-            <span>صوت الليل 🌙</span> <i class="fas fa-play-circle"></i>
-        </div>
-        
-        <button onclick="closeVoices()" style="width:100%; background:none; border:none; color:#888; margin-top:10px;">إلغاء</button>
+        <h3 id="vBookTitle" style="text-align: center; color: var(--p); margin-bottom: 15px; font-size: 18px;">اختر الصوت:</h3>
+        <div class="voice-option" onclick="playWithVoice('صوت المكتبة 📚', 'ar-XA-Wavenet-B')"><span>صوت المكتبة 📚</span> <i class="fas fa-play-circle"></i></div>
+        <div class="voice-option" onclick="playWithVoice('صوت المعرفة 🧠', 'ar-XA-Wavenet-D')"><span>صوت المعرفة 🧠</span> <i class="fas fa-play-circle"></i></div>
+        <div class="voice-option" onclick="playWithVoice('صوت الأدب ✍️', 'ar-SA-HamedNeural')"><span>صوت الأدب ✍️</span> <i class="fas fa-play-circle"></i></div>
+        <div class="voice-option" onclick="playWithVoice('صوت هادئ 🤍', 'ar-SA-ZariyahNeural')"><span>صوت هادئ 🤍</span> <i class="fas fa-play-circle"></i></div>
+        <div class="voice-option" onclick="playWithVoice('صوت الليل 🌙', 'night')"><span>صوت الليل 🌙</span> <i class="fas fa-play-circle"></i></div>
     </div>
 </div>
 
-<div id="playerBar" class="audio-player-bar">
-    <div style="flex: 1;">
-        <div id="currentTrack" style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">...</div>
-        <audio id="mainAudio" controls style="width: 100%; height: 35px;"></audio>
+<div id="miniPlayer" class="mini-player">
+    <div style="flex:1">
+        <div id="nowPlayingTitle" style="font-size: 11px; font-weight: bold; margin-bottom: 5px;">...</div>
+        <audio id="audioPlayer" controls style="width: 100%; height: 30px;"></audio>
     </div>
-    <button onclick="document.getElementById('playerBar').style.display='none'" style="background:none; border:none; color:white; font-size:20px;">&times;</button>
+    <button onclick="document.getElementById('miniPlayer').style.display='none'" style="background:none; border:none; color:white; font-size:18px;">×</button>
 </div>
 
 <nav class="nav-bar">
-    <button class="nav-item active" onclick="nav('home', this)">
-        <i class="fas fa-home"></i>الرئيسية
-    </button>
-    <button id="admin-btn" class="nav-item" onclick="nav('add-panel', this)">
-        <i class="fas fa-plus-circle"></i>إضافة
-    </button>
-    <button class="nav-item" onclick="nav('profile', this)">
-        <i class="fas fa-user-circle"></i>أنا
-    </button>
+    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
+    <button id="admin-btn" class="nav-item" onclick="nav('add-panel', this)"><i class="fas fa-plus-circle"></i>إضافة</button>
+    <button class="nav-item" onclick="nav('profile', this)"><i class="fas fa-user-circle"></i>أنا</button>
 </nav>
 
 <script>
-    let adminClicks = 0;
-    const audioPlayer = document.getElementById('mainAudio');
+    let clickCount = 0;
+    let currentAudioUrl = "";
+    const audioObj = document.getElementById('audioPlayer');
 
-    // --- وظائف المالك السري ---
     function activateAdmin() {
-        adminClicks++;
-        if (adminClicks >= 5) {
-            localStorage.setItem('hizoomStatus', 'active');
+        clickCount++;
+        if (clickCount >= 5) {
+            localStorage.setItem('isHizoom', 'true');
             checkStatus();
-            alert("تم تفعيل وضع المالك! زر الإضافة متاح لك الآن يا حيزوم 🦾");
-            adminClicks = 0;
+            alert("تم تفعيل وضع المالك! هلق زر الإضافة صار ظاهر عندك يا حيزوم 🦾");
+            clickCount = 0;
         }
     }
 
     function checkStatus() {
-        const status = localStorage.getItem('hizoomStatus');
-        const adminBtn = document.getElementById('admin-btn');
-        if (status === 'active') {
-            adminBtn.style.display = 'block';
-            document.getElementById('status-hint').innerText = "وضع المالك مفعل ✅";
+        const isAdmin = localStorage.getItem('isHizoom');
+        const btn = document.getElementById('admin-btn');
+        const hint = document.getElementById('status-hint');
+        if (isAdmin === 'true') {
+            btn.style.display = 'block';
+            hint.innerText = "(وضع المالك مفعل ✅)";
         }
         loadBooks();
     }
 
-    // --- وظائف التنقل ---
-    function nav(sectionId, btn) {
+    function nav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        
-        document.getElementById(sectionId).classList.add('active-section');
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
     }
 
-    // --- وظائف اختيار الصوت والتشغيل ---
-    function openVoiceSelection(bookTitle) {
-        document.getElementById('modalTitle').innerText = "كتاب: " + bookTitle;
+    // --- وظيفة اختيار الصوت ---
+    function openVoiceSelector(title, audioUrl) {
+        currentAudioUrl = audioUrl;
+        document.getElementById('vBookTitle').innerText = title;
         document.getElementById('voiceOverlay').style.display = 'flex';
     }
 
-    function closeVoices() {
+    function playWithVoice(voiceName, voiceId) {
         document.getElementById('voiceOverlay').style.display = 'none';
-    }
-
-    function startAudio(voiceLabel) {
-        closeVoices();
-        document.getElementById('playerBar').style.display = 'flex';
-        document.getElementById('currentTrack').innerText = "الاستماع بـ " + voiceLabel;
+        document.getElementById('miniPlayer').style.display = 'flex';
+        document.getElementById('nowPlayingTitle').innerText = "الاستماع بـ " + voiceName;
         
-        // هنا يتم وضع الرابط التقني (للمبرمج)
-        audioPlayer.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; 
-        audioPlayer.play();
+        // المبرمج يربط الـ voiceId هنا مع مصدر الصوت
+        audioObj.src = currentAudioUrl; 
+        audioObj.play();
     }
 
-    // --- وظائف إضافة ونشر الكتب ---
     function publishBook() {
         const title = document.getElementById('bTitle').value;
+        const audio = document.getElementById('bAudio').value;
         const img = document.getElementById('bImg').value || 'https://via.placeholder.com/150';
 
-        if (!title) return alert("يا حيزوم عبي اسم الكتاب!");
+        if(!title || !audio) return alert("عبي البيانات يا معلم!");
 
-        let books = JSON.parse(localStorage.getItem('hizoom_library')) || [];
-        books.push({ title, img });
-        localStorage.setItem('hizoom_library', JSON.stringify(books));
+        let books = JSON.parse(localStorage.getItem('public_books')) || [];
+        books.push({ title, audio, img });
+        localStorage.setItem('public_books', JSON.stringify(books));
 
-        alert("تم النشر بنجاح!");
+        alert("تم نشر الكتاب!");
         document.getElementById('bTitle').value = '';
-        document.getElementById('bImg').value = '';
-        
+        document.getElementById('bAudio').value = '';
         loadBooks();
         nav('home', document.querySelector('.nav-item'));
     }
 
     function loadBooks() {
         const grid = document.getElementById('grid');
-        let books = JSON.parse(localStorage.getItem('hizoom_library')) || [];
-        
-        // إعادة بناء الشبكة (الكتاب الافتراضي + الكتب المضافة)
-        grid.innerHTML = `
-            <div class="book-card" onclick="openVoiceSelection('مختصر زاد المعاد')">
-                <img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد">
-                <h4>مختصر زاد المعاد</h4>
-                <small style="color:var(--g)">متعدد الأصوات 🎧</small>
-            </div>
-        `;
-
-        books.forEach(book => {
-            grid.innerHTML += `
-                <div class="book-card" onclick="openVoiceSelection('${book.title}')">
-                    <img src="${book.img}">
-                    <h4>${book.title}</h4>
-                    <small style="color:var(--g)">متعدد الأصوات 🎧</small>
-                </div>
-            `;
+        let books = JSON.parse(localStorage.getItem('public_books')) || [];
+        grid.innerHTML = `<div class="book-card" onclick="openVoiceSelector('كتاب ترحيبي', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+                            <img src="https://via.placeholder.com/150/2C1B18/white?text=Tebyan">
+                            <h4>كتاب ترحيبي</h4>
+                         </div>`;
+        books.forEach(b => {
+            grid.innerHTML += `<div class="book-card" onclick="openVoiceSelector('${b.title}', '${b.audio}')">
+                <img src="${b.img}">
+                <h4>${b.title}</h4>
+            </div>`;
         });
     }
 </script>
