@@ -3,284 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة حيزوم السرية</title>
-    
+    <title>مكتبة تبيان | نسخة حيزوم المطورة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        :root {
-            --p: #2C1B18;    
-            --g: #D4AF37;    
-            --bg: #FDFCF9;   
-            --card: #ffffff; 
-            --text: #2C1B18; 
-            --gray: #999;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding-bottom: 110px;
-            direction: rtl;
-        }
-
-        /* شاشة الدخول */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--p); z-index: 9999;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-        }
-
-        .login-card {
-            background: white; padding: 30px; border-radius: 30px;
-            width: 100%; max-width: 400px; text-align: center;
-        }
-
-        .login-input {
-            width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px;
-            border: 1px solid #ddd; box-sizing: border-box;
-        }
-
-        .enter-btn {
-            background: var(--g); color: var(--p); border: none;
-            padding: 15px; border-radius: 15px; width: 100%;
-            font-weight: bold; cursor: pointer;
-        }
-
-        /* الهيدر */
-        .main-header {
-            background-color: var(--p); color: white; padding: 45px 20px;
-            text-align: center; border-radius: 0 0 40px 40px; position: relative;
-        }
-
-        .header-logo {
-            position: absolute; top: 50%; right: 20px;
-            transform: translateY(-50%); color: var(--g); font-size: 35px;
-        }
-
-        .search-area { padding: 20px; }
-        .search-bar {
-            width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p);
-            background: white; outline: none; box-sizing: border-box;
-        }
-
-        .user-welcome-msg {
-            background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 15px;
-            margin: 0 20px; text-align: center; border: 1px dashed var(--g); font-size: 14px;
-        }
+        :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --card: #ffffff; --text: #2C1B18; --gray: #999; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 110px; direction: rtl; }
+        
+        /* الهيدر والمؤثرات */
+        .main-header { background-color: var(--p); color: white; padding: 45px 20px; text-align: center; border-radius: 0 0 40px 40px; position: relative; }
+        .header-logo { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); color: var(--g); font-size: 35px; }
+        
+        .search-area { padding: 15px 20px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
+        .search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); outline: none; box-sizing: border-box; }
 
         .page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* البطاقات والشبكة */
         .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .book-card { 
-            background: var(--card); border-radius: 20px; padding: 12px; 
-            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative;
-        }
+        .book-card { background: var(--card); border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
-        
-        .fav-heart {
-            position: absolute; top: 15px; left: 15px; background: white;
-            width: 30px; height: 30px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; color: #ccc;
-        }
-        .fav-heart.active { color: #ff4757; }
 
-        .ward-section {
-            background: var(--p); color: white; padding: 20px; border-radius: 25px; margin-bottom: 25px;
-        }
+        /* قسم الإنجازات في أنا */
+        .achievements { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ach-item { background: #f0ede9; padding: 10px; border-radius: 15px; font-size: 13px; }
 
-        .ward-input-field {
-            width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px; border: none; background: white; color: var(--p);
-        }
+        /* الإعدادات */
+        .settings-list { list-style: none; padding: 0; }
+        .settings-item { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* الشريط السفلي */
-        .nav-bar {
-            position: fixed; bottom: 0; width: 100%; background: var(--card);
-            display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000;
-        }
-
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
         .nav-item.active { color: var(--p); font-weight: bold; }
         .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
-
-        #owner-nav-btn { display: none; }
+        #owner-nav-btn { display: none; color: var(--g); }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="login-card">
-        <i class="fas fa-book-quran" style="font-size: 50px; color: var(--g); margin-bottom: 15px;"></i>
-        <h2>مكتبة تبيان</h2>
-        <input type="text" id="loginName" class="login-input" placeholder="الاسم">
-        <input type="number" id="loginAge" class="login-input" placeholder="العمر">
-        <input type="text" id="loginCountry" class="login-input" placeholder="البلد">
-        <button class="enter-btn" onclick="performLogin()">دخول ✨</button>
-    </div>
-</div>
-
-<div id="app-container" style="display:none;">
+<div id="app-container">
     <header class="main-header">
         <div class="header-logo"><i class="fas fa-book-quran"></i></div>
         <h2 style="margin:0;">مكتبة تبيان</h2>
-        <p style="font-size:12px; opacity:0.8; margin-top:5px;">بوابتك للعلم والعمل</p>
     </header>
 
-    <div class="search-area" id="searchBoxContainer">
-        <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب..." onkeyup="checkOwnerKey()">
+    <div class="search-area">
+        <input type="text" id="searchField" class="search-bar" placeholder="ابحث أو ادخل الرمز..." onkeyup="handleSecretKey()">
     </div>
-
-    <div id="userWelcome" class="user-welcome-msg"></div>
 
     <main>
         <section id="home-page" class="page-section active-section">
-            <div class="book-grid" id="mainBookGrid"></div>
-        </section>
-
-        <section id="mylist-page" class="page-section">
-            <div class="ward-section">
-                <h3 style="color:var(--g); margin-top:0;"><i class="fas fa-star"></i> وردي اليومي الخاص</h3>
-                <input type="number" id="userWardPages" class="ward-input-field" placeholder="عدد الصفحات" onchange="saveUserData()">
-                <input type="time" id="userWardTime" class="ward-input-field" onchange="saveUserData()">
-                <p id="wardMessage" style="font-size:12px; margin-top:12px; color:var(--g); font-weight:bold;"></p>
+            <div class="book-grid" id="mainBookGrid">
+                <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Book1"><h4>كتاب تجريبي</h4></div>
             </div>
-            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;">⭐ مفضلتي الشخصية</h3>
-            <div id="personalFavGrid" class="book-grid"></div>
         </section>
 
         <section id="me-page" class="page-section">
-            <div style="text-align:center; padding:30px; background:white; border-radius:30px;">
-                <i class="fas fa-user-circle" style="font-size:80px; color:var(--g); margin-bottom:15px;"></i>
-                <h2 id="displayUserName"></h2>
-                <p id="displayUserInfo"></p>
-                <button onclick="logout()" style="background:#ff4757; color:white; border:none; padding:12px 25px; border-radius:15px; cursor:pointer; margin-top:20px;">خروج</button>
+            <div style="text-align:center; padding:20px; background:white; border-radius:30px;">
+                <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
+                <h2 id="userName">حيزوم</h2>
+                <div class="achievements">
+                    <div class="ach-item"><i class="fas fa-check-circle"></i><br>5 كتب منتهية</div>
+                    <div class="ach-item"><i class="fas fa-fire"></i><br>10 أيام التزام</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings-page" class="page-section">
+            <h3>⚙️ الإعدادات المقترحة</h3>
+            <div class="settings-list">
+                <div class="settings-item"><span>الوضع الليلي</span><i class="fas fa-moon"></i></div>
+                <div class="settings-item"><span>تنبيهات الورد</span><i class="fas fa-bell"></i></div>
+                <div class="settings-item"><span>لغة التطبيق</span><span>العربية</span></div>
             </div>
         </section>
 
         <section id="owner-page" class="page-section">
-            <h3>🛠️ لوحة المالك (حيزوم)</h3>
+            <h3 style="color:var(--g);">🛠️ لوحة المالك السرية</h3>
             <div style="background:white; padding:20px; border-radius:20px;">
-                <input type="text" id="newBookTitle" class="login-input" placeholder="اسم الكتاب">
-                <input type="text" id="newBookImg" class="login-input" placeholder="رابط الغلاف">
-                <button class="enter-btn" onclick="addNewBookToLibrary()">نشر الكتاب للجميع 🚀</button>
+                <input type="text" class="search-bar" placeholder="عنوان الكتاب الجديد" style="margin-bottom:10px;">
+                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px;">نشر الآن</button>
             </div>
         </section>
     </main>
 
     <nav class="nav-bar">
         <button class="nav-item active" onclick="switchNav('home-page', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="switchNav('mylist-page', this)"><i class="fas fa-star"></i>قائمتي</button>
         <button class="nav-item" onclick="switchNav('me-page', this)"><i class="fas fa-user"></i>أنا</button>
+        <button class="nav-item" onclick="switchNav('settings-page', this)"><i class="fas fa-cog"></i>الإعدادات</button>
         <button id="owner-nav-btn" class="nav-item" onclick="switchNav('owner-page', this)"><i class="fas fa-user-shield"></i>المالك</button>
     </nav>
 </div>
 
 <script>
-    let globalBooks = JSON.parse(localStorage.getItem('global_books')) || [
-        {id: 1, title: 'زاد المعاد', img: 'https://via.placeholder.com/150/2C1B18/white?text=Zad'},
-        {id: 2, title: 'تفسير الجلالين', img: 'https://via.placeholder.com/150/D4AF37/white?text=Tafsir'}
-    ];
+    let isOwner = false;
 
-    // فحص كلمة السر في البحث
-    function checkOwnerKey() {
+    function handleSecretKey() {
         const val = document.getElementById('searchField').value.toLowerCase();
         if(val === 'heizuom') {
-            document.getElementById('searchBoxContainer').style.display = 'none';
-            document.getElementById('owner-nav-btn').style.display = 'block';
-            alert("أهلاً بك يا مالك تبيان! تم فتح اللوحة بنجاح 🛠️");
-            switchNav('owner-page', document.getElementById('owner-nav-btn'));
+            isOwner = !isOwner; // يقلب الحالة
+            document.getElementById('owner-nav-btn').style.display = isOwner ? 'block' : 'none';
+            document.getElementById('searchField').value = ''; // يصفر البحث
+            alert(isOwner ? "مرحباً يا مالك تبيان 🛠️" : "تم العودة لوضع المستخدم العادي ✨");
+            if(isOwner) switchNav('owner-page', document.getElementById('owner-nav-btn'));
+            else switchNav('home-page', document.querySelectorAll('.nav-item')[0]);
         }
     }
-
-    function performLogin() {
-        const name = document.getElementById('loginName').value;
-        const age = document.getElementById('loginAge').value;
-        const country = document.getElementById('loginCountry').value;
-        if(!name) return alert("الاسم مطلوب!");
-        localStorage.setItem('active_user', name);
-        if(!localStorage.getItem('user_' + name)) {
-            localStorage.setItem('user_' + name, JSON.stringify({name, age, country, favs: [], wardP: '', wardT: ''}));
-        }
-        location.reload();
-    }
-
-    function logout() { localStorage.removeItem('active_user'); location.reload(); }
 
     function switchNav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
-        if(id === 'mylist-page') renderPersonalFavs();
     }
-
-    function renderGlobalBooks() {
-        const name = localStorage.getItem('active_user');
-        const userData = JSON.parse(localStorage.getItem('user_' + name));
-        const grid = document.getElementById('mainBookGrid');
-        grid.innerHTML = globalBooks.map(b => `
-            <div class="book-card">
-                <div class="fav-heart ${userData.favs.includes(b.id)?'active':''}" onclick="toggleFavorite(${b.id})"><i class="fas fa-heart"></i></div>
-                <img src="${b.img}"><h4>${b.title}</h4>
-            </div>
-        `).join('');
-    }
-
-    function toggleFavorite(bookId) {
-        const name = localStorage.getItem('active_user');
-        let u = JSON.parse(localStorage.getItem('user_' + name));
-        u.favs = u.favs.includes(bookId) ? u.favs.filter(id => id !== bookId) : [...u.favs, bookId];
-        localStorage.setItem('user_' + name, JSON.stringify(u));
-        renderGlobalBooks();
-    }
-
-    function renderPersonalFavs() {
-        const name = localStorage.getItem('active_user');
-        const u = JSON.parse(localStorage.getItem('user_' + name));
-        const fGrid = document.getElementById('personalFavGrid');
-        const myFavs = globalBooks.filter(b => u.favs.includes(b.id));
-        fGrid.innerHTML = myFavs.map(b => `<div class="book-card"><img src="${b.img}"><h4>${b.title}</h4></div>`).join('') || '<p style="grid-column:1/3; text-align:center; color:#999;">قائمتك خالية..</p>';
-    }
-
-    function saveUserData() {
-        const name = localStorage.getItem('active_user');
-        let u = JSON.parse(localStorage.getItem('user_' + name));
-        u.wardP = document.getElementById('userWardPages').value;
-        u.wardT = document.getElementById('userWardTime').value;
-        localStorage.setItem('user_' + name, JSON.stringify(u));
-        document.getElementById('wardMessage').innerText = `تم حفظ الورد بنجاح ✅`;
-    }
-
-    function addNewBookToLibrary() {
-        const t = document.getElementById('newBookTitle').value;
-        const i = document.getElementById('newBookImg').value;
-        if(t && i) {
-            globalBooks.push({id: Date.now(), title: t, img: i});
-            localStorage.setItem('global_books', JSON.stringify(globalBooks));
-            renderGlobalBooks();
-            alert("تم النشر للجميع!");
-        }
-    }
-
-    window.onload = () => {
-        const active = localStorage.getItem('active_user');
-        if(active) {
-            const u = JSON.parse(localStorage.getItem('user_' + active));
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
-            document.getElementById('userWelcome').innerText = `أهلاً بك يا حيزوم (${u.name}) ✨`;
-            document.getElementById('displayUserName').innerText = u.name;
-            document.getElementById('displayUserInfo').innerText = `${u.age} سنة | ${u.country}`;
-            document.getElementById('userWardPages').value = u.wardP;
-            document.getElementById('userWardTime').value = u.wardT;
-            renderGlobalBooks();
-        }
-    };
 </script>
 </body>
 </html>
