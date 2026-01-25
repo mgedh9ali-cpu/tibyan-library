@@ -12,30 +12,25 @@
         <h1>مكتبة تبيان</h1>
         <p>مساحة هادئة للقراءة والاستماع</p>
     </header>
-<section id="books-shelf" style="padding: 20px; text-align: center;">
-    <h2 style="color: #5d4037;">أحدث الكتب المضافة 📖</h2>
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        
-        <div style="background: white; padding: 10px; border-radius: 8px; width: 140px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <img src="https://placehold.co/100x150/5d4037/white?text=تفسير+القرآن" alt="كتاب" style="width: 100%; border-radius: 4px;">
-            <h3 style="font-size: 14px; margin: 10px 0;">تفسير القرآن</h3>
-            <button style="background: #8d6e63; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">تحميل</button>
-        </div>
 
-        <div style="background: white; padding: 10px; border-radius: 8px; width: 140px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <img src="https://placehold.co/100x150/8d6e63/white?text=صحيح+البخاري" alt="كتاب" style="width: 100%; border-radius: 4px;">
-            <h3 style="font-size: 14px; margin: 10px 0;">صحيح البخاري</h3>
-            <button style="background: #5d4037; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">تحميل</button>
-        </div>
-
-    </div>
-</section>
-    <section id="search-section">
-        <input type="text" id="bookSearch" placeholder="عن ماذا تبحث اليوم؟">
-        <button id="searchBtn">بحث</button>
+    <section id="search-section" style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
+        <input type="text" id="bookSearch" placeholder="عن ماذا تبحث اليوم؟" style="padding: 10px; border-radius: 5px; border: 1px solid #5d4037; width: 200px;">
+        <button id="searchBtn" style="background: #5d4037; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">بحث</button>
+        <button onclick="alert('قريباً رح نبرمج هالزر يضيف كتب!')" style="background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">+ إضافة كتاب</button>
     </section>
 
-    <footer style="margin-top: 50px;">
+    <section id="books-shelf" style="padding: 20px; text-align: center;">
+        <h2 style="color: #5d4037;">أحدث الكتب المضافة 📖</h2>
+        <div id="booksGrid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div style="background: white; padding: 10px; border-radius: 8px; width: 140px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <img src="https://placehold.co/100x150/5d4037/white?text=كتاب+1" style="width: 100%; border-radius: 4px;">
+                <h3 style="font-size: 14px; margin: 10px 0;">تفسير القرآن</h3>
+                <button style="background: #8d6e63; color: white; border: none; padding: 5px 10px; border-radius: 4px;">تحميل</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
         <p>تم التطوير بواسطة حيزوم</p>
         <p>لطلب الكتب: @TibyanBooks_bot</p>
     </footer>
