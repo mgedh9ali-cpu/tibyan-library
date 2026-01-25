@@ -178,3 +178,75 @@
 </script>
 </body>
 </html>
+<section id="snippets" class="page-section">
+    <div style="background: var(--p); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px;">
+        <h4 style="margin:0"><i class="fas fa-magic"></i> مقتطفات كحيلان الذكية</h4>
+        <small>اختر مصدر الاقتباس ودع الذكاء يبهرك</small>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <select id="snippetSource" style="flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--p);">
+            <option value="all">كل المكتبة 📚</option>
+            </select>
+        <button onclick="generateAIQuote()" style="background: var(--g); border: none; padding: 10px 15px; border-radius: 10px; color: var(--p); font-weight: bold;">
+            توليد ✨
+        </button>
+    </div>
+
+    <div id="quoteContainer" style="display: none;">
+        <div id="quoteCard" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-right: 5px solid var(--g); position: relative;">
+            <div id="libraryLogo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <img src="https://via.placeholder.com/40?text=T" style="border-radius: 50%;">
+                <span style="font-weight: bold; color: var(--p);">مكتبة تبيان الإلكترونية</span>
+            </div>
+            <i class="fas fa-quote-right" style="color: var(--g); font-size: 30px; opacity: 0.3;"></i>
+            <p id="quoteText" style="font-size: 18px; line-height: 1.6; color: var(--p); font-weight: 500; margin: 15px 0;"></p>
+            <small id="quoteBook" style="color: #888; display: block; text-align: left;"></small>
+        </div>
+        <button onclick="downloadQuote()" style="width: 100%; margin-top: 20px; padding: 12px; background: #25D366; color: white; border: none; border-radius: 10px; font-weight: bold;">
+            <i class="fas fa-download"></i> حفظ كصورة للمشاركة
+        </button>
+    </div>
+</section>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script> <script>
+    // وظيفة توليد المقتطف بالذكاء الصناعي
+    async function generateAIQuote() {
+        const source = document.getElementById('snippetSource').value;
+        const textDisplay = document.getElementById('quoteText');
+        const bookDisplay = document.getElementById('quoteBook');
+        const container = document.getElementById('quoteContainer');
+
+        textDisplay.innerText = "كحيلان عم يدورلك على درر... استنى شوي ☕";
+        container.style.display = 'block';
+
+        const prompt = `أنت مساعد في مكتبة تبيان. اختر حكمة أو مقتطفاً بليغاً وعميقاً من ${source === 'all' ? 'أمهات الكتب الإسلامية والعلمية' : 'كتاب ' + source}. الرد يكون فقط بنص المقتطف واسم الكتاب بأسلوب جميل.`;
+
+        try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await res.json();
+            const fullText = data.candidates[0].content.parts[0].text;
+            
+            // تقسيم النص (مقتطف - اسم الكتاب)
+            textDisplay.innerText = fullText;
+            bookDisplay.innerText = source === 'all' ? "من ذخائر المكتبة" : "المصدر: " + source;
+        } catch (e) {
+            textDisplay.innerText = "صار التماس بالأسلاك! جرب مرة تانية.";
+        }
+    }
+
+    // وظيفة تحويل الكرت لصورة فخمة
+    function downloadQuote() {
+        const card = document.getElementById('quoteCard');
+        html2canvas(card, { scale: 3 }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Tebyan-Quote-${Date.now()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+</script>
