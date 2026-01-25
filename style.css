@@ -1,51 +1,73 @@
 :root {
-    --primary: #3E2723; --gold: #D4AF37; --bg: #F4F1EA; --white: #ffffff;
+    --brown: #3E2723;
+    --gold: #D4AF37;
+    --paper: #F4F1EA;
+    --white: #ffffff;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg);
-    color: var(--primary);
+    background-color: var(--paper);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     margin: 0; padding-bottom: 90px;
-    direction: rtl; transition: 0.3s;
+    direction: rtl; text-align: center;
 }
 
-header {
-    background: var(--primary); color: white;
-    text-align: center; padding: 25px;
-    border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+/* الهيدر الكبير */
+.main-header {
+    background: var(--brown);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 0 0 30px 30px;
 }
 
-#app-logo { width: 60px; filter: brightness(0) invert(1); margin-bottom: 10px; }
+.app-logo {
+    width: 120px;
+    background: white;
+    padding: 10px;
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
 
-.app-section { display: none; padding: 15px; animation: fadeIn 0.5s ease; }
-.app-section.active { display: block; }
+/* شبكة الكتب */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.book-card {
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
 
-/* تصميم شبكة الكتب */
-.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding-top: 15px; }
-.book-card { background: var(--white); border-radius: 15px; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative; }
-.book-card img { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; }
+.book-card img { width: 100%; border-radius: 10px; }
 
-/* شريط التنقل السفلي الزجاجي */
+/* القائمة السفلية العائمة */
 .bottom-nav {
-    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 500px; background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px); display: flex; justify-content: space-around;
-    padding: 12px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    z-index: 2000; border: 1px solid rgba(255,255,255,0.3);
+    position: fixed;
+    bottom: 15px; left: 50%;
+    transform: translateX(-50%);
+    width: 90%; max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex; justify-content: space-around;
+    padding: 12px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.nav-item { background: none; border: none; font-size: 11px; color: var(--primary); opacity: 0.6; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-.nav-item.active { opacity: 1; color: var(--gold); }
-
-/* مشغل الصوت */
-#audio-panel {
-    position: fixed; bottom: 90px; left: 5%; width: 90%; background: var(--white);
-    border-radius: 20px; padding: 25px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
-    display: none; z-index: 3000; box-sizing: border-box;
+.nav-btn {
+    background: none; border: none;
+    color: #888; cursor: pointer;
+    font-size: 11px; display: flex;
+    flex-direction: column; align-items: center;
 }
 
-.btn-primary { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: var(--primary); color: white; cursor: pointer; }
-.btn-telegram { width: 100%; padding: 12px; border-radius: 10px; border: none; background: #0088cc; color: white; cursor: pointer; font-weight: bold; }
+.nav-btn.active { color: var(--gold); }
+
+/* إخفاء الأقسام غير النشطة */
+.page-section { display: none; }
+.page-section.active { display: block; }
