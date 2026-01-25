@@ -71,3 +71,50 @@
     <script src="app.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبيان | الرفيق الذكي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <header class="main-header">
+        <img src="logo.png" class="app-logo">
+        <h1>تبيان</h1>
+        <p>حر بدون إزعاج ☕</p>
+    </header>
+
+    <main id="app-content">
+        <section id="home-sec" class="page-section active">
+            <h3 style="margin-top:20px;">📚 مكتبتي الشاملة</h3>
+            <div id="mainGrid" class="book-grid"></div>
+        </section>
+
+        <section id="list-sec" class="page-section">
+            <h3 style="margin-top:20px;">🔖 المفضلة</h3>
+            <div id="mylistGrid" class="book-grid"></div>
+        </section>
+
+        <section id="settings-sec" class="page-section">
+            <div style="padding:40px;">
+                <h4>المطور: أحمد محمد محمد علي</h4>
+                <p>إصدار حيزوم الذهبي 16.0</p>
+                <button onclick="window.open('https://t.me/TibyanBooks_bot')" style="padding:10px 20px; background:#0088cc; color:white; border:none; border-radius:10px;">دعم تليجرام</button>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-btn active" onclick="showPage('home-sec', this)">🏠<span>الرئيسية</span></button>
+        <button class="nav-btn" onclick="addNewBook()">➕<span>أضف</span></button>
+        <button class="nav-btn" onclick="showPage('list-sec', this)">🔖<span>قائمتي</span></button>
+        <button class="nav-btn" onclick="showPage('settings-sec', this)">⚙️<span>أنا</span></button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
