@@ -18,47 +18,55 @@
         </header>
         
         <section id="search-area">
-            <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="بحث ذكي عن كتاب أو مؤلف...">
-            <button onclick="addNewBook()" class="add-btn">+ إضافة كتاب</button>
+            <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="ابحث حرفاً بحرف عن كتاب...">
+            <button onclick="addNewBook()" class="add-btn">+ إضافة كتاب جديد</button>
+        </section>
+
+        <section id="trending-section">
+            <h2 style="padding: 0 15px;">الأكثر قراءة (⭐ ذكاء هادئ)</h2>
+            <div id="trendingGrid" class="horizontal-scroll"></div>
         </section>
 
         <section id="books-shelf">
-            <h2>الأكثر رواجاً 🔥</h2>
-            <div id="booksGrid"></div>
+            <h2 style="padding: 0 15px;">كل الكتب المضافة 📖</h2>
+            <div id="booksGrid" class="horizontal-scroll"></div>
         </section>
 
         <section id="audio-engine">
             <h3>السينما الصوتية: <span id="current-chapter">اختر فصلاً</span> 🎭</h3>
             <p id="audio-status">جاهز للاستماع الذكي</p>
-            <audio id="main-player" controls></audio>
+            <audio id="main-player" controls style="width:100%"></audio>
             
             <div id="chapters-list"></div>
 
             <div id="summary-area" style="display:none;">
                 <h4>الخلاصة الذكية ✨</h4>
                 <p id="summary-text"></p>
-                <button onclick="exportSummary()" class="export-btn">تصدير كملف 📥</button>
-                <button onclick="closeSummary()" class="close-btn">إغلاق</button>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="exportSummary()" class="export-btn">تصدير كملف 📥</button>
+                    <button onclick="closeSummary()" class="close-btn">إغلاق</button>
+                </div>
             </div>
 
-            <button id="natureBtn">تفاعل الطبيعة: تلقائي 🌿</button>
+            <button id="natureBtn" onclick="toggleNature()">تفاعل الطبيعة: تلقائي 🌿</button>
         </section>
     </div>
 
     <div id="settings" class="page">
-        <header><h1>الإعدادات</h1></header>
+        <header><h1>الإعدادات والدعم</h1></header>
         <div class="settings-card">
             <h3>معلومات المطور</h3>
             <p>تم إنشاء وتطوير التطبيق بواسطة:</p>
             <h2 class="dev-name">أحمد محمد محمد علي / حيزوم</h2>
-            <p>الإصدار: 2.5.0 (محرك التلخيص الذكي)</p>
-            <button onclick="window.open('https://t.me/TibyanBooks_bot')" class="bot-btn">تواصل معنا عبر تلغرام 🤖</button>
+            <p>الإصدار: 3.0.0 (النسخة المتكاملة)</p>
+            <hr>
+            <button onclick="window.open('https://t.me/TibyanBooks_bot')" class="bot-btn">تواصل مع الدعم الفني 🤖</button>
         </div>
     </div>
 
     <nav class="bottom-nav">
         <button onclick="showPage('home')">🏠 الرئيسية</button>
-        <button onclick="alert('قريباً: قائمتي والمفضلات')">⭐ قائمتي</button>
+        <button onclick="alert('قريباً: قائمة المفضلات الشخصية')">⭐ قائمتي</button>
         <button onclick="showPage('settings')">⚙️ الإعدادات</button>
     </nav>
 
