@@ -1,12 +1,67 @@
-<section id="audio-engine" style="margin:20px; padding:20px; background:#fff; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
-    <h3>السينما الصوتية: <span id="current-chapter">اختر فصلاً</span> 🎭</h3>
-    <p id="audio-status">جاهز للاستماع الذكي</p>
-    <audio id="main-player" controls style="width:100%;"></audio>
-    
-    <div id="chapters-list" style="margin-top:15px; display:flex; gap:10px; overflow-x:auto; padding:10px; background:#f9f9f9; border-radius:10px;">
-        </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبيان - الرفيق الذكي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
-        <button id="natureBtn" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:20px; font-size:12px;">تفاعل الطبيعة: تلقائي 🌿</button>
+    <div id="home" class="page active-page">
+        <header>
+            <img src="logo.png" alt="لوغو تبيان" class="main-logo">
+            <h1>مكتبة تبيان الذكية</h1>
+            <p>رفيقك من القهوة حتى النوم ☕🌙</p>
+        </header>
+        
+        <section id="search-area">
+            <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="بحث ذكي عن كتاب أو مؤلف...">
+            <button onclick="addNewBook()" class="add-btn">+ إضافة كتاب</button>
+        </section>
+
+        <section id="books-shelf">
+            <h2>الأكثر رواجاً 🔥</h2>
+            <div id="booksGrid"></div>
+        </section>
+
+        <section id="audio-engine">
+            <h3>السينما الصوتية: <span id="current-chapter">اختر فصلاً</span> 🎭</h3>
+            <p id="audio-status">جاهز للاستماع الذكي</p>
+            <audio id="main-player" controls></audio>
+            
+            <div id="chapters-list"></div>
+
+            <div id="summary-area" style="display:none;">
+                <h4>الخلاصة الذكية ✨</h4>
+                <p id="summary-text"></p>
+                <button onclick="exportSummary()" class="export-btn">تصدير كملف 📥</button>
+                <button onclick="closeSummary()" class="close-btn">إغلاق</button>
+            </div>
+
+            <button id="natureBtn">تفاعل الطبيعة: تلقائي 🌿</button>
+        </section>
     </div>
-</section>
+
+    <div id="settings" class="page">
+        <header><h1>الإعدادات</h1></header>
+        <div class="settings-card">
+            <h3>معلومات المطور</h3>
+            <p>تم إنشاء وتطوير التطبيق بواسطة:</p>
+            <h2 class="dev-name">أحمد محمد محمد علي / حيزوم</h2>
+            <p>الإصدار: 2.5.0 (محرك التلخيص الذكي)</p>
+            <button onclick="window.open('https://t.me/TibyanBooks_bot')" class="bot-btn">تواصل معنا عبر تلغرام 🤖</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button onclick="showPage('home')">🏠 الرئيسية</button>
+        <button onclick="alert('قريباً: قائمتي والمفضلات')">⭐ قائمتي</button>
+        <button onclick="showPage('settings')">⚙️ الإعدادات</button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
