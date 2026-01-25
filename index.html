@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة أحمد علي</title>
+    <title>مكتبة تبيان | نسخة الإنجاز</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --card: #ffffff; --text: #2C1B18; --gray: #999; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 110px; direction: rtl; }
         
-        /* الهيدر */
         .main-header { background-color: var(--p); color: white; padding: 45px 20px; text-align: center; border-radius: 0 0 40px 40px; position: relative; }
         .header-logo-img { position: absolute; top: 50%; right: 25px; transform: translateY(-50%); width: 60px; height: auto; }
         
-        /* البحث */
         .search-area { padding: 15px 20px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
         .search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); outline: none; box-sizing: border-box; }
 
@@ -21,27 +19,29 @@
         .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* البطاقات */
         .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .book-card { background: var(--card); border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
 
-        /* قسم قائمتي */
-        .ward-box { background: var(--p); color: white; padding: 20px; border-radius: 25px; margin-bottom: 20px; }
+        /* قسم قائمتي الجديد */
+        .ward-box { background: var(--p); color: white; padding: 20px; border-radius: 25px; margin-bottom: 25px; }
         .ward-input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px; border: none; }
 
-        /* قسم أنا (الإنجازات) */
-        .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .ach-card { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #eee; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .ach-card i { color: var(--g); font-size: 20px; margin-bottom: 5px; }
+        /* تنسيق الكتب غير المكتملة */
+        .uncompleted-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
+        .uncompleted-card img { width: 60px; height: 80px; border-radius: 10px; margin-left: 15px; object-fit: cover; }
+        .progress-container { flex-grow: 1; }
+        .progress-bar { width: 100%; background: #eee; height: 8px; border-radius: 5px; margin-top: 8px; overflow: hidden; }
+        .progress-fill { background: var(--g); height: 100%; width: 60%; } /* مثال 60% */
 
-        /* الإعدادات وحقوق المبرمج */
+        .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .ach-card { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+
         .settings-item { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .dev-credit { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #eee; color: var(--gray); font-size: 13px; }
 
-        /* المنيو السفلي */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000; }
-        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; transition: 0.3s; }
+        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
         .nav-item.active { color: var(--p); font-weight: bold; }
         .nav-item i { display: block; font-size: 20px; margin-bottom: 5px; }
         #owner-nav-btn { display: none; color: var(--g); }
@@ -61,21 +61,29 @@
 
     <main>
         <section id="home" class="page-section active-section">
+            <h3 style="border-right: 4px solid var(--g); padding-right: 10px;">📚 الكتب العامة</h3>
             <div class="book-grid">
                 <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Book1"><h4>زاد المعاد</h4></div>
-                <div class="book-card"><img src="https://via.placeholder.com/150/D4AF37/white?text=Book2"><h4>رياض الصالحين</h4></div>
+                <div class="book-card"><img src="https://via.placeholder.com/150/D4AF37/white?text=Book2"><h4>تفسير الجلالين</h4></div>
             </div>
         </section>
 
         <section id="mylist" class="page-section">
             <div class="ward-box">
-                <h3 style="margin:0 0 10px; color:var(--g);"><i class="fas fa-bookmark"></i> وردي اليومي</h3>
-                <input type="number" class="ward-input" placeholder="عدد الصفحات">
-                <input type="time" class="ward-input">
+                <h3 style="margin:0 0 10px; color:var(--g);"><i class="fas fa-history"></i> وردي ومتابعتي</h3>
+                <input type="number" class="ward-input" placeholder="عدد صفحات الورد اليومي">
             </div>
-            <h3>⭐ كتبي المفضلة</h3>
-            <div class="book-grid">
-                <p style="color:var(--gray); font-size:13px; text-align:center; grid-column:1/3;">قائمتك فارغة حالياً.</p>
+
+            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;"><i class="fas fa-spinner"></i> كتب لم تكتمل قراءتها</h3>
+            <div id="uncompleted-list">
+                <div class="uncompleted-card">
+                    <img src="https://via.placeholder.com/150/2C1B18/white?text=Book" alt="كتاب">
+                    <div class="progress-container">
+                        <h4 style="margin:0; font-size:14px;">مختصر صحيح البخاري</h4>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                        <span style="font-size:11px; color:var(--gray);">تم إنجاز 45%</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -84,16 +92,16 @@
                 <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
                 <h2 style="margin:10px 0;">الملف الشخصي</h2>
                 <div class="ach-grid">
-                    <div class="ach-card"><i class="fas fa-book-open"></i><br><b>4</b> كتب منتهية</div>
-                    <div class="ach-card"><i class="fas fa-fire"></i><br><b>15</b> يوم التزام</div>
+                    <div class="ach-card"><i class="fas fa-check-double"></i><br><b>7</b> كتب منتهية</div>
+                    <div class="ach-card"><i class="fas fa-clock"></i><br><b>22</b> ساعة قراءة</div>
                 </div>
             </div>
         </section>
 
         <section id="settings" class="page-section">
             <h3>⚙️ الإعدادات</h3>
-            <div class="settings-item"><span>الوضع الليلي</span><i class="fas fa-moon"></i></div>
-            <div class="settings-item"><span>تنبيهات الأوراد</span><i class="fas fa-bell"></i></div>
+            <div class="settings-item"><span>تنبيهات القراءة</span><i class="fas fa-bell"></i></div>
+            <div class="settings-item"><span>مزامنة البيانات</span><i class="fas fa-sync"></i></div>
             
             <div class="dev-credit">
                 تطوير وبرمجة<br>
@@ -104,15 +112,15 @@
         <section id="owner" class="page-section">
             <h3 style="color:var(--g);">🛠️ لوحة المالك</h3>
             <div style="background:white; padding:20px; border-radius:20px;">
-                <input type="text" class="search-bar" placeholder="اسم الكتاب الجديد" style="margin-bottom:10px;">
-                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px; font-weight:bold;">إضافة للمكتبة</button>
+                <input type="text" class="search-bar" placeholder="أضف كتاباً جديداً" style="margin-bottom:10px;">
+                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px;">نشر</button>
             </div>
         </section>
     </main>
 
     <nav class="nav-bar">
         <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-star"></i>قائمتي</button>
+        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list-ul"></i>قائمتي</button>
         <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
         <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
         <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)"><i class="fas fa-user-shield"></i>المالك</button>
