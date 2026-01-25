@@ -2,13 +2,24 @@ window.onload = function() {
     loadBooks();
 };
 
-function loadBooks() {
+// تحميل الكتب وعرضها
+function loadBooks(filter = "") {
     const grid = document.getElementById('booksGrid');
     grid.innerHTML = ''; 
     const savedBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
+    
     savedBooks.forEach((book, index) => {
-        displayBook(book.title, book.link, index);
+        // إذا كان اسم الكتاب بيحتوي على كلمة البحث، اعرضه
+        if (book.title.toLowerCase().includes(filter.toLowerCase())) {
+            displayBook(book.title, book.link, index);
+        }
     });
+}
+
+// دالة البحث اللحظي
+function searchBooks() {
+    const searchText = document.getElementById('bookSearch').value;
+    loadBooks(searchText);
 }
 
 function addNewBook() {
@@ -26,6 +37,7 @@ function addNewBook() {
 function displayBook(title, link, index) {
     const grid = document.getElementById('booksGrid');
     const bookCard = document.createElement('div');
+    bookCard.className = "book-card"; // استخدمنا الكلاس من CSS
     bookCard.style = "background: white; padding: 10px; border-radius: 8px; width: 140px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; margin-bottom: 20px;";
     bookCard.innerHTML = `
         <button onclick="deleteBook(${index})" style="position: absolute; top: -5px; left: -5px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">X</button>
@@ -51,12 +63,4 @@ function playAudio(title, url) {
     player.src = url;
     titleDisplay.innerText = "أنت تستمع الآن إلى: " + title;
     player.play();
-}
-function sendMessage(event) {
-    event.preventDefault();
-    const name = document.getElementById('userName').value;
-    const msg = document.getElementById('userMsg').value;
-    
-    alert(`يا مية أهلاً يا ${name}! وصل طلبك: (${msg}). رح نتواصل معك قريباً على البوت.`);
-    event.target.reset(); // تنظيف الفورم
 }
