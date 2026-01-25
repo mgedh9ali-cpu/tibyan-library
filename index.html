@@ -4,74 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تبيان | الرفيق الذكي</title>
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <img src="logo.png" alt="تبيان" id="app-logo">
-        <h1>تبيان</h1>
-        <p>حر بدون إزعاج.. رفيقك في القراءة والاستماع</p>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="logo.png" alt="شعار تبيان" class="app-logo">
+            <div class="header-text">
+                <h1>تبيان</h1>
+                <p>حر بدون إزعاج ☕</p>
+            </div>
+        </div>
     </header>
 
     <main id="app-content">
-        <section id="home-sec" class="app-section active">
-            <div class="search-area">
-                <input type="text" id="mainSearch" placeholder="بحث حرف بحرف (كتاب، مؤلف، مقتطف)..." oninput="liveSearch()">
+        <section id="home-sec" class="page-section active">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="mainSearch" placeholder="بحث حرف بحرف..." oninput="liveSearch()">
             </div>
-            <div class="category-title">📚 الأكثر رواجاً</div>
+            <h3 class="section-title">📚 مكتبتي الشاملة</h3>
             <div id="mainGrid" class="book-grid"></div>
         </section>
 
-        <section id="list-sec" class="app-section">
-            <div class="card header-card">
-                <h3>🔖 قائمتي المتطورة</h3>
-                <input type="text" id="listSearch" placeholder="فلترة ذكية في قائمتك..." oninput="listSearchFunc()">
-            </div>
+        <section id="list-sec" class="page-section">
+            <h3 class="section-title">🔖 كتبي المفضلة</h3>
             <div id="mylistGrid" class="book-grid"></div>
         </section>
 
-        <section id="settings-sec" class="app-section">
-            <div class="card dev-card">
-                <h4>🛠️ معلومات النظام</h4>
-                <p>الإصدار: 16.0 Gold</p>
-                <p>المطور: <strong>أحمد محمد محمد علي / حيزوم</strong></p>
+        <section id="settings-sec" class="page-section">
+            <div class="profile-card">
+                <div class="avatar"><i class="fas fa-user-shield"></i></div>
+                <h4>المطور: أحمد محمد محمد علي</h4>
+                <p>إصدار حيزوم الذهبي 16.0</p>
             </div>
-            <div class="card settings-options">
-                <button class="btn-primary" onclick="exportFullLibrary()">📥 نسخة احتياطية للمكتبة</button>
-                <button class="btn-secondary" onclick="exportSummary()">📑 تصدير التلخيص الخارجي</button>
-                <button class="btn-telegram" onclick="window.open('https://t.me/TibyanBooks_bot')">🤖 بوت تليجرام للدعم</button>
+            <div class="settings-list">
+                <button class="s-btn" onclick="saveSnippet()"><i class="fas fa-pen-nib"></i> إضافة مقتطف جديد</button>
+                <button class="s-btn" onclick="window.open('https://t.me/TibyanBooks_bot')"><i class="fab fa-telegram"></i> الدعم الفني</button>
             </div>
         </section>
     </main>
 
-    <div id="audio-panel">
-        <div class="audio-header">
-            <h4 id="atitle">اسم الكتاب</h4>
-            <span id="ascan">جاري فحص الملف (Scan)...</span>
+    <div id="audio-console" class="audio-console">
+        <div class="player-header">
+            <h4 id="audio-title">اسم الكتاب</h4>
+            <small id="audio-status">جاهز للاستماع 🎧</small>
         </div>
-        <div class="audio-controls">
-            <div class="quality-selector">
-                <button onclick="setQuality('high')">HD عالية</button>
-                <button onclick="setQuality('mid')">متوسطة</button>
-                <button onclick="setQuality('low')">اقتصادية</button>
-            </div>
-            <div class="nature-mode">
-                <label>وضع القراءة الصامتة الذكية:</label>
-                <input type="checkbox" id="silent-mode" onchange="toggleSilentMode()">
-            </div>
-            <button id="mainPlayBtn" onclick="toggleAudio()">تشغيل المشهد الدرامي 🎭</button>
+        <div class="player-controls">
+            <button class="p-btn" onclick="setQuality('low')">اقتصادية</button>
+            <button class="p-btn play-main" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+            <button class="p-btn" onclick="setQuality('high')">HD عالية</button>
         </div>
-        <button class="close-panel" onclick="hideAudioPanel()">إغلاق</button>
+        <button class="close-audio" onclick="closeAudio()">إغلاق</button>
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="nav('home-sec', this)">🏠<span>الرئيسية</span></button>
-        <button class="nav-item" onclick="addNewBook()">➕<span>أضف</span></button>
-        <button class="nav-item" onclick="nav('list-sec', this)">🔖<span>قائمتي</span></button>
-        <button class="nav-item" onclick="nav('settings-sec', this)">⚙️<span>الإعدادات</span></button>
+        <button class="nav-btn active" onclick="showPage('home-sec', this)"><i class="fas fa-house"></i><span>الرئيسية</span></button>
+        <button class="nav-btn" onclick="addNewBook()"><i class="fas fa-plus-circle"></i><span>أضف</span></button>
+        <button class="nav-btn" onclick="showPage('list-sec', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
+        <button class="nav-btn" onclick="showPage('settings-sec', this)"><i class="fas fa-user-gear"></i><span>أنا</span></button>
     </nav>
 
     <script src="app.js"></script>
