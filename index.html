@@ -8,15 +8,30 @@
 </head>
 <body>
     <header>
-  <img src="logo.png" alt="شعار مكتبة تبيان" style="width: 150px; display: block; margin: 0 auto;">
-<h1>مكتبة تبيان</h1>
-<h1>مكتبة تبيان</h1>
+        <img src="logo.png" alt="شعار مكتبة تبيان" class="main-logo">
+        <h1>مكتبة تبيان</h1>
         <p>مساحة هادئة للقراءة والاستماع</p>
     </header>
 
     <section id="search-section">
-        <input type="text" id="bookSearch" placeholder="عن ماذا نبحث اليوم؟">
+        <input type="text" id="bookSearch" placeholder="عن ماذا تبحث اليوم؟">
         <button id="searchBtn">بحث</button>
+    </section>
+
+    <section id="books-shelf">
+        <h2>أحدث الكتب المضافة 📖</h2>
+        <div class="shelf-container">
+            <div class="book-card">
+                <img src="https://via.placeholder.com/100x150?text=Book+1" alt="كتاب">
+                <h3>تفسير القرآن</h3>
+                <button onclick="alert('جاري التحميل...')">تحميل PDF</button>
+            </div>
+            <div class="book-card">
+                <img src="https://via.placeholder.com/100x150?text=Book+2" alt="كتاب">
+                <h3>صحيح البخاري</h3>
+                <button onclick="alert('جاري التحميل...')">تحميل PDF</button>
+            </div>
+        </div>
     </section>
 
     <footer>
