@@ -3,115 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة حيزوم المطورة</title>
+    <title>مكتبة تبيان | النسخة الاحترافية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --card: #ffffff; --text: #2C1B18; --gray: #999; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 110px; direction: rtl; }
+        :root { 
+            --p: #2C1B18; 
+            --g: #D4AF37; 
+            --bg: #FDFCF9; 
+            --card: #ffffff; 
+            --text: #2C1B18; 
+            --gray: #999; 
+        }
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; 
+            padding-bottom: 110px; 
+            direction: rtl; 
+        }
         
-        /* الهيدر والمؤثرات */
-        .main-header { background-color: var(--p); color: white; padding: 45px 20px; text-align: center; border-radius: 0 0 40px 40px; position: relative; }
-        .header-logo { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); color: var(--g); font-size: 35px; }
+        /* الهيدر مع شعار المكتبة الجديد */
+        .main-header { 
+            background-color: var(--p); 
+            color: white; 
+            padding: 45px 20px; 
+            text-align: center; 
+            border-radius: 0 0 40px 40px; 
+            position: relative; 
+        }
+        .header-logo-img { 
+            position: absolute; 
+            top: 50%; 
+            right: 25px; 
+            transform: translateY(-50%); 
+            width: 60px; /* حجم الشعار */
+            height: auto;
+        }
         
+        /* مربع البحث الدائم */
         .search-area { padding: 15px 20px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
-        .search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); outline: none; box-sizing: border-box; }
+        .search-bar { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 20px; 
+            border: 2px solid var(--p); 
+            outline: none; 
+            box-sizing: border-box; 
+            text-align: right;
+        }
+
+        /* رسالة الترحيب المعدلة (بدون حيزوم) */
+        .user-welcome-banner {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 12px;
+            border-radius: 15px;
+            margin: 0 20px 15px;
+            text-align: center;
+            border: 1px dashed var(--g);
+            font-size: 14px;
+            font-weight: bold;
+        }
 
         .page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* البطاقات والشبكة */
+        /* شبكة الكتب */
         .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .book-card { background: var(--card); border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
 
-        /* قسم الإنجازات في أنا */
-        .achievements { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .ach-item { background: #f0ede9; padding: 10px; border-radius: 15px; font-size: 13px; }
+        /* الإنجازات في قائمة أنا */
+        .achievement-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .ach-card { background: #f8f5f2; padding: 15px; border-radius: 15px; font-size: 13px; border: 1px solid #eee; }
 
-        /* الإعدادات */
-        .settings-list { list-style: none; padding: 0; }
-        .settings-item { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-
+        /* التنقل السفلي */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
         .nav-item.active { color: var(--p); font-weight: bold; }
         .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
+        
         #owner-nav-btn { display: none; color: var(--g); }
     </style>
 </head>
 <body>
 
-<div id="app-container">
+<div id="app-content">
     <header class="main-header">
-        <div class="header-logo"><i class="fas fa-book-quran"></i></div>
-        <h2 style="margin:0;">مكتبة تبيان</h2>
+        <img src="logo.png" alt="شعار تبيان" class="header-logo-img">
+        <h2 style="margin:0;">مكتبة تبيان الإلكترونية</h2>
+        <p style="font-size:12px; opacity:0.8; margin-top:5px;">عالم المعرفة والورد اليومي</p>
     </header>
 
     <div class="search-area">
-        <input type="text" id="searchField" class="search-bar" placeholder="ابحث أو ادخل الرمز..." onkeyup="handleSecretKey()">
+        <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو ادخل الرمز..." onkeyup="checkSecretCode()">
     </div>
 
-    <main>
-        <section id="home-page" class="page-section active-section">
-            <div class="book-grid" id="mainBookGrid">
-                <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Book1"><h4>كتاب تجريبي</h4></div>
-            </div>
-        </section>
+    <div id="welcomeBanner" class="user-welcome-banner">أهلاً بك في مكتبتك الإلكترونية ✨</div>
 
-        <section id="me-page" class="page-section">
-            <div style="text-align:center; padding:20px; background:white; border-radius:30px;">
-                <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
-                <h2 id="userName">حيزوم</h2>
-                <div class="achievements">
-                    <div class="ach-item"><i class="fas fa-check-circle"></i><br>5 كتب منتهية</div>
-                    <div class="ach-item"><i class="fas fa-fire"></i><br>10 أيام التزام</div>
+    <main>
+        <section id="home" class="page-section active-section">
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://via.placeholder.com/150/2C1B18/white?text=Book">
+                    <h4>مختصر زاد المعاد</h4>
+                </div>
+                <div class="book-card">
+                    <img src="https://via.placeholder.com/150/D4AF37/white?text=Book">
+                    <h4>تفسير الجلالين</h4>
                 </div>
             </div>
         </section>
 
-        <section id="settings-page" class="page-section">
-            <h3>⚙️ الإعدادات المقترحة</h3>
-            <div class="settings-list">
-                <div class="settings-item"><span>الوضع الليلي</span><i class="fas fa-moon"></i></div>
-                <div class="settings-item"><span>تنبيهات الورد</span><i class="fas fa-bell"></i></div>
-                <div class="settings-item"><span>لغة التطبيق</span><span>العربية</span></div>
+        <section id="me" class="page-section">
+            <div style="text-align:center; padding:20px; background:white; border-radius:30px; box-shadow:0 4px 10px rgba(0,0,0,0.03);">
+                <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
+                <h2 style="margin:10px 0 5px;">ملفي الشخصي</h2>
+                <div class="achievement-box">
+                    <div class="ach-card"><i class="fas fa-book-open"></i><br><b>3</b> كتب قرأتها</div>
+                    <div class="ach-card"><i class="fas fa-medal"></i><br><b>12</b> يوم التزام</div>
+                </div>
             </div>
         </section>
 
-        <section id="owner-page" class="page-section">
-            <h3 style="color:var(--g);">🛠️ لوحة المالك السرية</h3>
+        <section id="settings" class="page-section">
+            <h3>⚙️ الإعدادات</h3>
+            <div style="background:white; border-radius:20px; padding:10px;">
+                <div style="padding:15px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+                    <span>الوضع الليلي</span>
+                    <i class="fas fa-toggle-off" style="font-size:20px; color:var(--gray);"></i>
+                </div>
+                <div style="padding:15px; display:flex; justify-content:space-between;">
+                    <span>تنبيهات الأوراد</span>
+                    <i class="fas fa-bell" style="color:var(--g);"></i>
+                </div>
+            </div>
+        </section>
+
+        <section id="owner" class="page-section">
+            <h3 style="color:var(--g);">🛠️ لوحة المالك</h3>
             <div style="background:white; padding:20px; border-radius:20px;">
-                <input type="text" class="search-bar" placeholder="عنوان الكتاب الجديد" style="margin-bottom:10px;">
-                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px;">نشر الآن</button>
+                <input type="text" class="search-bar" placeholder="عنوان الكتاب" style="margin-bottom:10px; border-color:#eee;">
+                <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px; font-weight:bold;">إضافة للمكتبة</button>
             </div>
         </section>
     </main>
 
     <nav class="nav-bar">
-        <button class="nav-item active" onclick="switchNav('home-page', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="switchNav('me-page', this)"><i class="fas fa-user"></i>أنا</button>
-        <button class="nav-item" onclick="switchNav('settings-page', this)"><i class="fas fa-cog"></i>الإعدادات</button>
-        <button id="owner-nav-btn" class="nav-item" onclick="switchNav('owner-page', this)"><i class="fas fa-user-shield"></i>المالك</button>
+        <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
+        <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
+        <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
+        <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)"><i class="fas fa-user-shield"></i>المالك</button>
     </nav>
 </div>
 
 <script>
-    let isOwner = false;
+    let isOwnerMode = false;
 
-    function handleSecretKey() {
+    function checkSecretCode() {
         const val = document.getElementById('searchField').value.toLowerCase();
         if(val === 'heizuom') {
-            isOwner = !isOwner; // يقلب الحالة
-            document.getElementById('owner-nav-btn').style.display = isOwner ? 'block' : 'none';
-            document.getElementById('searchField').value = ''; // يصفر البحث
-            alert(isOwner ? "مرحباً يا مالك تبيان 🛠️" : "تم العودة لوضع المستخدم العادي ✨");
-            if(isOwner) switchNav('owner-page', document.getElementById('owner-nav-btn'));
-            else switchNav('home-page', document.querySelectorAll('.nav-item')[0]);
+            isOwnerMode = !isOwnerMode;
+            document.getElementById('owner-nav-btn').style.display = isOwnerMode ? 'block' : 'none';
+            document.getElementById('searchField').value = '';
+            alert(isOwnerMode ? "تم تفعيل وضع المالك 🛠️" : "عدنا لوضع المستخدم ✨");
+            if(isOwnerMode) nav('owner', document.getElementById('owner-nav-btn'));
+            else nav('home', document.querySelectorAll('.nav-item')[0]);
         }
     }
 
-    function switchNav(id, btn) {
+    function nav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(id).classList.add('active-section');
