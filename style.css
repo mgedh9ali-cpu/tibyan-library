@@ -1,18 +1,29 @@
 body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4ece1; color: #3e2723; direction: rtl; }
 .page { display: none; padding-bottom: 100px; }
 .active-page { display: block; }
+
 header { background: #3e2723; color: #d4af37; text-align: center; padding: 20px; border-bottom: 4px solid #d4af37; }
 .main-logo { width: 80px; display: block; margin: auto; }
+
 #search-area { padding: 15px; text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; }
-#bookSearch { width: 80%; padding: 12px; border-radius: 25px; border: 1px solid #d4af37; outline: none; }
-.add-btn { background: #27ae60; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-#booksGrid { display: flex; gap: 15px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
+#bookSearch { width: 85%; padding: 12px; border-radius: 25px; border: 1px solid #d4af37; outline: none; font-family: 'Cairo'; }
+.add-btn { background: #27ae60; color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+
+.horizontal-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
+.horizontal-scroll::-webkit-scrollbar { display: none; }
+
 #audio-engine { margin: 20px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-#chapters-list { display: flex; gap: 10px; overflow-x: auto; margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 10px; }
-#chapters-list button { padding: 8px 15px; background: #d4af37; color: white; border: none; border-radius: 15px; white-space: nowrap; cursor: pointer; font-size: 12px; }
-#summary-area { margin-top: 20px; padding: 15px; background: #fef9e7; border-left: 5px solid #d4af37; border-radius: 8px; }
-#natureBtn { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; display: block; margin: 10px auto; }
-.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #d4af37; }
-.bottom-nav button { background: none; border: none; color: #efebe9; font-family: 'Cairo'; cursor: pointer; }
+#chapters-list { display: flex; gap: 10px; overflow-x: auto; margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 10px; }
+#chapters-list button { padding: 8px 15px; background: #d4af37; color: white; border: none; border-radius: 15px; white-space: nowrap; cursor: pointer; }
+
+#summary-area { margin-top: 20px; padding: 15px; background: #fef9e7; border-left: 5px solid #d4af37; border-radius: 8px; animation: slideIn 0.3s; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #d4af37; z-index: 100; }
+.bottom-nav button { background: none; border: none; color: #efebe9; font-family: 'Cairo'; cursor: pointer; font-size: 14px; }
+
 .settings-card { padding: 20px; background: white; margin: 20px; border-radius: 15px; border: 2px solid #d4af37; text-align: center; }
 .dev-name { color: #d4af37; margin: 10px 0; }
+.bot-btn { background: #0088cc; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; }
+.export-btn { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+.close-btn { background: #bdc3c7; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
