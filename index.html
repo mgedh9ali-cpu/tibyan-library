@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة حيزوم</title>
+    <title>مكتبة تبيان | نسخة حيزوم الخاصة</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -27,7 +26,7 @@
             direction: rtl;
         }
 
-        /* شاشة الدخول المعدلة */
+        /* شاشة الدخول */
         #login-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -46,7 +45,6 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .login-input {
@@ -56,7 +54,6 @@
             border-radius: 15px;
             border: 1px solid #ddd;
             box-sizing: border-box;
-            font-size: 16px;
         }
 
         .enter-btn {
@@ -68,11 +65,9 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            font-size: 18px;
-            margin-top: 10px;
         }
 
-        /* الهيدر مع الشعار في الزاوية */
+        /* الهيدر مع الشعار */
         .main-header {
             background-color: var(--p);
             color: white;
@@ -80,7 +75,6 @@
             text-align: center;
             border-radius: 0 0 40px 40px;
             position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .header-logo {
@@ -88,63 +82,40 @@
             top: 50%;
             right: 25px;
             transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
             color: var(--g);
+            font-size: 30px;
         }
 
-        .header-logo i {
-            font-size: 35px;
-        }
-
-        .header-logo span {
-            font-weight: bold;
-            font-size: 18px;
-            color: white;
-            display: none; /* يظهر في الشاشات الكبيرة */
-        }
-
-        @media (min-width: 600px) {
-            .header-logo span { display: block; }
-        }
-
+        /* التنبيه الشخصي */
         .user-welcome {
-            background: rgba(212, 175, 55, 0.15);
-            padding: 12px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 10px;
             border-radius: 15px;
-            margin: 20px;
+            margin: 15px;
             text-align: center;
-            border: 1px solid var(--g);
-            font-weight: 500;
+            border: 1px dashed var(--g);
         }
 
-        /* التنسيقات العامة */
-        .page-section { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+        .page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .book-card { background: var(--card); border-radius: 25px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .book-card img { width: 100%; border-radius: 20px; height: 160px; object-fit: cover; }
+        /* شبكة الكتب */
+        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .book-card { background: var(--card); border-radius: 20px; padding: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
 
-        /* صندوق الورد اليومي في "قائمتي" */
+        /* الورد اليومي */
         .ward-box {
             background: var(--p);
             color: white;
-            padding: 25px;
-            border-radius: 30px;
-            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 25px;
+            margin-bottom: 25px;
         }
 
         .ward-input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 10px;
-            border: none;
-            background: rgba(255,255,255,0.9);
-            color: var(--p);
+            width: 100%; padding: 10px; margin-top: 10px; border-radius: 10px; border: none;
         }
 
         /* الشريط السفلي */
@@ -158,35 +129,31 @@
             z-index: 1000;
         }
 
-        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
+        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; }
         .nav-item.active { color: var(--p); font-weight: bold; }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 5px; }
+
+        /* زر وضع المالك المخفي */
+        #owner-nav { display: none; } /* مخفي افتراضياً */
     </style>
 </head>
 <body>
 
 <div id="login-screen">
     <div class="login-card">
-        <i class="fas fa-book-open" style="font-size: 50px; color: var(--g); margin-bottom: 15px;"></i>
-        <h2 style="margin-bottom: 20px;">مرحباً بك في تبيان 📚</h2>
-        
+        <h2>مكتبة تبيان 📚</h2>
         <input type="text" id="userName" class="login-input" placeholder="اسمك الكريم">
         <input type="number" id="userAge" class="login-input" placeholder="عمرك">
-        <input type="text" id="userCountry" class="login-input" placeholder="بلدك (مثلاً: سوريا)">
-        
-        <button class="enter-btn" onclick="manualLogin()">دخول للمكتبة ✨</button>
+        <input type="text" id="userCountry" class="login-input" placeholder="بلدك">
+        <button class="enter-btn" onclick="manualLogin()">دخول</button>
     </div>
 </div>
 
 <div id="app-content" style="display:none;">
     <header class="main-header">
-        <div class="header-logo">
-            <i class="fas fa-book-quran"></i>
-            <span>مكتبة تبيان</span>
-        </div>
-
-        <h2 style="margin:0;">مكتبة تبيان الإلكترونية</h2>
-        <p style="font-size:13px; opacity:0.9; margin-top:5px;">عالم المعرفة والورد اليومي</p>
+        <div class="header-logo"><i class="fas fa-book-quran"></i></div>
+        <h2 id="app-title" onclick="handleOwnerClick()" style="margin:0; cursor:pointer;">مكتبة تبيان</h2>
+        <p style="font-size:12px; opacity:0.8;">زادك اليومي يا حيزوم</p>
     </header>
 
     <div id="welcomeMsg" class="user-welcome"></div>
@@ -195,33 +162,38 @@
         <section id="home" class="page-section active-section">
             <div class="book-grid" id="mainGrid">
                 <div class="book-card">
-                    <img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد">
-                    <h4 style="margin: 10px 0 5px;">مختصر زاد المعاد</h4>
-                    <button onclick="toggleFav(1)" id="favBtn1" style="border:none; background:none; color:#ccc; font-size:20px;"><i class="fas fa-heart"></i></button>
+                    <img src="https://via.placeholder.com/150/2C1B18/white?text=Zad">
+                    <h4>مختصر زاد المعاد</h4>
                 </div>
             </div>
         </section>
 
         <section id="mylist" class="page-section">
             <div class="ward-box">
-                <h3 style="margin-top:0; color:var(--g);"><i class="fas fa-clock"></i> تنظيم الورد اليومي</h3>
-                <label style="font-size:13px;">كم صفحة ناوي تقرأ اليوم؟</label>
-                <input type="number" id="wardPages" class="ward-input" placeholder="مثلاً: 15" onchange="saveWard()">
-                
-                <label style="font-size:13px; display:block; margin-top:15px;">يمت بدك نذكرك يا حيزوم؟</label>
+                <h3 style="color:var(--g);">تنظيم الورد اليومي</h3>
+                <input type="number" id="wardPages" class="ward-input" placeholder="عدد الصفحات" onchange="saveWard()">
                 <input type="time" id="wardTime" class="ward-input" onchange="saveWard()">
-                
-                <p id="wardStatus" style="margin-top:15px; font-size:12px; font-weight:bold; color:var(--g);"></p>
+                <p id="wardStatus" style="font-size:12px; margin-top:10px; color:var(--g);"></p>
             </div>
-
-            <h3 style="border-right: 5px solid var(--p); padding-right: 10px;">⭐ كتبي المفضلة</h3>
+            <h3>⭐ المفضلة</h3>
             <div id="favGrid" class="book-grid"></div>
         </section>
 
-        <section id="snippets" class="page-section">
-            <div style="background:var(--p); color:white; padding:20px; border-radius:20px; text-align:center;">
-                <p id="qText">اضغط لتوليد حكمة إدلبية من كحيلان ☕</p>
-                <button onclick="getQuote()" style="background:var(--g); border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">توليد ✨</button>
+        <section id="profile" class="page-section">
+            <div style="text-align:center; padding:20px; background:white; border-radius:20px;">
+                <i class="fas fa-user-circle" style="font-size:60px; color:var(--g);"></i>
+                <h2 id="pName"></h2>
+                <p id="pInfo"></p>
+                <button onclick="localStorage.clear(); location.reload();" style="background:#ff4757; color:white; border:none; padding:10px 20px; border-radius:10px;">تسجيل الخروج</button>
+            </div>
+        </section>
+
+        <section id="owner-zone" class="page-section">
+            <h3>🛠️ لوحة تحكم المالك</h3>
+            <div style="background:white; padding:20px; border-radius:20px;">
+                <input type="text" id="bTitle" class="login-input" placeholder="اسم الكتاب">
+                <input type="text" id="bImg" class="login-input" placeholder="رابط الصورة">
+                <button class="enter-btn" onclick="alert('تمت الإضافة بنجاح (تجريبي)')">إضافة الكتاب للمكتبة</button>
             </div>
         </section>
     </main>
@@ -229,92 +201,61 @@
     <nav class="nav-bar">
         <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
         <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-star"></i>قائمتي</button>
-        <button class="nav-item" onclick="nav('snippets', this)"><i class="fas fa-quote-right"></i>مقتطفات</button>
+        <button class="nav-item" onclick="nav('profile', this)"><i class="fas fa-user"></i>أنا</button>
+        <button id="owner-nav" class="nav-item" onclick="nav('owner-zone', this)"><i class="fas fa-tools"></i>المالك</button>
     </nav>
 </div>
 
 <script>
-    // تسجيل الدخول
+    let clickCount = 0;
+
+    // فتح وضع المالك بالضغط 5 مرات
+    function handleOwnerClick() {
+        clickCount++;
+        if (clickCount === 5) {
+            document.getElementById('owner-nav').style.display = 'block';
+            alert("تم تفعيل وضع المالك بنجاح يا حيزوم! 🛠️");
+            clickCount = 0;
+        }
+        setTimeout(() => clickCount = 0, 3000); // يصفر العداد بعد 3 ثواني
+    }
+
     function manualLogin() {
         const name = document.getElementById('userName').value;
         const age = document.getElementById('userAge').value;
         const country = document.getElementById('userCountry').value;
-        
-        if(!name || !age || !country) return alert("يا حيزوم، الخانات أمانة.. عبيها كاملة! 😊");
-        
-        const user = { name, age, country };
-        localStorage.setItem('tebyan_user', JSON.stringify(user));
+        if(!name) return alert("الاسم ضروري خاي!");
+        localStorage.setItem('tebyan_user', JSON.stringify({name, age, country}));
         location.reload();
     }
 
-    // التنقل
     function nav(id, btn) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(id).classList.add('active-section');
         btn.classList.add('active');
-        if(id === 'mylist') renderFavs();
     }
 
-    // إدارة الورد
     function saveWard() {
         const p = document.getElementById('wardPages').value;
         const t = document.getElementById('wardTime').value;
-        localStorage.setItem('ward_p', p);
-        localStorage.setItem('ward_t', t);
-        document.getElementById('wardStatus').innerText = `تم الحفظ! وردك: ${p} صفحات الساعة ${t}`;
-    }
-
-    // محرك التنبيه
-    function startReminder() {
-        setInterval(() => {
-            const setT = localStorage.getItem('ward_t');
-            const now = new Date();
-            const curT = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            if(setT === curT) {
-                const u = JSON.parse(localStorage.getItem('tebyan_user'));
-                alert(`يا ${u.name}! صار وقت وردك اليومي (${localStorage.getItem('ward_p')} صفحات). العلم نور يا خاي! 📖`);
-            }
-        }, 60000);
-    }
-
-    // المفضلة
-    let favs = JSON.parse(localStorage.getItem('user_favs')) || [];
-    function toggleFav(id) {
-        if(favs.includes(id)) favs = favs.filter(i => i !== id);
-        else favs.push(id);
-        localStorage.setItem('user_favs', JSON.stringify(favs));
-        document.getElementById('favBtn1').style.color = favs.includes(1) ? 'red' : '#ccc';
-    }
-
-    function renderFavs() {
-        const grid = document.getElementById('favGrid');
-        grid.innerHTML = favs.includes(1) ? `
-            <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=زاد+المعاد"><h4>مختصر زاد المعاد</h4></div>
-        ` : '<p style="grid-column:1/3; color:#999; text-align:center;">القائمة فاضية يا حيزوم..</p>';
-    }
-
-    function getQuote() {
-        const quotes = [
-            "يا حيزوم، لا تضيع وقتك، العمر محسوب بالثواني!",
-            "العلم بدو صبر، وطريق الجنة بدو علم.. شد همتك!",
-            "من ترك ورده، ترك حظه.. لا تقطع وردك اليومي خاي."
-        ];
-        document.getElementById('qText').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        localStorage.setItem('w_p', p);
+        localStorage.setItem('w_t', t);
+        document.getElementById('wardStatus').innerText = `وردك: ${p} صفحات الساعة ${t}`;
     }
 
     window.onload = () => {
-        const userData = localStorage.getItem('tebyan_user');
-        if(userData) {
-            const u = JSON.parse(userData);
+        const user = localStorage.getItem('tebyan_user');
+        if(user) {
+            const u = JSON.parse(user);
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
-            document.getElementById('welcomeMsg').innerText = `أهلاً بك يا ${u.name} من ${u.country} ✨`;
+            document.getElementById('welcomeMsg').innerText = `أهلاً بك يا ${u.name} ✨`;
+            document.getElementById('pName').innerText = u.name;
+            document.getElementById('pInfo').innerText = `${u.age} سنة | ${u.country}`;
             
-            document.getElementById('wardPages').value = localStorage.getItem('ward_p');
-            document.getElementById('wardTime').value = localStorage.getItem('ward_t');
-            if(favs.includes(1)) document.getElementById('favBtn1').style.color = 'red';
-            startReminder();
+            document.getElementById('wardPages').value = localStorage.getItem('w_p');
+            document.getElementById('wardTime').value = localStorage.getItem('w_t');
         }
     };
 </script>
