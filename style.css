@@ -1,61 +1,56 @@
 :root {
-    --brown: #3E2723; --gold: #D4AF37; --bg: #F8F5F0; --white: #ffffff;
+    --p: #3E2723; /* بني */
+    --g: #D4AF37; /* ذهبي */
+    --bg: #F4F1EA; /* ورق قديم */
+    --w: #ffffff;
 }
 
 body {
     background: var(--bg); font-family: 'Segoe UI', sans-serif;
-    margin: 0; padding-bottom: 100px; direction: rtl;
+    margin: 0; padding-bottom: 90px; direction: rtl; overflow-x: hidden;
 }
 
 /* الهيدر */
 .main-header {
-    background: var(--brown); color: white; padding: 40px 10px;
-    border-radius: 0 0 40px 40px; text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    background: var(--p); color: var(--w); padding: 40px 10px;
+    text-align: center; border-radius: 0 0 35px 35px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
-.logo-circle {
-    width: 90px; height: 90px; background: white; margin: 0 auto 15px;
-    border-radius: 25px; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-.logo-circle img { width: 70px; border-radius: 15px; }
+.main-logo { width: 80px; background: var(--w); padding: 5px; border-radius: 15px; margin-bottom: 10px; }
 
 /* البحث */
-.search-container {
-    background: white; margin: -25px 20px 20px; padding: 15px;
+.search-wrap {
+    background: var(--w); margin: -25px 20px 20px; padding: 12px;
     border-radius: 20px; display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-.search-container input { border: none; outline: none; width: 100%; font-size: 16px; }
-.search-container i { color: var(--gold); }
-
-/* شبكة الكتب */
-.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding: 15px; }
-.book-card {
-    background: white; border-radius: 20px; padding: 12px;
-    text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-}
-.book-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
-
-/* القائمة السفلية */
-.dock-nav {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 450px; background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(15px); display: flex; justify-content: space-around;
-    padding: 12px; border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-}
-.dock-item { background: none; border: none; color: #aaa; display: flex; flex-direction: column; align-items: center; font-size: 11px; cursor: pointer; transition: 0.3s; }
-.dock-item.active { color: var(--brown); transform: translateY(-5px); }
-.dock-item i { font-size: 22px; margin-bottom: 5px; }
+.search-wrap input { border: none; outline: none; width: 100%; font-size: 15px; }
 
 /* الأقسام */
-.page-section { display: none; animation: slideUp 0.4s ease; }
+.page-section { display: none; padding: 10px; animation: slideUp 0.3s ease; }
 .page-section.active { display: block; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* الكونسول الصوتي */
-.audio-panel {
-    position: fixed; bottom: 100px; left: 5%; width: 90%;
-    background: var(--white); border-radius: 25px; padding: 20px;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.1); display: none; z-index: 2000;
+/* شبكة الكتب */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 10px; }
+.book-card { background: var(--w); border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+.book-card img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; }
+
+/* القائمة السفلية */
+.main-nav {
+    position: fixed; bottom: 0; width: 100%; background: var(--w);
+    display: flex; justify-content: space-around; padding: 12px 0;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
 }
+.nav-item { background: none; border: none; color: #999; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+.nav-item.active { color: var(--p); }
+.nav-item i { font-size: 20px; }
+
+/* كونسول الصوت */
+.audio-panel {
+    position: fixed; bottom: 85px; left: 5%; width: 90%; background: var(--w);
+    border-radius: 20px; padding: 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+    display: none; text-align: center; z-index: 2000;
+}
+.play-tools { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px; }
+.main-play { background: var(--p); color: var(--w); width: 50px; height: 50px; border-radius: 50%; border: none; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
