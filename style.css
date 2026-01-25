@@ -1,27 +1,27 @@
 body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4ece1; color: #3e2723; direction: rtl; }
-.page { display: none; padding-bottom: 100px; }
-.active-page { display: block; }
-header { background: #3e2723; color: #d4af37; text-align: center; padding: 20px; border-bottom: 4px solid #d4af37; }
-.main-logo { width: 60px; display: block; margin: auto; }
+header { background: #3e2723; color: #d4af37; text-align: center; padding: 15px; border-bottom: 4px solid #d4af37; }
+.main-logo { width: 50px; display: block; margin: auto; }
 
-.challenge-box { margin: 15px; padding: 15px; background: #fff3e0; border-radius: 12px; border: 2px dashed #ff9800; text-align: center; }
-#achievement-panel { margin: 15px; padding: 15px; background: white; border-radius: 12px; border-right: 5px solid #27ae60; }
-.progress-container { background: #eee; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; }
-#progress-bar { background: #27ae60; width: 0%; height: 100%; transition: width 0.5s; }
+.filter-btn { background: white; border: 1px solid #d4af37; padding: 5px 12px; border-radius: 15px; cursor: pointer; margin: 2px; font-size: 11px; }
+.challenge-box { margin: 15px; padding: 10px; background: #fff3e0; border-radius: 12px; border: 2px dashed #ff9800; text-align: center; }
+
+#achievement-panel { margin: 15px; padding: 10px; background: white; border-radius: 10px; }
+.progress-container { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
+#progress-bar { background: #27ae60; width: 0%; height: 100%; transition: 0.5s; }
 
 #search-area { padding: 10px; text-align: center; }
-#bookSearch { width: 85%; padding: 12px; border-radius: 25px; border: 1px solid #d4af37; outline: none; }
-.add-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; cursor: pointer; }
+#bookSearch { width: 85%; padding: 10px; border-radius: 20px; border: 1px solid #d4af37; outline: none; }
+.add-btn { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
 
 .horizontal-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
 .horizontal-scroll::-webkit-scrollbar { display: none; }
 
-#notes-section { background: #fffde7; padding: 15px; border-radius: 15px; border: 1px solid #d4af37; margin: 15px; }
-#book-note-input { width: 93%; height: 80px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; }
-.save-note-btn { background: #3e2723; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; }
+#notes-section { background: #fffde7; padding: 15px; border-radius: 15px; margin: 15px; border: 1px solid #d4af37; }
+#book-note-input { width: 100%; height: 70px; border-radius: 8px; border: 1px solid #ccc; padding: 8px; font-family: 'Cairo'; }
+.save-note-btn { background: #3e2723; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; cursor: pointer; }
 
-#audio-engine { margin: 15px; padding: 15px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-#chapters-list button { padding: 5px 12px; background: #d4af37; color: white; border: none; border-radius: 10px; margin-left: 5px; cursor: pointer; }
+#audio-engine { margin: 15px; padding: 15px; background: white; border-radius: 15px; }
+#chapters-list button { padding: 5px 10px; background: #d4af37; color: white; border: none; border-radius: 10px; margin-left: 5px; font-size: 10px; cursor: pointer; }
 
-.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid #d4af37; }
-.bottom-nav button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #d4af37; }
+.bottom-nav button { background: none; border: none; color: white; cursor: pointer; }
