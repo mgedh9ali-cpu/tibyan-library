@@ -52,3 +52,11 @@ function playAudio(title, url) {
     titleDisplay.innerText = "أنت تستمع الآن إلى: " + title;
     player.play();
 }
+function sendMessage(event) {
+    event.preventDefault();
+    const name = document.getElementById('userName').value;
+    const msg = document.getElementById('userMsg').value;
+    
+    alert(`يا مية أهلاً يا ${name}! وصل طلبك: (${msg}). رح نتواصل معك قريباً على البوت.`);
+    event.target.reset(); // تنظيف الفورم
+}
