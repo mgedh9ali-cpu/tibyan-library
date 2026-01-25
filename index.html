@@ -15,23 +15,41 @@
     </header>
 
     <section id="search-section" style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-        <input type="text" id="bookSearch" placeholder="عن ماذا تبحث اليوم؟" style="padding: 10px; border-radius: 5px; border: 1px solid #5d4037; width: 200px;">
+        <input type="text" id="bookSearch" placeholder="عن ماذا تبحث؟" style="padding: 10px; border-radius: 5px; border: 1px solid #5d4037; width: 200px;">
         <button id="searchBtn" style="background: #5d4037; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">بحث</button>
         <button onclick="addNewBook()" style="background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">+ إضافة كتاب</button>
     </section>
 
     <section id="books-shelf" style="padding: 20px; text-align: center;">
         <h2 style="color: #3e2723;">أحدث الكتب المضافة 📖</h2>
-        <div id="booksGrid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            </div>
+        <div id="booksGrid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;"></div>
     </section>
 
     <section id="audio-section" style="padding: 30px; text-align: center; background: rgba(62, 39, 35, 0.05); margin: 20px; border-radius: 15px;">
         <h2 style="color: #3e2723;">رادود تبيان المختصر 🎤</h2>
         <div style="max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <p id="audio-title" style="font-weight: bold;">اختر مقطعاً للاستماع</p>
-            <audio id="main-player" controls style="width: 100%;">
-                <source src="" type="audio/mpeg">
-            </audio>
+            <audio id="main-player" controls style="width: 100%;"><source src="" type="audio/mpeg"></audio>
             <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                <button onclick="playAudio('تلاوة هادئة', 'https://server8.mp3quran.net/afs/001.mp3')" style="background: #d4af37; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">تشغيل سورة الفاتحة
+                <button onclick="playAudio('تلاوة هادئة', 'https://server8.mp3quran.net/afs/001.mp3')" style="background: #d4af37; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">تشغيل سورة الفاتحة 📖</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section" style="padding: 30px; text-align: center; background: #fff; margin: 20px; border-radius: 15px; border: 1px solid #d7ccc8;">
+        <h2 style="color: #3e2723;">طلب كتاب أو اقتراح 📩</h2>
+        <form onsubmit="sendMessage(event)" style="max-width: 400px; margin: auto; display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" id="userName" placeholder="اسمك الكريم" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <textarea id="userMsg" placeholder="شو الكتاب اللي عم تدور عليه؟" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; height: 80px;"></textarea>
+            <button type="submit" style="background: #3e2723; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">إرسال الطلب</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>تم التطوير بواسطة حيزوم</p>
+        <p>لطلب الكتب: @TibyanBooks_bot</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
