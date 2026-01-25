@@ -14,11 +14,12 @@
         <p>مساحة هادئة للقراءة والاستماع</p>
     </header>
 
-    <section id="search-section" style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
+    <section id="search-section" style="display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap;">
         <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="ابحث عن اسم كتاب..." style="padding: 10px; border-radius: 5px; border: 1px solid #5d4037; width: 200px;">
         <button onclick="addNewBook()" style="background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">+ إضافة كتاب</button>
     </section>
 
-    <section id="books-shelf" style="padding: 20px; text-align: center;">
-        <h2 style="color: #3e2723;">أحدث الكتب المضافة 📖</h2>
-        <div id="booksGrid" style="display: flex; justify-content: center; gap:
+    <div id="category-filter" style="text-align: center; margin-bottom: 20px;">
+        <button onclick="loadBooks('', 'الكل')" style="margin: 5px; padding: 5px 15px; cursor: pointer; border-radius: 20px; border: 1px solid #5d4037; background: #fff;">الكل</button>
+        <button onclick="loadBooks('', 'شرعي')" style="margin: 5px; padding: 5px 15px; cursor: pointer; border-radius: 20px; border: 1px solid #5d4037; background: #fff;">شرعي 📖</button>
+        <button onclick="loadBooks('',
