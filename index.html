@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبيان - الرفيق الذكي</title>
+    <title>تبيان - النسخة النهائية</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="home" class="page active-page">
-        <div id="daily-challenge" style="display:none; margin: 15px; padding: 15px; background: #fff3e0; border-radius: 12px; border: 2px dashed #ff9800; text-align: center;">
-            <h3 style="margin:0; font-size: 16px; color: #e65100;">🎲 تحدي اليوم لحيزوم</h3>
-            <p id="challenge-task" style="font-size: 13px; margin: 10px 0;"></p>
-            <button id="challenge-btn" style="background:#ff9800; color:white; border:none; padding:8px 15px; border-radius:15px; cursor:pointer;">ابدأ التحدي 🔥</button>
+        <div id="daily-challenge" style="display:none;" class="challenge-box">
+            <h3>🎲 تحدي اليوم لحيزوم</h3>
+            <p id="challenge-task"></p>
+            <button id="challenge-btn">ابدأ التحدي 🔥</button>
         </div>
 
         <header>
             <img src="logo.png" alt="تبيان" class="main-logo">
             <h1>مكتبة تبيان الذكية</h1>
-            <p>رفيقك من القهوة حتى النوم ☕🌙</p>
+            <p>المطور: أحمد محمد محمد علي 🛡️</p>
         </header>
 
-        <section id="achievement-panel" style="margin: 15px; padding: 15px; background: white; border-radius: 12px; border-right: 5px solid #27ae60;">
-            <h3>مستوى إنجاز حيزوم 🏆</h3>
-            <div style="background: #eee; border-radius: 10px; height: 10px; width: 100%; overflow: hidden;">
-                <div id="progress-bar" style="background: #27ae60; width: 0%; height: 100%; transition: width 0.5s;"></div>
+        <section id="achievement-panel">
+            <h3>مستوى الإنجاز 🏆</h3>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
             </div>
-            <p id="achievement-text" style="font-size: 11px; margin-top: 5px;"></p>
+            <p id="achievement-text"></p>
         </section>
         
         <section id="search-area">
@@ -37,25 +36,30 @@
         </section>
 
         <section id="books-shelf">
-            <h2 style="padding: 0 15px;">مكتبتي 📖</h2>
             <div id="booksGrid" class="horizontal-scroll"></div>
+        </section>
+
+        <section id="notes-section" style="display:none;">
+            <h3>✍️ كناشة الفوائد: <span id="note-book-title"></span></h3>
+            <textarea id="book-note-input" placeholder="اكتب الفائدة هنا..."></textarea>
+            <button onclick="saveNote()" class="save-note-btn">حفظ الفائدة 📌</button>
+            <div id="saved-notes-list"></div>
         </section>
 
         <section id="audio-engine">
             <h3 id="current-chapter">المشغل الذكي 🎭</h3>
             <audio id="main-player" controls style="width:100%"></audio>
-            <div id="chapters-list"></div>
+            <div id="chapters-list" class="horizontal-scroll"></div>
             <button id="natureBtn" onclick="toggleNature()">تفاعل الطبيعة 🌿</button>
         </section>
     </div>
 
     <div id="settings" class="page">
-        <header><h1>الإعدادات</h1></header>
+        <header><h1>إعدادات المطور</h1></header>
         <div class="settings-card">
-            <h3>معلومات المطور</h3>
-            <h2 class="dev-name">أحمد محمد محمد علي / حيزوم</h2>
-            <p>الإصدار: 6.0.0 (النسخة المتكاملة المحفوظة)</p>
-            <button onclick="window.open('https://t.me/TibyanBooks_bot')" class="bot-btn">الدعم 🤖</button>
+            <h2 class="dev-name">أحمد محمد محمد علي</h2>
+            <p>هذا التطبيق محفوظ بحقوق حيزوم التقنية</p>
+            <button onclick="exportLibrary()" class="export-btn">تصدير المكتبة (نسخة احتياطية) 📂</button>
         </div>
     </div>
 
