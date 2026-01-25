@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبيان - النسخة النهائية</title>
+    <title>تبيان - المكتبة الذكية الكاملة</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -19,8 +19,15 @@
         <header>
             <img src="logo.png" alt="تبيان" class="main-logo">
             <h1>مكتبة تبيان الذكية</h1>
-            <p>المطور: أحمد محمد محمد علي 🛡️</p>
+            <p>المطور: أحمد محمد محمد علي (حيزوم) 🛡️</p>
         </header>
+
+        <section id="category-filter" style="text-align:center; padding:10px;">
+            <button onclick="loadBooks('')" class="filter-btn">الكل</button>
+            <button onclick="loadBooks('', 'شرعي')" class="filter-btn">شرعي 🕌</button>
+            <button onclick="loadBooks('', 'علمي')" class="filter-btn">علمي 🔬</button>
+            <button onclick="loadBooks('', 'تقني')" class="filter-btn">تقني 💻</button>
+        </section>
 
         <section id="achievement-panel">
             <h3>مستوى الإنجاز 🏆</h3>
@@ -40,34 +47,10 @@
         </section>
 
         <section id="notes-section" style="display:none;">
-            <h3>✍️ كناشة الفوائد: <span id="note-book-title"></span></h3>
-            <textarea id="book-note-input" placeholder="اكتب الفائدة هنا..."></textarea>
-            <button onclick="saveNote()" class="save-note-btn">حفظ الفائدة 📌</button>
-            <div id="saved-notes-list"></div>
+            <h3>✍️ كناشة: <span id="note-book-title"></span></h3>
+            <textarea id="book-note-input" placeholder="اكتب فائدة أعجبتك..."></textarea>
+            <button onclick="saveNote()" class="save-note-btn">حفظ في الكناشة 📌</button>
         </section>
 
         <section id="audio-engine">
-            <h3 id="current-chapter">المشغل الذكي 🎭</h3>
-            <audio id="main-player" controls style="width:100%"></audio>
-            <div id="chapters-list" class="horizontal-scroll"></div>
-            <button id="natureBtn" onclick="toggleNature()">تفاعل الطبيعة 🌿</button>
-        </section>
-    </div>
-
-    <div id="settings" class="page">
-        <header><h1>إعدادات المطور</h1></header>
-        <div class="settings-card">
-            <h2 class="dev-name">أحمد محمد محمد علي</h2>
-            <p>هذا التطبيق محفوظ بحقوق حيزوم التقنية</p>
-            <button onclick="exportLibrary()" class="export-btn">تصدير المكتبة (نسخة احتياطية) 📂</button>
-        </div>
-    </div>
-
-    <nav class="bottom-nav">
-        <button onclick="showPage('home')">🏠 الرئيسية</button>
-        <button onclick="showPage('settings')">⚙️ الإعدادات</button>
-    </nav>
-
-    <script src="app.js"></script>
-</body>
-</html>
+            <h3 id="current-chapter">المشغل الذكي 🎭
