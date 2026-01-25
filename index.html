@@ -10,53 +10,144 @@
 
 <style>
 :root{
---p:#2C1B18;--g:#D4AF37;--bg:#FDFCF9;--card:#fff;--text:#2C1B18;--gray:#999;
+--p:#2C1B18;
+--g:#D4AF37;
+--bg:#FDFCF9;
+--card:#fff;
+--text:#2C1B18;
+--gray:#999;
 }
 .dark-mode{
---bg:#121212;--card:#1e1e1e;--text:#eee;--p:#D4AF37;
+--bg:#121212;
+--card:#1e1e1e;
+--text:#eee;
+--p:#D4AF37;
 }
 body{
-margin:0;font-family:Segoe UI,Tahoma;
-background:var(--bg);color:var(--text);
-padding-bottom:120px;transition:.3s;
+margin:0;
+font-family:Segoe UI,Tahoma;
+background:var(--bg);
+color:var(--text);
+padding-bottom:110px;
+transition:.3s;
 }
 .main-header{
-background:var(--p);color:#fff;text-align:center;
-padding:30px;border-radius:0 0 40px 40px;
+background:var(--p);
+color:#fff;
+text-align:center;
+padding:30px 20px;
+border-radius:0 0 40px 40px;
 }
 .page-section{display:none;padding:20px}
 .active-section{display:block}
 
-.book-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.search-bar{
+width:100%;
+padding:15px;
+border-radius:20px;
+border:2px solid var(--p);
+background:var(--card);
+color:var(--text);
+outline:none;
+}
+
+.book-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
 .book-card{
-background:var(--card);border-radius:25px;padding:15px;
-text-align:center;box-shadow:0 8px 15px rgba(0,0,0,.05);
+background:var(--card);
+border-radius:25px;
+padding:15px;
+text-align:center;
+box-shadow:0 8px 15px rgba(0,0,0,.05);
 cursor:pointer;
 }
 .book-card img{
-width:100%;height:160px;object-fit:cover;border-radius:15px;margin-bottom:10px;
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:15px;
+margin-bottom:10px;
 }
 
-/* المقتطفات */
-.quote-feed{display:flex;flex-direction:column;gap:18px;margin-top:20px}
+/* مقتطفات مثل فيسبوك */
+.quote-feed{
+display:flex;
+flex-direction:column;
+gap:18px;
+margin-top:20px;
+}
 .quote-post{
-background:var(--card);padding:22px;border-radius:22px;
+background:var(--card);
+padding:22px;
+border-radius:22px;
 box-shadow:0 10px 30px rgba(0,0,0,.08);
 animation:fade .4s;
 }
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.quote-header{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+}
+.quote-header img{
+width:40px;
+height:40px;
+border-radius:50%;
+}
+.quote-text{
+font-size:17px;
+line-height:1.7;
+font-weight:500;
+}
+.quote-footer{
+margin-top:15px;
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:var(--gray);
+}
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
 
+/* المشغل */
 .audio-player{
-position:fixed;bottom:90px;left:5%;width:90%;
-background:var(--p);color:#fff;padding:15px;
-border-radius:25px;display:none;gap:15px;z-index:1000;
+position:fixed;
+bottom:90px;
+left:5%;
+width:90%;
+background:var(--p);
+color:#fff;
+padding:15px;
+border-radius:25px;
+display:none;
+gap:15px;
+z-index:1000;
 }
 
+/* الشريط السفلي */
 .nav-bar{
-position:fixed;bottom:0;width:100%;background:var(--card);
-display:flex;justify-content:space-around;padding:15px 0;
+position:fixed;
+bottom:0;
+width:100%;
+background:var(--card);
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+box-shadow:0 -5px 25px rgba(0,0,0,.05);
 }
-.nav-item{background:none;border:none;color:var(--gray);font-size:11px;flex:1}
+.nav-item{
+background:none;
+border:none;
+color:var(--gray);
+font-size:11px;
+flex:1;
+cursor:pointer;
+}
 .nav-item i{display:block;font-size:22px}
 .nav-item.active{color:var(--p);font-weight:bold}
 </style>
@@ -66,14 +157,15 @@ display:flex;justify-content:space-around;padding:15px 0;
 
 <header class="main-header">
 <h2>مكتبة تبيان الإلكترونية</h2>
-<p style="opacity:.8">عالم المعرفة بين يديك ✨</p>
+<p style="opacity:.8;font-size:14px">عالم المعرفة بين يديك يا حيزوم ✨</p>
 </header>
 
 <main>
 
 <section id="home" class="page-section active-section">
-<div class="book-grid">
-<div class="book-card" onclick="playAudio('مختصر زاد المعاد',bookAudio.zad,'zad')">
+<input class="search-bar" placeholder="ابحث عن كتاب...">
+<div class="book-grid" style="margin-top:20px">
+<div class="book-card" onclick="playAudio('زاد المعاد','https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3','b1')">
 <img src="https://via.placeholder.com/300/2C1B18/fff?text=زاد+المعاد">
 <h4>مختصر زاد المعاد</h4>
 <small style="color:var(--gray)">كتاب شرعي</small>
@@ -82,27 +174,41 @@ display:flex;justify-content:space-around;padding:15px 0;
 </section>
 
 <section id="snippets" class="page-section">
-<button onclick="generateQuotePost()" style="width:100%;padding:18px;background:var(--g);border:none;border-radius:15px;font-weight:bold">
+<div style="background:var(--p);color:#fff;padding:20px;border-radius:20px">
+<h3>📝 مقتطفات</h3>
+<p style="font-size:13px">تصفّح المقتطفات مثل منشورات</p>
+</div>
+
+<button onclick="generateQuotePost()" style="width:100%;margin-top:15px;padding:18px;background:var(--g);border:none;border-radius:15px;font-weight:bold">
 ➕ إضافة مقتطف
 </button>
+
 <div id="quoteFeed" class="quote-feed"></div>
 </section>
 
 <section id="profile" class="page-section">
+<div style="text-align:center;background:var(--card);padding:30px;border-radius:30px">
+<i class="fas fa-user-circle" style="font-size:80px;color:var(--g)"></i>
+<h2>حيزوم</h2>
+<p style="color:var(--gray)">طالب ثنوي شرعي علمي</p>
+</div>
+
+<div style="margin-top:20px;background:var(--card);padding:20px;border-radius:25px">
 <label>
-<input type="checkbox" onchange="toggleDark()"> الوضع الليلي
+<input type="checkbox" onchange="document.body.classList.toggle('dark-mode')">
+ الوضع الليلي
 </label>
+</div>
 </section>
 
 </main>
 
 <div id="player" class="audio-player">
-<i class="fas fa-headphones"></i>
 <div style="flex:1">
 <div id="track-title" style="font-size:12px;font-weight:bold"></div>
 <audio id="mainAudio" controls style="width:100%"></audio>
 </div>
-<button onclick="closePlayer()">×</button>
+<button onclick="player.style.display='none'" style="background:none;border:none;color:#fff;font-size:22px">×</button>
 </div>
 
 <nav class="nav-bar">
@@ -111,75 +217,62 @@ display:flex;justify-content:space-around;padding:15px 0;
 <button class="nav-item" onclick="nav('profile',this)"><i class="fas fa-user"></i>أنا</button>
 </nav>
 
-<!-- أصوات الواجهة -->
-<audio id="uiClick" src="https://assets.mixkit.co/sfx/preview/mixkit-click-1110.mp3"></audio>
-<audio id="uiOpen" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-hint-notification-911.mp3"></audio>
-<audio id="uiAdd" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
-
 <script>
-/* مكتبة الأصوات */
-const bookAudio={
-zad:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-};
-
 let activeId=null;
-
-/* تنقل */
 function nav(id,btn){
-uiClick.play();
 document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active-section'));
 document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
 document.getElementById(id).classList.add('active-section');
 btn.classList.add('active');
 }
 
-/* تشغيل صوت كتاب مع التذكر */
-function playAudio(title,url,id){
-uiOpen.play();
+function playAudio(t,u,id){
 activeId=id;
 player.style.display='flex';
-track-title.innerText=title;
-mainAudio.src=url;
-
-const saved=localStorage.getItem('time_'+id);
-if(saved) mainAudio.currentTime=Math.max(0,saved-10);
-
+track-title.innerText=t;
+mainAudio.src=u;
 mainAudio.play();
 }
-
-/* حفظ الموضع */
 mainAudio.ontimeupdate=function(){
 if(activeId)localStorage.setItem('time_'+activeId,this.currentTime);
-};
-
-/* إغلاق المشغل */
-function closePlayer(){
-uiClick.play();
-player.style.display='none';
-mainAudio.pause();
 }
 
 /* مقتطفات */
 const quotes=[
 "من أصلح سريرته أصلح الله علانيته.",
 "العلم بلا عمل كشجرة بلا ثمر.",
-"القلب إن لم يُشغل بالحق شُغل بالباطل."
+"القلب إن لم يُشغل بالحق شُغل بالباطل.",
+"من صدق مع الله صدق الله معه.",
+"العلم نور، والجهل ظلام."
 ];
 
 function generateQuotePost(){
-uiAdd.play();
 const feed=document.getElementById('quoteFeed');
 const text=quotes[Math.floor(Math.random()*quotes.length)];
+const time=new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
 const post=document.createElement('div');
 post.className='quote-post';
-post.innerHTML=`<strong>📜 مقتطف</strong><p>${text}</p>`;
+post.innerHTML=`
+<div class="quote-header">
+<img src="https://via.placeholder.com/40?text=T">
+<strong>مكتبة تبيان</strong>
+</div>
+<div class="quote-text">${text}</div>
+<div class="quote-footer">
+<span>${time}</span>
+<button onclick="savePostImage(this)" style="border:none;background:none;color:var(--p);font-weight:bold">حفظ 📥</button>
+</div>`;
 feed.prepend(post);
 }
 
-/* الوضع الليلي */
-function toggleDark(){
-document.body.classList.toggle('dark-mode');
-uiClick.play();
+function savePostImage(btn){
+const post=btn.closest('.quote-post');
+html2canvas(post,{scale:3}).then(c=>{
+const a=document.createElement('a');
+a.href=c.toDataURL();
+a.download='Tebyan_Post_'+Date.now()+'.png';
+a.click();
+});
 }
 </script>
 
