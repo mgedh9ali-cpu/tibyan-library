@@ -12,56 +12,15 @@
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
         .bottom-nav button { background: none; border: none; color: #d7ccc8; font-size: 14px; cursor: pointer; }
         .book-card { background: white; padding: 10px; border-radius: 10px; text-align: center; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; }
-        .book-card:hover { transform: translateY(-5px); }
-        /* تصميم البطاقة التي سيتم تصديرها */
+        .book-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+        
+        /* نافذة التحكم بالصوت والأجواء */
+        #nature-control { display:none; position: fixed; bottom: 80px; left: 5%; width: 90%; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.2); z-index: 1000; box-sizing: border-box; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn-audio { padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; font-size: 12px; }
+
+        /* نافذة الكناشة */
+        #notes-section { display:none; position: fixed; top: 10%; left: 5%; width: 90%; background: white; z-index: 1001; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.3); box-sizing: border-box; }
+        
+        /* قالب البطاقة المخفي (للتصدير) */
         #quote-template { position: absolute; left: -9999px; width: 500px; padding: 40px; background: #fdfaf6; border: 10px solid #d4af37; text-align: center; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <img src="logo.png" alt="تبيان" style="width: 80px; margin-bottom: 10px; filter: brightness(0) invert(1);">
-        <h1 style="margin:0;">مكتبة تبيان</h1>
-        <p style="font-size: 12px; opacity: 0.8;">مساحة القراءة والسكينة</p>
-    </header>
-
-    <div class="settings-card">
-        <h4 id="achievement-text" style="margin-top:0;">أنجزت 0 من 0 كتب</h4>
-        <div style="background: #efebe9; border-radius: 10px; height: 8px;">
-            <div id="progress-bar" style="background: #d4af37; height: 100%; width: 0%; border-radius: 10px; transition: 0.5s;"></div>
-        </div>
-    </div>
-
-    <div style="padding: 0 15px;">
-        <input type="text" id="bookSearch" placeholder="ابحث عن كتابك يا حيزوم..." oninput="searchBooks()" style="width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #d7ccc8; box-sizing: border-box;">
-    </div>
-
-    <main id="booksGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 20px; padding-bottom: 100px;">
-        </main>
-
-    <div id="notes-section" style="display:none; position: fixed; top: 10%; left: 5%; width: 90%; background: white; z-index: 1001; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.3); box-sizing: border-box;">
-        <h3 id="note-book-title" style="color:#3e2723;">اسم الكتاب</h3>
-        <textarea id="book-note-input" style="width: 100%; height: 150px; padding: 10px; border-radius: 10px; border: 1px solid #ddd;" placeholder="سجل فوائدك هنا..."></textarea>
-        <button onclick="saveNote()" style="background:#d4af37; color:white; border:none; padding:12px; border-radius:8px; width:100%; margin-top:10px; font-weight:bold;">📌 حفظ في الكناشة</button>
-        <button onclick="shareAsImage()" style="background:#2ecc71; color:white; border:none; padding:12px; border-radius:8px; width:100%; margin-top:5px; font-weight:bold;">📸 تصدير كبطاقة تبيان</button>
-        <button onclick="document.getElementById('notes-section').style.display='none'" style="background:#bdc3c7; color:white; border:none; padding:12px; border-radius:8px; width:100%; margin-top:5px;">إغلاق</button>
-    </div>
-
-    <div id="quote-template">
-        <img src="logo.png" style="width: 100px; margin-bottom: 15px;">
-        <h2 style="color: #3e2723; margin: 0; font-size: 28px;">تبيان</h2>
-        <hr style="border: 1px solid #d4af37; width: 40%; margin: 20px auto;">
-        <p id="quote-text-display" style="font-size: 22px; color: #5d4037; line-height: 1.8; font-family: 'Amiri', serif;"></p>
-        <p id="quote-book-source" style="margin-top: 30px; font-weight: bold; color: #8d6e63;"></p>
-        <div style="margin-top: 40px; font-size: 14px; color: #999;">صُنِع في مكتبة تبيان الذكية ✨</div>
-    </div>
-
-    <nav class="bottom-nav">
-        <button onclick="addNewBook()">➕ أضف كتاب</button>
-        <button onclick="toggleNature()">🌲 صوت الطبيعة</button>
-        <button onclick="location.reload()">🏠 الرئيسية</button>
-    </nav>
-
-    <script src="app.js"></script>
-</body>
-</html>
