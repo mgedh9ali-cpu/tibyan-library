@@ -2,13 +2,19 @@ window.onload = function() {
     loadBooks();
 };
 
-function loadBooks(filter = "") {
+function loadBooks(filter = "", category = "الكل") {
     const grid = document.getElementById('booksGrid');
+    const shelfTitle = document.getElementById('shelf-title');
     grid.innerHTML = ''; 
+    shelfTitle.innerText = category === "الكل" ? "أحدث الكتب المضافة" : "قسم الـ " + category;
+
     const savedBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
     
     savedBooks.forEach((book, index) => {
-        if (book.title.toLowerCase().includes(filter.toLowerCase())) {
+        const matchesSearch = book.title.toLowerCase().includes(filter.toLowerCase());
+        const matchesCategory = category === "الكل" || book.category === category;
+
+        if (matchesSearch && matchesCategory) {
             displayBook(book, index);
         }
     });
@@ -20,19 +26,18 @@ function searchBooks() {
 }
 
 function addNewBook() {
-    let title = prompt("شو اسم الكتاب؟");
-    let cover = prompt("حط رابط صورة الغلاف (أو اتركه فاضي للغلاف الافتراضي):");
+    let title = prompt("اسم الكتاب؟");
+    let category = prompt("تصنيف الكتاب (شرعي / علمي / أخرى):", "شرعي");
+    let cover = prompt("رابط صورة الغلاف (اختياري):");
     let link = prompt("رابط الـ PDF:");
     
     if (title && link) {
-        // إذا ما حط رابط صورة، بنستخدم غلاف افتراضي أنيق
         const finalCover = cover || `https://placehold.co/100x150/5d4037/white?text=${title}`;
-        
         const savedBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
-        savedBooks.push({ title, link, cover: finalCover });
+        savedBooks.push({ title, link, cover: finalCover, category: category });
         localStorage.setItem('myBooks', JSON.stringify(savedBooks));
         loadBooks();
-        alert("انضاف الكتاب مع الغلاف يا بطل! 🎉");
+        alert("انضاف الكتاب للقسم الصحيح! 🎉");
     }
 }
 
@@ -43,8 +48,9 @@ function displayBook(book, index) {
     
     bookCard.innerHTML = `
         <button onclick="deleteBook(${index})" style="position: absolute; top: -5px; left: -5px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; z-index: 10;">X</button>
-        <img src="${book.cover}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/100x150?text=No+Image'">
+        <img src="${book.cover}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 4px;">
         <h3 style="font-size: 14px; margin: 10px 0; height: 35px; overflow: hidden;">${book.title}</h3>
+        <p style="font-size: 10px; color: #888;">${book.category || 'شرعي'}</p>
         <button onclick="window.open('${book.link}', '_blank')" style="background: #8d6e63; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%;">تحميل</button>
     `;
     grid.appendChild(bookCard);
