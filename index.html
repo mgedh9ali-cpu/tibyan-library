@@ -4,60 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تبيان | الرفيق الذكي</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* التنسيق بداخل الملف لضمان التحديث */
+        :root { --p: #3E2723; --g: #D4AF37; --bg: #F4F1EA; --w: #ffffff; }
+        body { background: var(--bg); font-family: sans-serif; margin: 0; padding-bottom: 90px; direction: rtl; }
+        
+        .main-header { background: var(--p); color: var(--w); padding: 30px; text-align: center; border-radius: 0 0 30px 30px; }
+        .main-logo { width: 70px; background: white; padding: 5px; border-radius: 15px; margin-bottom: 10px; }
+        
+        .page-section { display: none; padding: 20px; }
+        .page-section.active { display: block; animation: fadeIn 0.4s; }
+        
+        .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        .book-card { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .book-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; }
+
+        .main-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { background: none; border: none; color: #999; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .nav-item.active { color: var(--p); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
 <body>
 
 <header class="main-header">
-    <div class="header-content">
-        <img src="logo.png" alt="تبيان" class="main-logo">
-        <h1>تبيان</h1>
-        <p>حر بدون إزعاج ☕</p>
-    </div>
+    <img src="logo.png" class="main-logo">
+    <h1>تبيان</h1>
+    <p>رفيق حيزوم الذكي ☕</p>
 </header>
 
 <main>
     <section id="home-sec" class="page-section active">
-        <div class="search-wrap">
-            <i class="fas fa-search"></i>
-            <input type="text" id="mainSearch" placeholder="بحث حرف بحرف..." oninput="liveSearch()">
-        </div>
-        <h3 class="label">📚 المكتبة الشاملة</h3>
-        <div id="mainGrid" class="book-grid"></div>
+        <h3 style="color:var(--p)">📚 المكتبة الشاملة</h3>
+        <div id="mainGrid" class="book-grid">
+            </div>
     </section>
 
     <section id="list-sec" class="page-section">
-        <h3 class="label">🔖 كتبي المفضلة</h3>
+        <h3>🔖 كتبي المفضلة</h3>
         <div id="mylistGrid" class="book-grid"></div>
     </section>
 
     <section id="settings-sec" class="page-section">
-        <div class="user-profile">
-            <div class="icon-box"><i class="fas fa-user-shield"></i></div>
+        <div style="text-align:center; padding:20px;">
+            <i class="fas fa-user-circle" style="font-size:60px; color:var(--g)"></i>
             <h3>أحمد محمد محمد علي</h3>
             <p>إصدار حيزوم الذهبي 16.0</p>
-            <div class="stats">
-                <span><b>12</b> كتاب</span> | <span><b>5</b> مقتطفات</span>
-            </div>
-            <hr>
-            <div class="set-btns">
-                <button onclick="alert('قريباً: الوضع الليلي')"><i class="fas fa-moon"></i> الوضع الليلي</button>
-                <button onclick="window.open('https://t.me/TibyanBooks_bot')"><i class="fab fa-telegram"></i> دعم حيزوم</button>
-            </div>
+            <button onclick="window.open('https://t.me/TibyanBooks_bot')" style="padding:10px 20px; background:var(--p); color:white; border:none; border-radius:10px;">دعم تليجرام</button>
         </div>
     </section>
 </main>
-
-<div id="audio-console" class="audio-panel">
-    <h4 id="audio-title">اسم الكتاب</h4>
-    <div class="play-tools">
-        <button class="small-btn">اقتصادية</button>
-        <button class="main-play"><i class="fas fa-play"></i></button>
-        <button class="small-btn">عالية HD</button>
-    </div>
-    <button class="close-panel" onclick="closeAudio()">إغلاق ✕</button>
-</div>
 
 <nav class="main-nav">
     <button class="nav-item active" onclick="showPage('home-sec', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
@@ -66,6 +64,43 @@
     <button class="nav-item" onclick="showPage('settings-sec', this)"><i class="fas fa-cog"></i><span>أنا</span></button>
 </nav>
 
-<script src="app.js"></script>
+<script>
+    // المخ البرمجي بداخل الملف لضمان الاستجابة
+    let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
+        { title: "مقدمة ابن خلدون", cover: "https://via.placeholder.com/150/3E2723/white?text=Tibyan" },
+        { title: "تفسير الجلالين", cover: "https://via.placeholder.com/150/D4AF37/white?text=Tibyan" }
+    ];
+
+    function showPage(id, btn) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function render() {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = '';
+        db.forEach(book => {
+            grid.innerHTML += `
+                <div class="book-card">
+                    <img src="${book.cover}">
+                    <h4>${book.title}</h4>
+                </div>`;
+        });
+    }
+
+    function addNewBook() {
+        const t = prompt("عنوان الكتاب؟");
+        if(t) {
+            db.push({ title: t, cover: "https://via.placeholder.com/150/3E2723/white?text="+t });
+            localStorage.setItem('tibyan_db', JSON.stringify(db));
+            render();
+        }
+    }
+
+    window.onload = render;
+</script>
+
 </body>
 </html>
