@@ -11,108 +11,54 @@
 <body>
 
     <header class="main-header">
-        <div class="logo-area">
-            <img src="logo.png" alt="شعار تبيان" class="app-logo">
-            <div class="header-text">
-                <h1>تبيان</h1>
-                <p>حر بدون إزعاج ☕</p>
-            </div>
+        <div class="logo-container">
+            <img src="logo.png" alt="تبيان" class="app-logo">
+            <h1>تبيان</h1>
+            <p>حر بدون إزعاج ☕</p>
         </div>
     </header>
 
     <main id="app-content">
         <section id="home-sec" class="page-section active">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
+            <div class="search-area">
                 <input type="text" id="mainSearch" placeholder="بحث حرف بحرف..." oninput="liveSearch()">
             </div>
-            <h3 class="section-title">📚 مكتبتي الشاملة</h3>
+            <h3 class="title-label">📚 مكتبتي الشاملة</h3>
             <div id="mainGrid" class="book-grid"></div>
         </section>
 
         <section id="list-sec" class="page-section">
-            <h3 class="section-title">🔖 كتبي المفضلة</h3>
+            <h3 class="title-label">🔖 قائمتي الخاصة</h3>
             <div id="mylistGrid" class="book-grid"></div>
         </section>
 
         <section id="settings-sec" class="page-section">
-            <div class="profile-card">
-                <div class="avatar"><i class="fas fa-user-shield"></i></div>
+            <div class="dev-card">
+                <i class="fas fa-user-shield"></i>
                 <h4>المطور: أحمد محمد محمد علي</h4>
                 <p>إصدار حيزوم الذهبي 16.0</p>
-            </div>
-            <div class="settings-list">
-                <button class="s-btn" onclick="saveSnippet()"><i class="fas fa-pen-nib"></i> إضافة مقتطف جديد</button>
-                <button class="s-btn" onclick="window.open('https://t.me/TibyanBooks_bot')"><i class="fab fa-telegram"></i> الدعم الفني</button>
+                <div class="actions">
+                    <button class="action-btn" onclick="window.open('https://t.me/TibyanBooks_bot')">🤖 دعم تليجرام</button>
+                </div>
             </div>
         </section>
     </main>
 
     <div id="audio-console" class="audio-console">
-        <div class="player-header">
-            <h4 id="audio-title">اسم الكتاب</h4>
-            <small id="audio-status">جاهز للاستماع 🎧</small>
+        <h4 id="audio-title">اسم الكتاب</h4>
+        <div class="controls">
+            <button onclick="setQuality('low')">اقتصادية</button>
+            <button class="play-btn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+            <button onclick="setQuality('high')">عالية HD</button>
         </div>
-        <div class="player-controls">
-            <button class="p-btn" onclick="setQuality('low')">اقتصادية</button>
-            <button class="p-btn play-main" onclick="togglePlay()"><i class="fas fa-play"></i></button>
-            <button class="p-btn" onclick="setQuality('high')">HD عالية</button>
-        </div>
-        <button class="close-audio" onclick="closeAudio()">إغلاق</button>
+        <button class="close-btn" onclick="closeAudio()">إغلاق</button>
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-btn active" onclick="showPage('home-sec', this)"><i class="fas fa-house"></i><span>الرئيسية</span></button>
-        <button class="nav-btn" onclick="addNewBook()"><i class="fas fa-plus-circle"></i><span>أضف</span></button>
-        <button class="nav-btn" onclick="showPage('list-sec', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
-        <button class="nav-btn" onclick="showPage('settings-sec', this)"><i class="fas fa-user-gear"></i><span>أنا</span></button>
-    </nav>
-
-    <script src="app.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبيان | الرفيق الذكي</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-</head>
-<body>
-
-    <header class="main-header">
-        <img src="logo.png" class="app-logo">
-        <h1>تبيان</h1>
-        <p>حر بدون إزعاج ☕</p>
-    </header>
-
-    <main id="app-content">
-        <section id="home-sec" class="page-section active">
-            <h3 style="margin-top:20px;">📚 مكتبتي الشاملة</h3>
-            <div id="mainGrid" class="book-grid"></div>
-        </section>
-
-        <section id="list-sec" class="page-section">
-            <h3 style="margin-top:20px;">🔖 المفضلة</h3>
-            <div id="mylistGrid" class="book-grid"></div>
-        </section>
-
-        <section id="settings-sec" class="page-section">
-            <div style="padding:40px;">
-                <h4>المطور: أحمد محمد محمد علي</h4>
-                <p>إصدار حيزوم الذهبي 16.0</p>
-                <button onclick="window.open('https://t.me/TibyanBooks_bot')" style="padding:10px 20px; background:#0088cc; color:white; border:none; border-radius:10px;">دعم تليجرام</button>
-            </div>
-        </section>
-    </main>
-
-    <nav class="bottom-nav">
-        <button class="nav-btn active" onclick="showPage('home-sec', this)">🏠<span>الرئيسية</span></button>
-        <button class="nav-btn" onclick="addNewBook()">➕<span>أضف</span></button>
-        <button class="nav-btn" onclick="showPage('list-sec', this)">🔖<span>قائمتي</span></button>
-        <button class="nav-btn" onclick="showPage('settings-sec', this)">⚙️<span>أنا</span></button>
+        <button class="nav-item active" onclick="showPage('home-sec', this)"><i class="fas fa-house"></i><span>الرئيسية</span></button>
+        <button class="nav-item" onclick="addNewBook()"><i class="fas fa-plus-circle"></i><span>أضف</span></button>
+        <button class="nav-item" onclick="showPage('list-sec', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
+        <button class="nav-item" onclick="showPage('settings-sec', this)"><i class="fas fa-user-gear"></i><span>أنا</span></button>
     </nav>
 
     <script src="app.js"></script>
