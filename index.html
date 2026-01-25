@@ -3,23 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان</title>
+    <title>تبيان - الرفيق الذكي</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* إضافة سريعة للتنقل السفلي */
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%; background: #3e2723;
+            display: flex; justify-content: space-around; padding: 10px 0;
+            border-top: 2px solid #d4af37; z-index: 1000;
+        }
+        .bottom-nav button { background: none; border: none; color: #efebe9; font-family: 'Cairo'; cursor: pointer; }
+        .page { display: none; padding-bottom: 80px; }
+        .active-page { display: block; }
+    </style>
 </head>
 <body>
-    <header>
-        <img src="logo.png" alt="شعار مكتبة تبيان" class="main-logo" style="width:150px; display:block; margin:auto;">
-        <h1>مكتبة تبيان</h1>
-        <p>مساحة هادئة للقراءة والاستماع</p>
-    </header>
 
-    <section id="search-section" style="display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap;">
-        <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="ابحث عن اسم كتاب..." style="padding: 10px; border-radius: 5px; border: 1px solid #5d4037; width: 200px;">
-        <button onclick="addNewBook()" style="background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">+ إضافة كتاب</button>
-    </section>
+    <div id="home" class="page active-page">
+        <header>
+            <img src="logo.png" style="width:80px; margin:auto; display:block;">
+            <h1>مكتبة تبيان الذكية</h1>
+            <p>رفيقك من القهوة حتى النوم ☕🌙</p>
+        </header>
+        
+        <section id="search-area" style="padding:15px; text-align:center;">
+            <input type="text" id="bookSearch" oninput="searchBooks()" placeholder="بحث ذكي عن كتاب أو مؤلف..." style="width:80%; padding:12px; border-radius:25px; border:1px solid #d4af37;">
+        </section>
 
-    <div id="category-filter" style="text-align: center; margin-bottom: 20px;">
-        <button onclick="loadBooks('', 'الكل')" style="margin: 5px; padding: 5px 15px; cursor: pointer; border-radius: 20px; border: 1px solid #5d4037; background: #fff;">الكل</button>
-        <button onclick="loadBooks('', 'شرعي')" style="margin: 5px; padding: 5px 15px; cursor: pointer; border-radius: 20px; border: 1px solid #5d4037; background: #fff;">شرعي 📖</button>
-        <button onclick="loadBooks('',
+        <section id="books-shelf">
+            <h2 style="padding-right:20px;">الأكثر رواجاً 🔥</h2>
+            <div id="booksGrid" style="display: flex; gap:15px; overflow-x: auto; padding:15px;"></div>
+        </section>
+
+        <section id="audio-engine" style="margin:20px; padding:20px; background:#fff; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+            <h3>السينما الصوتية 🎭</h3>
+            <p id="audio-status">جاهز للاستماع الذكي</p>
+            <audio id="main-player" controls style="width:100%;"></audio>
+            <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+                <button onclick="toggleNatureSounds()" id="natureBtn" style="background:#27ae60; color:white; border:none; padding:5px 10px; border-radius:5px;">صوت الطبيعة: مطر 🌧️</button>
+            </div>
+        </section>
+    </div>
+
+    <div id="settings" class="page">
+        <header><h1>الإعدادات</h1></header>
+        <div style="padding:20px; text-align:center;">
+            <div style="background:white; padding:20px; border-radius:15px; border:2px solid #d4af37;">
+                <h3>معلومات المطور</h3>
+                <p style="font-size:1.2rem; font-weight:bold; color:#3e2723;">تم إنشاء وتطوير التطبيق بواسطة:</p>
+                <h2 style="color:#d4af37;">أحمد محمد محمد علي / حيزوم</h2>
+                <p>الإصدار: 2.0.0 (الذكاء الهادئ)</p>
+                <hr>
+                <button onclick="window.open('https://t.me/TibyanBooks_bot')" style="background:#0088cc; color:white; border:none; padding:10px; border-radius:5px; width:100%;">تواصل معنا عبر تلغرام 🤖</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button onclick="showPage('home')">🏠 الرئيسية</button>
+        <button onclick="alert('قريباً: قائمتي والمفضلات')">⭐ قائمتي</button>
+        <button onclick="showPage('settings')">⚙️ الإعدادات</button>
+    </nav>
+
+    <script src="app.js"></script>
+    <script>
+        // دالة التنقل بين الصفحات
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+        }
+
+        // تسجيل الـ Service Worker للـ PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
