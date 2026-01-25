@@ -3,24 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان الذكية</title>
+    <title>تبيان | الرفيق الذكي</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f0; margin: 0; padding: 0; }
-        header { background: #3e2723; color: white; text-align: center; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .settings-card { background: white; margin: 15px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
-        .bottom-nav button { background: none; border: none; color: #d7ccc8; font-size: 14px; cursor: pointer; }
-        .book-card { background: white; padding: 10px; border-radius: 10px; text-align: center; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; }
-        .book-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
-        
-        /* نافذة التحكم بالصوت والأجواء */
-        #nature-control { display:none; position: fixed; bottom: 80px; left: 5%; width: 90%; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.2); z-index: 1000; box-sizing: border-box; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .btn-audio { padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; font-size: 12px; }
+</head>
+<body>
 
-        /* نافذة الكناشة */
-        #notes-section { display:none; position: fixed; top: 10%; left: 5%; width: 90%; background: white; z-index: 1001; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.3); box-sizing: border-box; }
-        
-        /* قالب البطاقة المخفي (للتصدير) */
-        #quote-template { position: absolute; left: -9999px; width: 500px; padding: 40px; background: #fdfaf6; border: 10px solid #d4af37; text-align: center; }
+    <header>
+        <img src="logo.png" alt="تبيان" id="app-logo">
+        <h1>تبيان</h1>
+        <p>حر بدون إزعاج.. رفيقك في القراءة والاستماع</p>
+    </header>
+
+    <main id="app-content">
+        <section id="home-sec" class="app-section active">
+            <div class="search-area">
+                <input type="text" id="mainSearch" placeholder="بحث حرف بحرف (كتاب، مؤلف، مقتطف)..." oninput="liveSearch()">
+            </div>
+            <div class="category-title">📚 الأكثر رواجاً</div>
+            <div id="mainGrid" class="book-grid"></div>
+        </section>
+
+        <section id="list-sec" class="app-section">
+            <div class="card header-card">
+                <h3>🔖 قائمتي المتطورة</h3>
+                <input type="text" id="listSearch" placeholder="فلترة ذكية في قائمتك..." oninput="listSearchFunc()">
+            </div>
+            <div id="mylistGrid" class="book-grid"></div>
+        </section>
+
+        <section id="settings-sec" class="app-section">
+            <div class="card dev-card">
+                <h4>🛠️ معلومات النظام</h4>
+                <p>الإصدار: 16.0 Gold</p>
+                <p>المطور: <strong>أحمد محمد محمد علي / حيزوم</strong></p>
+            </div>
+            <div class="card settings-options">
+                <button class="btn-primary" onclick="exportFullLibrary()">📥 نسخة احتياطية للمكتبة</button>
+                <button class="btn-secondary" onclick="exportSummary()">📑 تصدير التلخيص الخارجي</button>
+                <button class="btn-telegram" onclick="window.open('https://t.me/TibyanBooks_bot')">🤖 بوت تليجرام للدعم</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="audio-panel">
+        <div class="audio-header">
+            <h4 id="atitle">اسم الكتاب</h4>
+            <span id="ascan">جاري فحص الملف (Scan)...</span>
+        </div>
+        <div class="audio-controls">
+            <div class="quality-selector">
+                <button onclick="setQuality('high')">HD عالية</button>
+                <button onclick="setQuality('mid')">متوسطة</button>
+                <button onclick="setQuality('low')">اقتصادية</button>
+            </div>
+            <div class="nature-mode">
+                <label>وضع القراءة الصامتة الذكية:</label>
+                <input type="checkbox" id="silent-mode" onchange="toggleSilentMode()">
+            </div>
+            <button id="mainPlayBtn" onclick="toggleAudio()">تشغيل المشهد الدرامي 🎭</button>
+        </div>
+        <button class="close-panel" onclick="hideAudioPanel()">إغلاق</button>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="nav('home-sec', this)">🏠<span>الرئيسية</span></button>
+        <button class="nav-item" onclick="addNewBook()">➕<span>أضف</span></button>
+        <button class="nav-item" onclick="nav('list-sec', this)">🔖<span>قائمتي</span></button>
+        <button class="nav-item" onclick="nav('settings-sec', this)">⚙️<span>الإعدادات</span></button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
