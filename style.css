@@ -3,16 +3,25 @@ body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4ece1; color: 
 .active-page { display: block; }
 header { background: #3e2723; color: #d4af37; text-align: center; padding: 20px; border-bottom: 4px solid #d4af37; }
 .main-logo { width: 60px; display: block; margin: auto; }
+
+.challenge-box { margin: 15px; padding: 15px; background: #fff3e0; border-radius: 12px; border: 2px dashed #ff9800; text-align: center; }
+#achievement-panel { margin: 15px; padding: 15px; background: white; border-radius: 12px; border-right: 5px solid #27ae60; }
+.progress-container { background: #eee; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; }
+#progress-bar { background: #27ae60; width: 0%; height: 100%; transition: width 0.5s; }
+
 #search-area { padding: 10px; text-align: center; }
-#bookSearch { width: 80%; padding: 10px; border-radius: 20px; border: 1px solid #d4af37; outline: none; }
-.add-btn { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 20px; margin-top: 10px; cursor: pointer; }
+#bookSearch { width: 85%; padding: 12px; border-radius: 25px; border: 1px solid #d4af37; outline: none; }
+.add-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; cursor: pointer; }
+
 .horizontal-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
 .horizontal-scroll::-webkit-scrollbar { display: none; }
-#audio-engine { margin: 20px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-#chapters-list { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 15px; }
-#chapters-list button { padding: 5px 12px; background: #d4af37; color: white; border: none; border-radius: 10px; white-space: nowrap; cursor: pointer; }
-.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #d4af37; }
-.bottom-nav button { background: none; border: none; color: white; cursor: pointer; font-family: 'Cairo'; }
-.settings-card { padding: 20px; background: white; margin: 20px; border-radius: 15px; text-align: center; border: 2px solid #d4af37; }
-.dev-name { color: #d4af37; }
-.bot-btn { background: #0088cc; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; }
+
+#notes-section { background: #fffde7; padding: 15px; border-radius: 15px; border: 1px solid #d4af37; margin: 15px; }
+#book-note-input { width: 93%; height: 80px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; }
+.save-note-btn { background: #3e2723; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; }
+
+#audio-engine { margin: 15px; padding: 15px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+#chapters-list button { padding: 5px 12px; background: #d4af37; color: white; border: none; border-radius: 10px; margin-left: 5px; cursor: pointer; }
+
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #3e2723; display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid #d4af37; }
+.bottom-nav button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
