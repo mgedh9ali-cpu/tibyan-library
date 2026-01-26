@@ -1,18 +1,14 @@
-// إخفاء شاشة الترحيب بعد 3 ثواني
-window.onload = () => {
-  setTimeout(()=>{
-    document.getElementById("splash").style.display="none";
-    document.getElementById("app").style.display="block";
-    render(); // عرض الكتب الافتراضية
-    render(db.filter(b => b.fav), 'mylistGrid'); // عرض القائمة المفضلة
-  },3000);
-};
-
 // قاعدة بيانات أولية (محلية)
 let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-  { title: "مقدمة ابن خلدون", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Tibyan", fav: false },
-  { title: "تفسير الجلالين", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Tibyan", fav: false }
+  { title: "زاد المعاد", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false },
+  { title: "رياض الصالحين", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Riyad", fav: false }
 ];
+
+// عند تحميل الصفحة
+window.onload = () => {
+  render(); // عرض الكتب الافتراضية
+  render(db.filter(b => b.fav), 'mylistGrid'); // عرض القائمة المفضلة
+};
 
 // التنقل بين الصفحات
 function nav(id, btn){
@@ -20,17 +16,6 @@ function nav(id, btn){
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   document.getElementById(id).classList.add('active-section');
   btn.classList.add('active');
-}
-
-// كود سرّي لإظهار لوحة المالك
-function checkCode() {
-  const val = document.getElementById('searchField').value.toLowerCase();
-  if(val === 'heizuom') {
-    const btn = document.getElementById('owner-nav-btn');
-    btn.style.display = btn.style.display === 'block' ? 'none' : 'block';
-    document.getElementById('searchField').value = '';
-    alert(btn.style.display === 'block' ? "مرحباً يا مالك 🛠️" : "تم العودة للوضع العادي");
-  }
 }
 
 // عرض الكتب
@@ -42,19 +27,22 @@ function render(data = db, target = 'mainGrid') {
       <div class="book-card">
         <img src="${book.cover}">
         <h4>${book.title}</h4>
-        <button onclick="toggleFav(${i})">📌 ${book.fav ? 'إزالة من قائمتي' : 'إضافة لقائمتي'}</button>
+        <button onclick="toggleFav(${i})">📌 ${book.fav ? 'إزالة من كتبي' : 'إضافة لكتبي'}</button>
       </div>
     `;
   });
 }
 
-// إضافة كتاب جديد
+// إضافة كتاب جديد من لوحة المالك
 function addNewBook() {
-  const t = prompt("عنوان الكتاب؟");
+  const t = document.getElementById('ownerCode').value;
   if(t) {
     db.push({ title: t, cover: "https://via.placeholder.com/200x300/3E2723/white?text="+t, fav: false });
     localStorage.setItem('tibyan_db', JSON.stringify(db));
     render();
+    alert("تم إضافة الكتاب '" + t + "' بنجاح! 🚀");
+  } else {
+    alert("يرجى إدخال اسم الكتاب أولاً");
   }
 }
 
@@ -72,7 +60,7 @@ function liveSearch() {
   render(db.filter(b => b.title.toLowerCase().includes(q)));
 }
 
-// منطق الرفع والسحب
+// منطق الرفع والسحب للملفات
 function handleDragOver(e) { e.preventDefault(); }
 function handleDrop(e, type) {
   e.preventDefault();
@@ -97,7 +85,7 @@ function handleFile(file, type) {
   }, 100);
 }
 function publishBook() {
-  const title = document.getElementById('bookTitleInput').value;
+  const title = document.getElementById('ownerCode').value;
   if(!title) return alert("يرجى إدخال اسم الكتاب أولاً");
   alert("تم إرسال الكتاب '" + title + "' للنشر بنجاح! 🚀");
 }
