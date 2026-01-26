@@ -1,179 +1,102 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة تبيان | نسخة الإنجاز</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --card: #ffffff; --text: #2C1B18; --gray: #999; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 110px; direction: rtl; }
-        
-        .main-header { background-color: var(--p); color: white; padding: 45px 20px; text-align: center; border-radius: 0 0 40px 40px; position: relative; }
-        .header-logo-img { position: absolute; top: 50%; right: 25px; transform: translateY(-50%); width: 60px; height: auto; }
-        
-        .search-area { padding: 15px 20px; position: sticky; top: 0; background: var(--bg); z-index: 100; }
-        .search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); outline: none; box-sizing: border-box; }
-
-        .page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
-        .active-section { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* لوحة المالك المطورة */
-        .upload-zone {
-            border: 2px dashed var(--g);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            background: #fff;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: 0.3s;
-        }
-        .upload-zone:hover { background: #fefcf0; border-color: var(--p); }
-        .upload-zone i { font-size: 40px; color: var(--g); margin-bottom: 10px; }
-        .upload-zone p { margin: 5px 0; font-size: 14px; color: var(--p); }
-        
-        .hidden-input { display: none; }
-
-        .progress-container { width: 100%; background: #eee; height: 10px; border-radius: 5px; margin-top: 10px; display: none; }
-        .progress-fill { background: var(--g); height: 100%; width: 0%; transition: 0.3s; }
-
-        .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .book-card { background: var(--card); border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .book-card img { width: 100%; border-radius: 15px; height: 140px; object-fit: cover; }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; padding: 15px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.05); z-index: 1000; }
-        .nav-item { background: none; border: none; color: var(--gray); flex: 1; text-align: center; cursor: pointer; }
-        .nav-item.active { color: var(--p); font-weight: bold; }
-        .nav-item i { display: block; font-size: 20px; margin-bottom: 5px; }
-        #owner-nav-btn { display: none; color: var(--g); }
-
-        .dev-credit { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #eee; color: var(--gray); font-size: 13px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة تبيان | نسخة الإنجاز</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 <div id="app">
-    <header class="main-header">
-        <img src="logo.png" alt="Logo" class="header-logo-img">
-        <h2 style="margin:0;">مكتبة تبيان</h2>
-    </header>
+  <!-- الهيدر -->
+  <header class="main-header">
+    <img src="logo.png" alt="Logo" class="header-logo-img">
+    <h2>مكتبة تبيان</h2>
+  </header>
 
-    <div class="search-area">
-        <input type="text" id="searchField" class="search-bar" placeholder="ابحث أو اكتب الرمز..." onkeyup="checkCode()">
-    </div>
+  <!-- البحث -->
+  <div class="search-area">
+    <input type="text" id="mainSearch" class="search-bar" placeholder="ابحث باسم الكتاب أو المؤلف..." onkeyup="liveSearch()">
+  </div>
 
-    <main>
-        <section id="home" class="page-section active-section">
-            <div class="book-grid">
-                <div class="book-card"><img src="https://via.placeholder.com/150/2C1B18/white?text=Zad"><h4>زاد المعاد</h4></div>
-                <div class="book-card"><img src="https://via.placeholder.com/150/D4AF37/white?text=Riyad"><h4>رياض الصالحين</h4></div>
-            </div>
-        </section>
+  <!-- الأقسام -->
+  <main>
+    <!-- الرئيسية -->
+    <section id="home" class="page-section active-section">
+      <h3>📚 المكتبة</h3>
+      <div id="mainGrid" class="book-grid"></div>
+      <div id="stats" class="stats-box"></div>
+    </section>
 
-        <section id="mylist" class="page-section">
-            <h3 style="border-right: 4px solid var(--p); padding-right: 10px;">📚 كتب قيد القراءة</h3>
-            <p style="text-align:center; color:var(--gray);">القائمة فارغة حالياً.</p>
-        </section>
+    <!-- قائمتي -->
+    <section id="mylist" class="page-section">
+      <h3>⭐ قائمتي</h3>
+      <div id="mylistGrid" class="book-grid"></div>
+    </section>
 
-        <section id="me" class="page-section">
-            <div style="text-align:center; padding:20px;">
-                <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
-                <h2>ملفي الشخصي</h2>
-            </div>
-        </section>
+    <!-- المقتطفات -->
+    <section id="quotes" class="page-section">
+      <h3>💬 المقتطفات</h3>
+      <div id="quotesFeed"></div>
+      <div class="quote-controls">
+        <input type="text" id="filterBook" placeholder="فرز حسب الكتاب">
+        <input type="text" id="filterAuthor" placeholder="فرز حسب المؤلف">
+        <button onclick="filterQuotes()">🔍 فرز</button>
+        <button onclick="showAllQuotes()">📜 عرض الكل</button>
+        <button onclick="sortByLikes()">❤️ الأكثر إعجاب</button>
+        <button onclick="sortByComments()">💬 الأكثر تعليق</button>
+        <button onclick="showFavorites()">⭐ المفضلة</button>
+      </div>
+    </section>
 
-        <section id="settings" class="page-section">
-            <h3>⚙️ الإعدادات</h3>
-            <div class="dev-credit">تطوير وبرمجة<br><b>أحمد محمد محمد علي</b></div>
-        </section>
+    <!-- ورد يومي -->
+    <section id="daily" class="page-section">
+      <h3>📖 ورد يومي</h3>
+      <div id="dailyBox"></div>
+    </section>
 
-        <section id="owner" class="page-section">
-            <h3 style="color:var(--g);"><i class="fas fa-tools"></i> لوحة المالك - إضافة كتب</h3>
-            
-            <input type="text" id="bookTitleInput" class="search-bar" placeholder="اسم الكتاب" style="margin-bottom:15px;">
+    <!-- ملفي الشخصي -->
+    <section id="me" class="page-section">
+      <div style="text-align:center; padding:20px;">
+        <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
+        <h2>ملفي الشخصي</h2>
+      </div>
+    </section>
 
-            <div class="upload-zone" onclick="document.getElementById('coverInput').click()" ondrop="handleDrop(event, 'cover')" ondragover="handleDragOver(event)">
-                <i class="fas fa-image"></i>
-                <p id="coverStatus">اسحب صورة الغلاف هنا أو انقر للاختيار</p>
-                <input type="file" id="coverInput" class="hidden-input" accept="image/*" onchange="handleFile(this.files[0], 'cover')">
-                <div class="progress-container" id="coverProgress"><div class="progress-fill" id="coverFill"></div></div>
-            </div>
+    <!-- الإعدادات -->
+    <section id="settings" class="page-section">
+      <h3>⚙️ الإعدادات</h3>
+      <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
+      <button onclick="changeFont('arabic')">📜 خط عربي</button>
+      <button onclick="changeFont('modern')">✨ خط حديث</button>
+      <button onclick="changeFont('hand')">✍️ خط يدوي</button>
+      <button onclick="increaseFont()">🔎 تكبير النص</button>
+      <button onclick="decreaseFont()">🔎 تصغير النص</button>
+      <div class="dev-credit">تم إنشاء وتطوير التطبيق بواسطة<br><b>أحمد محمد محمد علي / حيزوم</b></div>
+    </section>
 
-            <div class="upload-zone" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event, 'file')" ondragover="handleDragOver(event)">
-                <i class="fas fa-file-pdf"></i>
-                <p id="fileStatus">اسحب ملف الكتاب (PDF) هنا أو انقر للاختيار</p>
-                <input type="file" id="fileInput" class="hidden-input" accept=".pdf,.epub" onchange="handleFile(this.files[0], 'file')">
-                <div class="progress-container" id="fileProgress"><div class="progress-fill" id="fileFill"></div></div>
-            </div>
+    <!-- لوحة المالك -->
+    <section id="owner" class="page-section">
+      <h3 style="color:var(--g);"><i class="fas fa-tools"></i> لوحة المالك - إضافة كتب</h3>
+      <input type="text" id="bookTitleInput" class="search-bar" placeholder="اسم الكتاب" style="margin-bottom:15px;">
+      <button onclick="addNewBook()" class="main-btn">نشر الكتاب 🚀</button>
+    </section>
+  </main>
 
-            <button style="width:100%; padding:15px; background:var(--p); color:white; border:none; border-radius:15px; font-weight:bold; cursor:pointer;" onclick="publishBook()">نشر الكتاب في المكتبة 🚀</button>
-        </section>
-    </main>
-
-    <nav class="nav-bar">
-        <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
-        <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list"></i>قائمتي</button>
-        <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
-        <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
-        <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)"><i class="fas fa-user-shield"></i>المالك</button>
-    </nav>
+  <!-- القائمة السفلية -->
+  <nav class="nav-bar">
+    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
+    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list"></i>قائمتي</button>
+    <button class="nav-item" onclick="nav('quotes', this)"><i class="fas fa-quote-right"></i>مقتطفات</button>
+    <button class="nav-item" onclick="nav('daily', this)"><i class="fas fa-book-open"></i>ورد يومي</button>
+    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
+    <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
+    <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)" style="display:none;"><i class="fas fa-user-shield"></i>المالك</button>
+  </nav>
 </div>
 
-<script>
-    function checkCode() {
-        const val = document.getElementById('searchField').value.toLowerCase();
-        if(val === 'heizuom') {
-            const btn = document.getElementById('owner-nav-btn');
-            btn.style.display = btn.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('searchField').value = '';
-            alert(btn.style.display === 'block' ? "مرحباً يا مالك 🛠️" : "تم العودة للوضع العادي");
-        }
-    }
-
-    function nav(id, btn) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById(id).classList.add('active-section');
-        btn.classList.add('active');
-    }
-
-    // منطق الرفع والسحب
-    function handleDragOver(e) { e.preventDefault(); }
-    
-    function handleDrop(e, type) {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        handleFile(file, type);
-    }
-
-    function handleFile(file, type) {
-        if (!file) return;
-        const status = document.getElementById(type + 'Status');
-        const progress = document.getElementById(type + 'Progress');
-        const fill = document.getElementById(type + 'Fill');
-
-        status.innerText = "جاري معالجة: " + file.name;
-        progress.style.display = 'block';
-        
-        // محاكاة رفع (بما أننا في بيئة فرونت إند)
-        let p = 0;
-        const interval = setInterval(() => {
-            p += 10;
-            fill.style.width = p + '%';
-            if (p >= 100) {
-                clearInterval(interval);
-                status.innerText = "تم تجهيز الملف: " + file.name + " ✅";
-            }
-        }, 100);
-    }
-
-    function publishBook() {
-        const title = document.getElementById('bookTitleInput').value;
-        if(!title) return alert("يرجى إدخال اسم الكتاب أولاً");
-        alert("تم إرسال الكتاب '" + title + "' للنشر بنجاح! 🚀");
-    }
-</script>
+<script src="app.js"></script>
 </body>
 </html>
