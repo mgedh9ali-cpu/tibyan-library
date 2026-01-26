@@ -158,3 +158,18 @@ body {
   background: var(--g);
   color: var(--p);
 }
+.profile {
+  text-align:center;
+  padding:30px;
+}
+.avatar {
+  font-size:80px;
+  color:var(--g);
+}
+.stats {
+  margin-top:20px;
+  background:var(--card);
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
