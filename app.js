@@ -138,3 +138,7 @@ function render(data = db, target = 'mainGrid') {
   data.forEach((book, i) => {
     grid.innerHTML += `
       <div class="book
+// قاعدة بيانات أولية
+let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
+  { title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false, status: "reading" },
+  { title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF
