@@ -1,12 +1,12 @@
 :root {
-  --p: #2C1B18;
-  --g: #D4AF37;
-  --bg: #FDFCF9;
+  --p: #2C1B18; /* بني ملكي */
+  --g: #D4AF37; /* ذهبي فاخر */
+  --bg: #FDFCF9; /* خلفية ورقية */
   --card: #ffffff;
   --gray: #999;
 }
 
-/* خلفية متحركة */
+/* خلفية متحركة ملكية */
 body {
   margin: 0;
   direction: rtl;
@@ -23,7 +23,7 @@ body {
   100% {background-position: 0% 50%;}
 }
 
-/* Splash */
+/* شاشة البداية */
 #splash {
   position: fixed;
   top:0; left:0; width:100%; height:100%;
@@ -31,4 +31,169 @@ body {
   color:white;
   display:flex; flex-direction:column; justify-content:center; align-items:center;
   font-size:32px;
- 
+  z-index:2000;
+  animation: fadeOut 3s forwards;
+}
+#splash p { font-size:18px; margin-top:10px; color:#fffbe6; }
+@keyframes fadeOut {
+  0% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0; visibility:hidden;}
+}
+
+/* الهيدر */
+.main-header {
+  background: linear-gradient(135deg, var(--p), var(--g));
+  color: white;
+  padding: 25px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  letter-spacing: 2px;
+}
+
+/* البحث */
+.search-area { padding: 15px; background: var(--bg); }
+.search-bar {
+  width: 100%; padding: 12px; border-radius: 20px;
+  border: 2px solid var(--g); outline: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* الأقسام */
+.page-section { display: none; padding: 20px; }
+.active-section { display: block; }
+
+/* شبكة الكتب */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+.book-card {
+  background: var(--card);
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: 0.3s;
+  animation: fadeIn 0.8s ease;
+}
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.book-card img {
+  width: 100%;
+  border-radius: 10px;
+  height: 180px;
+  object-fit: cover;
+}
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+/* زر البوت */
+.bot-btn {
+  display:inline-block;
+  padding:10px 20px;
+  background:var(--g);
+  color:var(--p);
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:bold;
+}
+.bot-btn:hover { background:#b9972f; color:white; }
+
+/* القائمة السفلية */
+.nav-bar {
+  position: fixed;
+  bottom: 0; width: 100%;
+  background: var(--card);
+  display: flex; justify-content: space-around;
+  padding: 12px 0;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.nav-item.active { color: var(--g); transform: scale(1.1); }
+.nav-item i { font-size: 20px; }
+
+/* النص الثابت */
+.dev-credit {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  color: var(--gray);
+  font-size: 13px;
+}
+
+/* لوحة المالك */
+.upload-zone {
+  border: 2px dashed var(--g);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  background: #fff;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.upload-zone:hover {
+  background: #fffbe6;
+  border-color: var(--p);
+  transform: translateY(-3px);
+}
+.upload-zone i {
+  font-size: 40px;
+  color: var(--g);
+  margin-bottom: 10px;
+}
+
+/* زر النشر */
+.publish-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--p);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.publish-btn:hover {
+  background: var(--g);
+  color: var(--p);
+}
+
+/* صفحة أنا */
+.profile {
+  text-align:center;
+  padding:30px;
+}
+.avatar {
+  font-size:80px;
+  color:var(--g);
+}
+.stats {
+  margin-top:20px;
+  background:var(--card);
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
