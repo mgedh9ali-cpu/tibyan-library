@@ -34,21 +34,15 @@
   <!-- قائمتي -->
   <section id="mylist" class="page-section">
     <h3>📖 قائمتي</h3>
-
-    <!-- ورد يومي -->
     <div class="daily-ward">
       <h4>📅 وردي اليومي</h4>
       <p id="wardText">لم يتم تحديد ورد بعد.</p>
       <button onclick="setWard()">تحديد ورد</button>
     </div>
-
-    <!-- المؤلفون -->
     <div class="authors">
       <h4>👨‍🏫 المؤلفون</h4>
       <ul id="authorList"></ul>
     </div>
-
-    <!-- حالة القراءة -->
     <div class="reading-status">
       <h4>📊 حالة القراءة</h4>
       <div>
@@ -68,44 +62,45 @@
 
   <!-- أنا -->
   <section id="me" class="page-section">
-    <div style="text-align:center; padding:20px;">
-      <i class="fas fa-user-circle" style="font-size:70px; color:var(--g);"></i>
-      <h2>ملفي الشخصي</h2>
+    <div class="profile">
+      <i class="fas fa-user-circle avatar"></i>
+      <h2 id="username">المستخدم</h2>
+      <p id="userbio">محب للكتب التراثية</p>
+      <div class="stats">
+        <p>📖 عدد الكتب في قائمتي: <span id="statMyList">0</span></p>
+        <p>✅ عدد الكتب المكتملة: <span id="statCompleted">0</span></p>
+        <p>⏳ قيد القراءة: <span id="statReading">0</span></p>
+      </div>
     </div>
   </section>
 
   <!-- الإعدادات -->
   <section id="settings" class="page-section">
     <h3>⚙️ الإعدادات</h3>
-
     <div class="setting-group">
       <h4>🎨 المظهر والواجهة</h4>
       <button onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</button>
       <button onclick="changeTheme()">🎨 تغيير الألوان</button>
       <button onclick="changeFontSize()">🔠 تغيير حجم الخط</button>
     </div>
-
     <div class="setting-group">
       <h4>👤 إدارة الحساب</h4>
       <button>تعديل الملف الشخصي</button>
       <button>تغيير كلمة المرور</button>
       <button>إدارة البريد الإلكتروني</button>
     </div>
-
     <div class="setting-group">
       <h4>📖 المكتبة الشخصية</h4>
       <button onclick="manageMyList()">إدارة قائمتي</button>
       <button onclick="setWard()">📅 إعداد ورد يومي</button>
       <button onclick="manageAuthors()">👨‍🏫 إدارة المؤلفين المفضلين</button>
     </div>
-
     <div class="setting-group">
       <h4>🔔 الإشعارات</h4>
       <button>تفعيل/إيقاف إشعارات الكتب الجديدة</button>
       <button>📅 تذكير بالورد اليومي</button>
       <button>⭐ تنبيه عند إضافة كتاب من مؤلف مفضل</button>
     </div>
-
     <div class="setting-group">
       <h4>🛠️ الدعم والمطور</h4>
       <button>📖 دليل الاستخدام</button>
