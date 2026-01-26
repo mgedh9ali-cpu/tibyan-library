@@ -1,14 +1,23 @@
-// قاعدة بيانات أولية (محلية)
+// قاعدة بيانات أولية (تخزين محلي)
 let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-  { title: "زاد المعاد", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false },
-  { title: "رياض الصالحين", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Riyad", fav: false }
+  { title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false, status: "reading" },
+  { title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Riyad", fav: false, status: "completed" }
 ];
 
 // عند تحميل الصفحة
 window.onload = () => {
-  render(); // عرض الكتب الافتراضية
-  render(db.filter(b => b.fav), 'mylistGrid'); // عرض القائمة المفضلة
+  render();
+  renderLists();
+  renderAuthors();
+  updateStats();
 };
+
+// إخفاء شاشة البداية بعد 3 ثواني
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+  }, 3000);
+});
 
 // التنقل بين الصفحات
 function nav(id, btn){
@@ -25,120 +34,116 @@ function render(data = db, target = 'mainGrid') {
   data.forEach((book, i) => {
     grid.innerHTML += `
       <div class="book-card">
-        <img src="${book.cover}">
+        <img src="${book.cover}" alt="${book.title}">
         <h4>${book.title}</h4>
-        <button onclick="toggleFav(${i})">📌 ${book.fav ? 'إزالة من كتبي' : 'إضافة لكتبي'}</button>
+        <p>${book.author}</p>
+        <button onclick="toggleFav(${i})">${book.fav ? '💖' : '📌'}</button>
       </div>
     `;
   });
 }
 
-// إضافة كتاب جديد من لوحة المالك
-function addNewBook() {
-  const t = document.getElementById('ownerCode').value;
-  if(t) {
-    db.push({ title: t, cover: "https://via.placeholder.com/200x300/3E2723/white?text="+t, fav: false });
-    localStorage.setItem('tibyan_db', JSON.stringify(db));
-    render();
-    alert("تم إضافة الكتاب '" + t + "' بنجاح! 🚀");
-  } else {
-    alert("يرجى إدخال اسم الكتاب أولاً");
+// البحث المباشر
+function liveSearch(){
+  const q = document.getElementById('searchField').value.toLowerCase();
+  const results = db.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+  render(results);
+}
+
+// تبديل المفضلة
+function toggleFav(i){
+  db[i].fav = !db[i].fav;
+  saveDB();
+  render();
+  renderLists();
+  updateStats();
+}
+
+// حفظ قاعدة البيانات
+function saveDB(){
+  localStorage.setItem('tibyan_db', JSON.stringify(db));
+}
+
+// ورد يومي
+function setWard() {
+  const ward = prompt("ما هو وردك اليومي؟ (مثال: 10 صفحات من رياض الصالحين)");
+  if(ward) {
+    document.getElementById('wardText').innerText = "وردك اليومي: " + ward;
   }
 }
 
-// المفضلة
-function toggleFav(i) {
-  db[i].fav = !db[i].fav;
-  localStorage.setItem('tibyan_db', JSON.stringify(db));
-  render();
-  render(db.filter(b => b.fav), 'mylistGrid');
+// عرض المؤلفين
+function renderAuthors() {
+  const authors = [...new Set(db.map(b => b.author).filter(a => a))];
+  const list = document.getElementById('authorList');
+  list.innerHTML = '';
+  authors.forEach(a => {
+    list.innerHTML += `<li onclick="showAuthorBooks('${a}')">${a}</li>`;
+  });
+}
+function showAuthorBooks(author) {
+  alert("كتب المؤلف " + author + ":\n" + db.filter(b => b.author === author).map(b => b.title).join(", "));
 }
 
-// البحث المباشر
-function liveSearch() {
-  const q = document.getElementById('searchField').value.toLowerCase();
-  render(db.filter(b => b.title.toLowerCase().includes(q)));
+// تقسيم الكتب حسب الحالة
+function renderLists() {
+  render(db.filter(b => b.status === 'reading'), 'readingGrid');
+  render(db.filter(b => b.status === 'completed'), 'completedGrid');
+  render(db.filter(b => b.fav), 'favGrid');
 }
 
-// منطق الرفع والسحب للملفات
-function handleDragOver(e) { e.preventDefault(); }
-function handleDrop(e, type) {
-  e.preventDefault();
-  const file = e.dataTransfer.files[0];
-  handleFile(file, type);
-}
-function handleFile(file, type) {
-  if (!file) return;
-  const status = document.getElementById(type + 'Status');
-  const progress = document.getElementById(type + 'Progress');
-  const fill = document.getElementById(type + 'Fill');
-  status.innerText = "جاري معالجة: " + file.name;
-  progress.style.display = 'block';
-  let p = 0;
-  const interval = setInterval(() => {
-    p += 10;
-    fill.style.width = p + '%';
-    if (p >= 100) {
-      clearInterval(interval);
-      status.innerText = "تم تجهيز الملف: " + file.name + " ✅";
-    }
-  }, 100);
-}
-function publishBook() {
-  const title = document.getElementById('ownerCode').value;
-  if(!title) return alert("يرجى إدخال اسم الكتاب أولاً");
-  alert("تم إرسال الكتاب '" + title + "' للنشر بنجاح! 🚀");
+// تحديث إحصائيات صفحة "أنا"
+function updateStats(){
+  document.getElementById('statMyList').innerText = db.length;
+  document.getElementById('statCompleted').innerText = db.filter(b => b.status === 'completed').length;
+  document.getElementById('statReading').innerText = db.filter(b => b.status === 'reading').length;
 }
 
 // الوضع الليلي
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
 }
-
-// ستايل الوضع الليلي
-const style = document.createElement('style');
-style.innerHTML = `
-.dark-mode {
-  background: #121212 !important;
-  color: #eee !important;
+function changeTheme(){
+  alert("ميزة تغيير الألوان قيد التطوير 👑");
 }
-.dark-mode .main-header {
-  background: linear-gradient(135deg, #000, #333);
-}
-.dark-mode .nav-bar {
-  background: rgba(0,0,0,0.9);
-}
-`;
-document.head.appendChild(style);
-// قاعدة بيانات أولية
-let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-  { title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false, status: "reading" },
-  { title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Riyad", fav: false, status: "completed" }
-];
-
-// عند تحميل الصفحة
-window.onload = () => {
-  render(); 
-  renderLists();
-  renderAuthors();
-};
-
-// التنقل بين الصفحات
-function nav(id, btn){
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  document.getElementById(id).classList.add('active-section');
-  btn.classList.add('active');
+function changeFontSize(){
+  document.body.style.fontSize = "18px";
 }
 
-// عرض الكتب
-function render(data = db, target = 'mainGrid') {
-  const grid = document.getElementById(target);
-  grid.innerHTML = '';
-  data.forEach((book, i) => {
-    grid.innerHTML += `
-      <div class="book
-// قاعدة بيانات أولية
-let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-  { title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false, status: "reading" },
-  { title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF
+// إدارة قائمتي
+function manageMyList(){
+  alert("ميزة إدارة قائمتي قيد التطوير 👑");
+}
+function manageAuthors(){
+  alert("ميزة إدارة المؤلفين المفضلين قيد التطوير 👑");
+}
+
+// رفع الملفات (لوحة المالك)
+function handleFile(file, type){
+  if(file){
+    if(type === 'cover'){
+      document.getElementById('coverStatus').innerText = "تم اختيار الغلاف: " + file.name;
+    } else {
+      document.getElementById('fileStatus').innerText = "تم اختيار الملف: " + file.name;
+    }
+  }
+}
+function handleDrop(e, type){
+  e.preventDefault();
+  handleFile(e.dataTransfer.files[0], type);
+}
+function handleDragOver(e){
+  e.preventDefault();
+}
+function publishBook(){
+  const title = document.getElementById('ownerCode').value;
+  if(title){
+    db.push({title, author:"غير معروف", cover:"https://via.placeholder.com/200x300/D4AF37/white?text="+title, fav:false, status:"reading"});
+    saveDB();
+    render();
+    renderLists();
+    renderAuthors();
+    updateStats();
+    alert("تم نشر الكتاب بنجاح 🚀");
+  }
+}
