@@ -15,7 +15,7 @@
 
 <!-- البحث -->
 <div class="search-area">
-  <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتب أو الرموز..." onkeyup="liveSearch()">
+  <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="liveSearch()">
 </div>
 
 <main>
@@ -25,10 +25,39 @@
     <div class="book-grid" id="mainGrid"></div>
   </section>
 
-  <!-- كتبي -->
+  <!-- قائمتي -->
   <section id="mylist" class="page-section">
-    <h3>📖 كتبي</h3>
-    <div class="book-grid" id="mylistGrid"></div>
+    <h3>📖 قائمتي</h3>
+
+    <!-- ورد يومي -->
+    <div class="daily-ward">
+      <h4>📅 وردي اليومي</h4>
+      <p id="wardText">لم يتم تحديد ورد بعد.</p>
+      <button onclick="setWard()">تحديد ورد</button>
+    </div>
+
+    <!-- المؤلفون -->
+    <div class="authors">
+      <h4>👨‍🏫 المؤلفون</h4>
+      <ul id="authorList"></ul>
+    </div>
+
+    <!-- حالة القراءة -->
+    <div class="reading-status">
+      <h4>📊 حالة القراءة</h4>
+      <div>
+        <h5>قيد القراءة</h5>
+        <div class="book-grid" id="readingGrid"></div>
+      </div>
+      <div>
+        <h5>مكتملة</h5>
+        <div class="book-grid" id="completedGrid"></div>
+      </div>
+      <div>
+        <h5>مفضلة</h5>
+        <div class="book-grid" id="favGrid"></div>
+      </div>
+    </div>
   </section>
 
   <!-- أنا -->
@@ -42,14 +71,41 @@
   <!-- الإعدادات -->
   <section id="settings" class="page-section">
     <h3>⚙️ الإعدادات</h3>
-    <button onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</button>
-    <div class="bot-link">
-      <p>📬 لطلب الكتب أو المساعدة عبر تليجرام:</p>
-      <a href="https://t.me/Tibyan_Library2_bot" target="_blank" class="bot-btn">
-        <i class="fab fa-telegram"></i> @Tibyan_Library2_bot
-      </a>
+
+    <div class="setting-group">
+      <h4>🎨 المظهر والواجهة</h4>
+      <button onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</button>
+      <button onclick="changeTheme()">🎨 تغيير الألوان</button>
+      <button onclick="changeFontSize()">🔠 تغيير حجم الخط</button>
     </div>
-    <div class="dev-credit">تم بإنشاء المطور<br><b>أحمد محمد محمد علي / حيزوم</b></div>
+
+    <div class="setting-group">
+      <h4>👤 إدارة الحساب</h4>
+      <button>تعديل الملف الشخصي</button>
+      <button>تغيير كلمة المرور</button>
+      <button>إدارة البريد الإلكتروني</button>
+    </div>
+
+    <div class="setting-group">
+      <h4>📖 المكتبة الشخصية</h4>
+      <button onclick="manageMyList()">إدارة قائمتي</button>
+      <button onclick="setWard()">📅 إعداد ورد يومي</button>
+      <button onclick="manageAuthors()">👨‍🏫 إدارة المؤلفين المفضلين</button>
+    </div>
+
+    <div class="setting-group">
+      <h4>🔔 الإشعارات</h4>
+      <button>تفعيل/إيقاف إشعارات الكتب الجديدة</button>
+      <button>📅 تذكير بالورد اليومي</button>
+      <button>⭐ تنبيه عند إضافة كتاب من مؤلف مفضل</button>
+    </div>
+
+    <div class="setting-group">
+      <h4>🛠️ الدعم والمطور</h4>
+      <button>📖 دليل الاستخدام</button>
+      <button>تواصل مع الدعم الفني</button>
+      <p class="dev-credit">تم برمجة المطور<br><b>أحمد محمد محمد علي / حيزوم</b></p>
+    </div>
   </section>
 
   <!-- لوحة المالك -->
@@ -75,7 +131,7 @@
 <!-- القائمة السفلية -->
 <nav class="nav-bar">
   <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i>الرئيسية</button>
-  <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list"></i>كتبي</button>
+  <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-list"></i>قائمتي</button>
   <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i>أنا</button>
   <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i>الإعدادات</button>
   <button id="owner-nav-btn" class="nav-item" onclick="nav('owner', this)"><i class="fas fa-user-shield"></i>المالك</button>
