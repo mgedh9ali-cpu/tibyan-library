@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبيان - النسخة الملكية</title>
+    <title>تبيان - مكتبة حيزوم الملكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -11,59 +11,54 @@
 <body>
 
 <div id="splash">
-    <h1 class="royal-title">تبيان</h1>
+    <h1 class="royal-font">تبيان</h1>
     <p>مكتبة رقمية ملكية</p>
 </div>
 
 <header class="main-header">
-    <h1>تبيان</h1>
+    <h2 class="royal-font">تبيان</h2>
 </header>
 
 <div class="search-area">
-    <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب، مؤلف، أو رمز..." onkeyup="liveSearch()">
+    <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتب أو رموز..." onkeyup="liveSearch()">
 </div>
 
 <main>
     <section id="home" class="page-section active-section">
-        <h3 class="section-title"><i class="fas fa-crown"></i> المكتبة العامة</h3>
+        <h3>📚 المكتبة العامة</h3>
         <div class="book-grid" id="mainGrid"></div>
     </section>
 
     <section id="mylist" class="page-section">
-        <h3 class="section-title"><i class="fas fa-book"></i> رفوفي الخاصة</h3>
+        <h3>📖 كتبي المفضلة</h3>
         <div class="book-grid" id="favGrid"></div>
+        <div class="reading-status">
+            <h4>⏳ قيد القراءة</h4>
+            <div class="book-grid" id="readingGrid"></div>
+        </div>
     </section>
 
     <section id="me" class="page-section">
-        <div class="profile-card">
-            <i class="fas fa-user-shield avatar"></i>
-            <h2>حيزوم</h2>
-            <p>طالب علم شرعي وعلمي</p>
-            <div class="stats-container">
-                <div class="stat-box">📖 الكتب: <span id="statMyList">0</span></div>
-                <div class="stat-box">✅ المكتملة: <span id="statCompleted">0</span></div>
+        <div class="profile">
+            <i class="fas fa-user-circle avatar"></i>
+            <h2 id="username">حيزوم</h2>
+            <div class="stats">
+                <p>📖 الإجمالي: <span id="statMyList">0</span></p>
+                <p>✅ المكتملة: <span id="statCompleted">0</span></p>
             </div>
         </div>
     </section>
 
     <section id="settings" class="page-section">
-        <h3 class="section-title"><i class="fas fa-sliders-h"></i> التحكم</h3>
-        <div class="setting-item" onclick="toggleDarkMode()">
-            <span>🌙 الوضع الليلي</span>
-            <i class="fas fa-chevron-left"></i>
-        </div>
-        <div class="dev-info">
-            <p>تم البرمجة بواسطة المطور</p>
-            <p class="dev-name">أحمد محمد محمد علي (حيزوم)</p>
-        </div>
+        <h3>⚙️ الإعدادات</h3>
+        <button class="publish-btn" onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</button>
+        <p class="dev-credit">برمجة وتطوير المطور: <br><b>أحمد محمد محمد علي / حيزوم</b></p>
     </section>
 
     <section id="owner" class="page-section">
-        <h3 class="section-title"><i class="fas fa-lock"></i> لوحة المالك</h3>
-        <div class="owner-form">
-            <input type="text" id="ownerBookTitle" class="search-bar" placeholder="عنوان الكتاب الجديد">
-            <button class="royal-btn" onclick="publishBook()">نشر في المكتبة 🚀</button>
-        </div>
+        <h3>🛠 لوحة التحكم - إضافة كتب</h3>
+        <input type="text" id="ownerCode" class="search-bar" placeholder="اسم الكتاب">
+        <button class="publish-btn" onclick="publishBook()">نشر الكتاب فوراً 🚀</button>
     </section>
 </main>
 
@@ -73,7 +68,7 @@
         <span>الرئيسية</span>
     </button>
     <button class="nav-item" onclick="nav('mylist', this)">
-        <i class="fas fa-th-list"></i>
+        <i class="fas fa-list-ul"></i>
         <span>كتبي</span>
     </button>
     <button class="nav-item" onclick="nav('me', this)">
@@ -84,7 +79,7 @@
         <i class="fas fa-cog"></i>
         <span>الإعدادات</span>
     </button>
-    <button id="ownerNavBtn" class="nav-item secret-item" onclick="nav('owner', this)" style="display: none;">
+    <button id="ownerNavBtn" class="nav-item" onclick="nav('owner', this)" style="display: none;">
         <i class="fas fa-user-shield"></i>
         <span>المالك</span>
     </button>
