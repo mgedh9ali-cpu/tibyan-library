@@ -1,8 +1,9 @@
 :root {
-  --p: #3E2723; /* بني */
-  --g: #D4AF37; /* ذهبي */
-  --bg: #F4F1EA; /* ورق قديم */
+  --p: #3E2723;
+  --g: #D4AF37;
+  --bg: #F4F1EA;
   --w: #ffffff;
+  --gray: #999;
 }
 
 /* خلفية متحركة */
@@ -14,6 +15,7 @@ body {
   animation: gradientMove 12s ease infinite;
   opacity: 0;
   animation: fadeInBody 1.2s ease forwards;
+  padding-bottom: 110px;
 }
 @keyframes gradientMove {
   0% {background-position: 0% 50%;}
@@ -36,48 +38,21 @@ body {
 
 /* الهيدر */
 .main-header {
-  background: linear-gradient(135deg, var(--p), var(--g));
+  background: var(--p);
   color: white; padding: 45px 20px; text-align: center;
   border-radius: 0 0 40px 40px; position: relative;
-  animation: headerZoom 1s ease forwards;
 }
-@keyframes headerZoom {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.header-logo-img { width: 80px; background: var(--w); padding: 5px; border-radius: 15px; margin-bottom: 10px; }
+.header-logo-img { position: absolute; top: 50%; right: 25px; transform: translateY(-50%); width: 60px; }
 
-/* زر البوت */
-.bot-btn {
-  display:inline-block; padding:12px 25px; background:#0088cc; color:white;
-  border-radius:12px; text-decoration:none; font-weight:bold; font-size:16px;
-  transition:0.3s;
-}
-.bot-btn:hover { background:#006699; }
+/* البحث */
+.search-area { padding: 15px 20px; background: var(--bg); position: sticky; top:0; z-index:100; }
+.search-bar { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--p); outline: none; }
 
-/* قسم الأصوات */
-.sound-section { margin-top:20px; background:#fff3; padding:15px; border-radius:10px; }
-.sound-section h4 { color:var(--p); }
+/* الأقسام */
+.page-section { display: none; padding: 20px; animation: fadeIn 0.4s; }
+.active-section { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* القائمة السفلية */
-.nav-bar {
-  position: fixed; bottom: 0; width: 100%;
-  background: rgba(62,39,35,0.95);
-  display: flex; justify-content: space-around;
-  padding: 12px 0; z-index: 1000;
-  backdrop-filter: blur(6px);
-}
-.nav-item {
-  background: none; border: none; color: var(--w);
-  display: flex; flex-direction: column; align-items: center;
-  gap: 5px; cursor: pointer; transition: 0.3s;
-}
-.nav-item i { font-size: 22px; }
-.nav-item.active { color: var(--g); transform: scale(1.1); }
-.nav-item:hover { color: var(--g); }
-
-/* النص الثابت */
-.dev-credit {
-  text-align: center; margin-top: 40px; padding: 20px;
-  border-top: 1px solid #eee; color: #999; font-size: 13px;
-}
+/* شبكة الكتب */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+.book-card { background: var(--w); border-radius: 15px; padding: 10px
