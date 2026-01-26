@@ -110,3 +110,31 @@ style.innerHTML = `
 }
 `;
 document.head.appendChild(style);
+// قاعدة بيانات أولية
+let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
+  { title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=Zad", fav: false, status: "reading" },
+  { title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=Riyad", fav: false, status: "completed" }
+];
+
+// عند تحميل الصفحة
+window.onload = () => {
+  render(); 
+  renderLists();
+  renderAuthors();
+};
+
+// التنقل بين الصفحات
+function nav(id, btn){
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById(id).classList.add('active-section');
+  btn.classList.add('active');
+}
+
+// عرض الكتب
+function render(data = db, target = 'mainGrid') {
+  const grid = document.getElementById(target);
+  grid.innerHTML = '';
+  data.forEach((book, i) => {
+    grid.innerHTML += `
+      <div class="book
