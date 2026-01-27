@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبيان - النسخة الملكية النهائية</title>
+    <title>تبيان - النسخة الملكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -18,22 +18,25 @@
     </div>
 </div>
 
-<header class="main-header"><h1 class="royal-font">تبيان</h1></header>
+<header class="main-header">
+    <h1 class="royal-font">تبيان</h1>
+    <div id="dailyQuoteDisplay" class="daily-quote-box">"بوابة العلم والتحصيل"</div>
+</header>
 
-<main id="appContent">
+<main>
     <section id="home" class="page-section active-section">
         <div class="search-area">
-            <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو سر..." onkeyup="liveSearch()">
+            <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="liveSearch()">
         </div>
         <div class="royal-label">✨ المضافة حديثاً</div>
         <div class="book-grid-horizontal" id="recentGrid"></div>
         <div class="royal-label">🏛️ المكتبة العامة</div>
-        <div class="book-grid" id="mainGrid"></div>
+        <div id="mainGrid" class="book-grid"></div>
     </section>
 
     <section id="mylist" class="page-section">
-        <div class="glass-card ward-box">
-            <h4>📅 إعداد الورد اليومي</h4>
+        <div class="glass-card">
+            <h4>📅 وردي اليومي</h4>
             <div class="progress-bar"><div id="wardFill" class="fill"></div></div>
             <div class="ward-controls">
                 <input type="number" id="pageInput" placeholder="الصفحات">
@@ -41,94 +44,44 @@
             </div>
         </div>
         <div class="tabs-royal">
-            <button class="tab-btn active" onclick="filterBooks('reading', this)">📖 قيد القراءة</button>
-            <button class="tab-btn" onclick="filterBooks('completed', this)">✅ مكتملة</button>
-            <button class="tab-btn" onclick="filterBooks('fav', this)">⭐ المفضلة</button>
+            <button class="tab-btn active" onclick="navTab('reading', this)">📖 قيد القراءة</button>
+            <button class="tab-btn" onclick="navTab('completed', this)">✅ مكتملة</button>
         </div>
         <div id="listGrid" class="book-grid"></div>
     </section>
 
-    <section id="me" class="page-section">
-        <div class="glass-card profile-card">
-            <div class="avatar-edit">
-                <div class="avatar-ring"><i class="fas fa-user-shield"></i></div>
-                <button class="edit-icon"><i class="fas fa-camera"></i></button>
+    <section id="owner" class="page-section">
+        <div class="glass-card">
+            <h3 class="royal-font">⚙️ لوحة التحكم</h3>
+            <div class="input-group">
+                <label>تغيير حكمة اليوم:</label>
+                <input type="text" id="newQuote" class="search-bar" placeholder="اكتب حكمة اليوم هنا...">
+                <button class="gold-btn-full" onclick="updateDailyQuote()">تحديث الحكمة ✍️</button>
             </div>
-            <h2 id="userNameDisplay">حيزوم</h2>
-            <p class="user-bio">محب للكتب التراثية | طالب ثنوي شرعي</p>
-            
-            <div class="stats-grid">
-                <div class="stat-item"><b>12</b><br><small>أضفتها</small></div>
-                <div class="stat-item"><b>5</b><br><small>قرأتها</small></div>
-                <div class="stat-item"><b>120</b><br><small>ساعة قراءة</small></div>
-            </div>
-
-            <div class="achievements">
-                <h4>🏅 الإنجازات والشارات</h4>
-                <div class="badge-row">
-                    <span class="badge" title="قارئ نشيط">🔥</span>
-                    <span class="badge" title="أكمل 5 كتب">🏆</span>
-                    <span class="badge" title="صديق المكتبة">📚</span>
-                </div>
-            </div>
-
-            <div class="notes-section">
-                <h4>📝 ملاحظاتي ومقتطفاتي</h4>
-                <textarea placeholder="احفظ هنا درراً أعجبتك..."></textarea>
-                <button class="gold-btn-sm">حفظ الملاحظة</button>
-            </div>
+            <hr>
+            <input type="text" id="ownerT" class="search-bar" placeholder="عنوان الكتاب">
+            <input type="text" id="ownerA" class="search-bar" placeholder="المؤلف">
+            <button class="gold-btn-full" onclick="publishBook()">نشر كتاب جديد 🚀</button>
         </div>
     </section>
 
     <section id="settings" class="page-section">
-        <div class="setting-group-title">1. المظهر والواجهة</div>
         <div class="glass-card">
-            <div class="set-row" onclick="toggleDarkMode()"><span>🌙 الوضع الليلي / النهاري</span><i class="fas fa-toggle-on"></i></div>
-            <div class="set-row"><span>🎨 تغيير ألوان الواجهة</span><i class="fas fa-palette"></i></div>
-            <div class="set-row"><span>🔠 تغيير حجم الخط</span><i class="fas fa-font"></i></div>
-        </div>
-
-        <div class="setting-group-title">2. إدارة الحساب</div>
-        <div class="glass-card">
-            <div class="set-row"><span>👤 تعديل الملف الشخصي</span><i class="fas fa-chevron-left"></i></div>
-            <div class="set-row"><span>🔑 تغيير كلمة المرور</span><i class="fas fa-chevron-left"></i></div>
-            <div class="set-row"><span>📧 البريد والهاتف</span><i class="fas fa-chevron-left"></i></div>
-        </div>
-
-        <div class="setting-group-title">3. الإشعارات</div>
-        <div class="glass-card">
-            <div class="set-row"><span>🔔 إشعارات الكتب الجديدة</span><input type="checkbox" checked></div>
-            <div class="set-row"><span>📅 تذكير بالورد اليومي</span><input type="checkbox" checked></div>
-            <div class="set-row"><span>⭐ تنبيهات المؤلفين</span><input type="checkbox"></div>
-        </div>
-
-        <div class="setting-group-title">4. الدعم والمطور</div>
-        <div class="glass-card">
-            <div class="set-row"><span>📖 دليل الاستخدام</span><i class="fas fa-book-open"></i></div>
-            <div class="set-row"><span>🛠️ التواصل مع الدعم</span><i class="fas fa-headset"></i></div>
+            <div class="set-row" onclick="alert('سيعمل قريباً!')"><span>🌙 الوضع الليلي</span><i class="fas fa-moon"></i></div>
+            <div class="set-row"><span>🎨 تغيير الألوان</span><i class="fas fa-palette"></i></div>
             <div class="dev-box">
-                <p>عن المطور: <b>أحمد محمد محمد علي</b></p>
-                <small>التوقيع الملكي: حيزوم 👑</small>
+                <p>تم البرمجة بواسطة المطور:</p>
+                <b>أحمد محمد محمد علي (حيزوم)</b>
             </div>
-        </div>
-    </section>
-
-    <section id="owner" class="page-section">
-        <div class="glass-card">
-            <h3>🛠️ إضافة مادة جديدة</h3>
-            <input type="text" placeholder="العنوان" id="ownerT">
-            <input type="text" placeholder="المؤلف" id="ownerA">
-            <button class="gold-btn-full" onclick="publishBook()">نشر في تبيان 🚀</button>
         </div>
     </section>
 </main>
 
 <nav class="nav-bar">
-    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
-    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
-    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
-    <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
-    <button id="ownerNavBtn" class="nav-item" style="display:none;" onclick="nav('owner', this)"><i class="fas fa-crown"></i><span>المالك</span></button>
+    <button class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
+    <button class="nav-item" onclick="showPage('mylist', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
+    <button class="nav-item" onclick="showPage('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
+    <button id="ownerNavBtn" class="nav-item" style="display:none;" onclick="showPage('owner', this)"><i class="fas fa-crown"></i><span>المالك</span></button>
 </nav>
 
 <script src="app.js"></script>
