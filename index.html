@@ -10,7 +10,7 @@
 </head>
 <body class="royal-bg">
 
-  <!-- شاشة البداية -->
+  <!-- شاشة البداية الملكية -->
   <div id="splash" class="splash">
     <div class="splash-overlay">
       <h1 class="royal-font logo-anim">تبيان</h1>
@@ -18,16 +18,15 @@
     </div>
   </div>
 
-  <!-- الهيدر -->
-  <header class="main-header">
-    <h1 class="royal-font">تبيان</h1>
-    <div id="dailyQuoteDisplay" class="daily-quote-box">بوابة العلم والتحصيل</div>
-  </header>
-
+  <!-- المحتوى الرئيسي -->
   <main id="mainContent">
     
     <!-- [1] الصفحة الرئيسية -->
     <section id="home" class="page-section active-section">
+      <header class="main-header">
+        <h1 class="royal-font">تبيان</h1>
+        <div class="daily-quote">بوابة العلم والتحصيل</div>
+      </header>
       <div class="search-area">
         <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
       </div>
@@ -37,82 +36,62 @@
 
     <!-- [2] مكتبتي (قائمتي + الورد اليومي) -->
     <section id="mylist" class="page-section">
-      
-      <!-- ميزة الورد اليومي الجديدة -->
+      <h2 class="section-title">📖 مكتبتي الخاصة</h2>
       <div class="stat-card ward-card">
         <h3>📅 وردي اليومي</h3>
         <p id="wardText">لم يتم تحديد ورد بعد.</p>
         <div class="ward-progress-container" id="wardProgressContainer" style="display:none;">
           <div class="progress-bar"><div id="wardBar" class="progress-fill"></div></div>
-          <small id="wardProgressText">قرأت 0 من 0</small>
         </div>
-        <div class="ward-btns">
-          <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
-          <button id="addPagesBtn" class="gold-btn-sm" onclick="addProgress()" style="display:none;">إضافة صفحات +</button>
-        </div>
-      </div>
-
-      <!-- إحصائيات الإنجاز -->
-      <div class="stats-grid">
-        <div class="stat-box"><h4>مجلداتي</h4><span id="statTotal">0</span></div>
-        <div class="stat-box"><h4>مكتملة</h4><span id="statDone">0</span></div>
-      </div>
-
-      <!-- تبويبات الحالة -->
-      <div class="status-tabs">
-        <button class="tab-btn active" onclick="filterMylist('reading', this)">📖 قيد القراءة</button>
-        <button class="tab-btn" onclick="filterMylist('completed', this)">✅ مكتملة</button>
+        <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
       </div>
       <div id="mylistGrid" class="book-grid"></div>
     </section>
 
-    <!-- [3] صفحة أنا (آخر نشاط) -->
+    <!-- [3] صفحة أنا -->
     <section id="me" class="page-section">
-      <div class="profile-header">
+      <div class="profile-card">
         <i class="fas fa-user-circle avatar"></i>
         <h3 id="profileName">حيزوم</h3>
-      </div>
-      <div class="activity-card">
-        <h3>🕒 آخر نشاط</h3>
-        <p id="lastActivity">مرحباً بك في عالم تبيان..</p>
+        <p>قارئ ملكي متميز</p>
       </div>
     </section>
 
     <!-- [4] الإعدادات -->
     <section id="settings" class="page-section">
-      <h2 class="section-title">⚙️ التحكم</h2>
+      <h2 class="section-title">⚙️ الإعدادات</h2>
       <div class="setting-item" onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</div>
     </section>
   </main>
 
-  <!-- القارئ الملكي (رفقاء القراءة الأربعة) -->
+  <!-- القارئ الملكي (Overlay) -->
   <div id="readerOverlay" class="reader-overlay hidden">
     <div class="reader-header">
-       <button class="back-btn" onclick="closeReader()"><i class="fas fa-arrow-right"></i></button>
+       <button class="back-btn" onclick="closeReader()"><i class="fas fa-chevron-right"></i></button>
        <h2 id="readerTitle" class="royal-font"></h2>
     </div>
     <iframe id="bookFrame" src=""></iframe>
-    <div class="reader-toolbar">
-       <div class="voice-selector">
-          <button onclick="selectVoice('warraq')">الورّاق</button>
-          <button onclick="selectVoice('night')">الليلي</button>
-          <button onclick="selectVoice('researcher')">الباحث</button>
-          <button onclick="selectVoice('friend')">الصديق</button>
-       </div>
-       <div class="reader-actions">
-          <button onclick="playSample()">العينة</button>
-          <button onclick="playFull()" class="gold-btn">الكامل</button>
-          <button onclick="toggleAudio()"><i class="fas fa-play" id="playIcon"></i></button>
-       </div>
-    </div>
+    <!-- لوحة التحكم في الأصوات والتقدم تظهر هنا -->
   </div>
 
-  <!-- الشريط السفلي -->
+  <!-- 🎨 الشريط السفلي المطور (Navigation Bar) -->
   <nav class="nav-bar">
-    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
-    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-reader"></i><span>مكتبتي</span></button>
-    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
-    <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
+    <button class="nav-item active" onclick="nav('home', this)">
+      <i class="fas fa-home"></i>
+      <span>الرئيسية</span>
+    </button>
+    <button class="nav-item" onclick="nav('mylist', this)">
+      <i class="fas fa-book-open"></i>
+      <span>مكتبتي</span>
+    </button>
+    <button class="nav-item" onclick="nav('me', this)">
+      <i class="fas fa-user"></i>
+      <span>أنا</span>
+    </button>
+    <button class="nav-item" onclick="nav('settings', this)">
+      <i class="fas fa-cog"></i>
+      <span>الإعدادات</span>
+    </button>
   </nav>
 
   <script src="app.js"></script>
