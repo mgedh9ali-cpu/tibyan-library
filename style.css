@@ -1,41 +1,66 @@
 :root {
   --primary: #2C1B18; /* بني ملكي */
   --gold: #D4AF37;    /* ذهبي */
-  --bg: #FDFCF9;
-  --white: #ffffff;
+  --bg-gradient: radial-gradient(circle at center, #3E2723, #1A0F0E);
+  --glass-bg: rgba(255, 255, 255, 0.92); /* خلفية الشريط الزجاجية */
 }
 
-body { margin:0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--primary); padding-bottom: 80px; }
+body { margin:0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg-gradient); color: #FDFCF9; padding-bottom: 85px; min-height: 100vh; }
 .royal-font { font-family: 'Amiri', serif; }
 
-/* شاشة البداية */
-.splash { position:fixed; inset:0; background:var(--primary); z-index:3000; display:flex; align-items:center; justify-content:center; transition: 0.5s; }
-.logo-anim { color:var(--gold); font-size:45px; }
+/* 🎨 تنسيق الشريط السفلي المطور */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: var(--glass-bg);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  z-index: 1000;
+  backdrop-filter: blur(10px); /* تأثير التغبيش */
+}
 
-/* كرت الورد اليومي المطور */
-.ward-card { background: var(--white); margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
-.ward-btns { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-.progress-bar { background: #eee; height: 10px; border-radius: 5px; margin: 10px 0; overflow: hidden; }
-.progress-fill { background: var(--gold); height: 100%; width: 0%; transition: 0.5s; }
+.nav-item {
+  background: none;
+  border: none;
+  color: #888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1;
+}
 
-/* الهيدر */
-.main-header { background: linear-gradient(135deg, var(--primary), var(--gold)); color:white; padding:15px; text-align:center; border-radius:0 0 20px 20px; }
+.nav-item i { font-size: 20px; }
+.nav-item span { font-size: 11px; font-weight: 600; }
 
-/* البحث والشبكة */
-.search-bar { width: 90%; margin: 15px auto; display: block; padding: 12px; border-radius: 25px; border: 1px solid #ddd; outline: none; }
-.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 15px; }
-.book-card { background: white; padding: 10px; border-radius: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.03); }
-.book-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+/* حالة الزر النشط */
+.nav-item.active {
+  color: var(--gold);
+  transform: translateY(-5px) scale(1.1);
+}
 
-/* الشريط السفلي */
-.nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-.nav-item { flex: 1; border: none; background: none; color: #888; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-.nav-item.active { color: var(--gold); }
+.nav-item.active i {
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
 
-/* القارئ */
-.reader-overlay { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; }
-iframe { flex: 1; border: none; }
-.reader-toolbar { background: #f9f9f9; padding: 15px; border-top: 1px solid #eee; }
+/* بطاقات الكتب */
+.book-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  padding: 12px;
+  border-radius: 15px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
 
 .hidden { display: none !important; }
-.gold-btn-sm { background: var(--gold); color: white; border: none; padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; }
+.page-section { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+.active-section { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
