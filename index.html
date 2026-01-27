@@ -1,160 +1,86 @@
-<!--
-  ملف: index.html
-  الغرض: الهيكل الكامل لتطبيق "تبيان" (دعم RTL)
-  جميع الأقسام منظمة وفق منهجية BEM
-  جميع النصوص والعناصر تدعم اللغة العربية واتجاه النص من اليمين إلى اليسار
--->
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تبيان - مكتبتك الرقمية الملكية</title>
-  <!-- استيراد الخطوط العربية -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-  <!-- استيراد ملف الأنماط الملكية -->
+  <title>تبيان - النسخة الملكية</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="app app--theme-light">
-
-  <!-- شعار تبيان في الهيدر -->
-  <header class="header">
-    <div class="header__logo">
-      <img src="assets/logo-tibyan.svg" alt="شعار تبيان" class="logo logo--main">
-    </div>
-    <div class="header__search">
-      <input type="search" class="search-bar" placeholder="ابحث عن كتاب، مؤلف، أو تصنيف...">
-      <button class="search-bar__btn" aria-label="بحث"><span class="icon icon--search"></span></button>
-    </div>
+<body>
+  <!-- الشريط العلوي -->
+  <header class="main-header">
+    <h1 class="royal-font">📚 تبيان</h1>
+    <input id="searchField" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
   </header>
 
   <!-- الصفحة الرئيسية -->
-  <main class="main">
-    <!-- قسم التوصيات الذكية -->
-    <section class="recommendations">
-      <h2 class="section-title">اقتراحات لك</h2>
-      <div class="recommendations__list" id="recommendations-list">
-        <!-- يتم تعبئة التوصيات ديناميكياً عبر JS -->
-      </div>
-    </section>
-
-    <!-- عرض الكتب المميزة -->
-    <section class="featured-books">
-      <h2 class="section-title">كتب مميزة</h2>
-      <div class="books-grid" id="featured-books">
-        <!-- يتم تعبئة الكتب ديناميكياً عبر JS -->
-      </div>
-    </section>
-  </main>
-
-  <!-- مكتبتي -->
-  <section class="library" id="library-section" hidden>
-    <h2 class="section-title">مكتبتي</h2>
-    <div class="library__controls">
-      <button class="btn btn--primary" id="add-book-btn">إضافة كتاب</button>
-      <select class="library__filter" id="library-filter">
-        <option value="all">الكل</option>
-        <option value="reading">جاري القراءة</option>
-        <option value="completed">تمت القراءة</option>
-        <option value="wishlist">أريد قراءتها</option>
-      </select>
-    </div>
-    <div class="library__list" id="library-list">
-      <!-- يتم تعبئة قائمة الكتب عبر JS -->
-    </div>
+  <section id="home" class="page-section active-section">
+    <h2 class="section-title">✨ اكتشف جديدنا</h2>
+    <div id="mainGrid" class="book-grid"></div>
+    <h2 class="section-title">🔥 الأكثر قراءة</h2>
+    <div id="popularGrid" class="book-grid"></div>
+    <h2 class="section-title">📅 كتاب اليوم</h2>
+    <div id="dailyBook" class="book-card"></div>
   </section>
 
-  <!-- صفحة "أنا" -->
-  <section class="profile" id="profile-section" hidden>
-    <div class="profile__card">
-      <img src="assets/user-avatar.svg" alt="صورة المستخدم" class="profile__avatar">
-      <div class="profile__info">
-        <h3 class="profile__name" id="user-name">اسم المستخدم</h3>
-        <p class="profile__stats">
-          <span id="books-read">0</span> كتاب مقروء |
-          <span id="reading-hours">0</span> ساعة قراءة
-        </p>
-        <button class="btn btn--secondary" id="achievements-btn">إنجازاتي</button>
-      </div>
+  <!-- مكتبتي -->
+  <section id="mylist" class="page-section">
+    <h2 class="section-title">📖 مكتبتي الخاصة</h2>
+    <div class="ward-card">
+      <h3>📅 وردي اليومي</h3>
+      <p id="wardText">حدد هدفك لنبدأ..</p>
+      <button onclick="setWard()">تحديد ورد</button>
     </div>
-    <div class="profile__achievements" id="achievements-list">
-      <!-- يتم تعبئة الإنجازات عبر JS -->
+    <h3>⭐ مفضلة</h3><div id="favoritesGrid" class="book-grid"></div>
+    <h3>📚 قيد القراءة</h3><div id="readingGrid" class="book-grid"></div>
+    <h3>✅ مكتملة</h3><div id="doneGrid" class="book-grid"></div>
+  </section>
+
+  <!-- أنا -->
+  <section id="me" class="page-section">
+    <div class="profile-card">
+      <div class="avatar-circle" onclick="changeAvatar()"><i class="fas fa-user"></i></div>
+      <h2 id="meName" class="royal-font"></h2>
+      <div class="user-stats">
+        <div class="stat"><span id="statBooks">0</span><small>كتاب</small></div>
+        <div class="stat"><span id="statDone">0</span><small>مكتمل</small></div>
+        <div class="stat"><span id="statFav">0</span><small>مفضلة</small></div>
+      </div>
+      <div class="last-activity"><h3>📅 آخر نشاط</h3><p id="lastActivity">لا يوجد نشاط بعد.</p></div>
     </div>
   </section>
 
   <!-- الإعدادات -->
-  <section class="settings" id="settings-section" hidden>
-    <h2 class="section-title">الإعدادات</h2>
-    <div class="settings__group">
-      <label class="switch">
-        <input type="checkbox" id="theme-toggle">
-        <span class="slider"></span>
-        الوضع الليلي
-      </label>
-      <label>
-        <span>الثيم:</span>
-        <select id="theme-select">
-          <option value="royal">ملكي</option>
-          <option value="classic">كلاسيكي</option>
-          <option value="modern">حديث</option>
-        </select>
-      </label>
-      <label>
-        <span>حجم الخط:</span>
-        <input type="range" id="font-size-range" min="14" max="24" value="16">
-      </label>
-      <label>
-        <input type="checkbox" id="smart-recommendations-toggle" checked>
-        تفعيل الاقتراحات الذكية
-      </label>
+  <section id="settings" class="page-section">
+    <h2 class="section-title">⚙️ الإعدادات</h2>
+    <div class="setting-list">
+      <div class="setting-item" onclick="toggleDarkMode()">🌙 المظهر الليلي</div>
+      <div class="setting-item" onclick="changeTheme()">🎨 تغيير الألوان</div>
+      <div class="setting-item" onclick="changeFontSize()">🔠 حجم الخط</div>
+      <div class="setting-item" onclick="editProfile()">👤 تعديل الملف الشخصي</div>
+      <div class="setting-item" onclick="manageLibrary()">📖 إدارة قائمتي</div>
+      <div class="setting-item" onclick="setWard()">📅 إعداد ورد يومي</div>
+      <div class="setting-item" onclick="toggleNotifications()">🔔 الإشعارات</div>
+      <div class="setting-item" onclick="exportQuotes()">📤 تصدير الاقتباسات</div>
+      <div class="setting-item" onclick="logout()">🚪 تسجيل الخروج</div>
     </div>
   </section>
 
-  <!-- القارئ -->
-  <section class="reader" id="reader-section" hidden>
-    <div class="reader__toolbar">
-      <button class="reader__btn" id="zoom-in-btn" aria-label="تكبير"><span class="icon icon--zoom-in"></span></button>
-      <button class="reader__btn" id="zoom-out-btn" aria-label="تصغير"><span class="icon icon--zoom-out"></span></button>
-      <button class="reader__btn" id="highlight-btn" aria-label="تظليل نص"><span class="icon icon--highlight"></span></button>
-      <button class="reader__btn" id="quote-btn" aria-label="إضافة اقتباس"><span class="icon icon--quote"></span></button>
-      <button class="reader__btn" id="export-btn" aria-label="تصدير"><span class="icon icon--export"></span></button>
-    </div>
-    <div class="reader__content" id="reader-content" tabindex="0" aria-label="نص الكتاب">
-      <!-- يتم عرض نص الكتاب هنا -->
-    </div>
+  <!-- الاقتباسات -->
+  <section id="quotes" class="page-section">
+    <h2 class="section-title">📑 اقتباساتي</h2>
+    <div id="suggestedQuotes" class="quote-list"></div>
+    <div id="quotesList" class="quote-list"></div>
+    <button onclick="exportQuotes()">📤 تصدير الاقتباسات</button>
   </section>
 
-  <!-- قائمة الاقتباسات -->
-  <section class="quotes" id="quotes-section" hidden>
-    <h2 class="section-title">اقتباساتي</h2>
-    <div class="quotes__list" id="quotes-list">
-      <!-- يتم تعبئة الاقتباسات عبر JS -->
-    </div>
-    <button class="btn btn--primary" id="export-quotes-btn">تصدير جميع الاقتباسات مع الشعار</button>
-  </section>
-
-  <!-- الشريط السفلي للتنقل -->
-  <nav class="bottom-nav" aria-label="الشريط السفلي">
-    <button class="bottom-nav__item bottom-nav__item--active" data-section="main" aria-label="الرئيسية">
-      <span class="icon icon--home"></span>
-      <span class="bottom-nav__label">الرئيسية</span>
-    </button>
-    <button class="bottom-nav__item" data-section="library" aria-label="مكتبتي">
-      <span class="icon icon--library"></span>
-      <span class="bottom-nav__label">مكتبتي</span>
-    </button>
-    <button class="bottom-nav__item" data-section="profile" aria-label="أنا">
-      <span class="icon icon--user"></span>
-      <span class="bottom-nav__label">أنا</span>
-    </button>
-    <button class="bottom-nav__item" data-section="settings" aria-label="الإعدادات">
-      <span class="icon icon--settings"></span>
-      <span class="bottom-nav__label">الإعدادات</span>
-    </button>
+  <!-- الشريط السفلي -->
+  <nav class="nav-bar">
+    <button onclick="nav('home', this)">🏠 الرئيسية</button>
+    <button onclick="nav('mylist', this)">📖 مكتبتي</button>
+    <button onclick="nav('me', this)">👤 أنا</button>
+    <button onclick="nav('settings', this)">⚙️ الإعدادات</button>
   </nav>
 
-  <!-- استيراد ملف الوظائف التفاعلية -->
   <script src="app.js"></script>
 </body>
 </html>
