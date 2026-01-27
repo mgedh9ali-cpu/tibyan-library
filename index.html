@@ -10,79 +10,110 @@
 </head>
 <body class="royal-bg">
 
-  <!-- 🚪 بوابة تسجيل الدخول (تظهر لأول مرة فقط) -->
+  <!-- 🚪 بوابة تسجيل الدخول المحاكية -->
   <div id="loginOverlay" class="login-overlay">
     <div class="login-card">
-      <h1 class="royal-font">تبيان</h1>
-      <p>مرحباً بك في بوابة العلم.. يرجى تسجيل الدخول للبدء</p>
+      <h1 class="royal-font logo-login">تبيان</h1>
+      <p>مرحباً بك في رحاب العلم.. يرجى تسجيل الدخول للبدء</p>
       <button class="google-btn" onclick="handleGoogleLogin()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_观察_Icons_2023.svg" width="20">
-        تسجيل الدخول عبر جوجل
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\"G\"_logo.svg" width="20">
+        متابعة باستخدام حساب جوجل
       </button>
     </div>
   </div>
 
-  <!-- شاشة الترحيب باسم المستخدم -->
+  <!-- ✨ شاشة الترحيب الشخصية -->
   <div id="welcomeSplash" class="welcome-splash hidden">
-    <h2 class="royal-font" id="welcomeMessage"></h2>
+    <div class="welcome-content">
+      <h2 class="royal-font" id="welcomeMessage"></h2>
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+    </div>
   </div>
 
-  <!-- المحتوى الرئيسي (يظهر بعد تسجيل الدخول) -->
+  <!-- 📱 محتوى التطبيق الرئيسي -->
   <div id="appContent" class="hidden">
-    <main id="mainContent">
-      
-      <!-- [1] الرئيسية -->
-      <section id="home" class="page-section active-section">
-        <header class="main-header">
-          <h1 class="royal-font">تبيان</h1>
-          <div class="search-area">
-            <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
-          </div>
-        </header>
-        <h2 class="section-title">✨ اكتشف جديدنا</h2>
-        <div id="mainGrid" class="book-grid"></div>
-      </section>
+    
+    <!-- [1] الرئيسية -->
+    <section id="home" class="page-section active-section">
+      <header class="main-header">
+        <h1 class="royal-font">تبيان</h1>
+        <div class="search-area">
+          <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
+        </div>
+      </header>
+      <h2 class="section-title">✨ اكتشف جديدنا</h2>
+      <div id="mainGrid" class="book-grid"></div>
+    </section>
 
-      <!-- [2] مكتبتي -->
-      <section id="mylist" class="page-section">
-        <h2 class="section-title">📖 مكتبتي الخاصة</h2>
-        <div class="ward-card">
-          <p id="wardText">وردك اليومي ينتظرك..</p>
+    <!-- [2] مكتبتي (الورد اليومي) -->
+    <section id="mylist" class="page-section">
+      <h2 class="section-title">📖 مكتبتي الخاصة</h2>
+      <div class="ward-card">
+        <h3>📅 وردي اليومي</h3>
+        <p id="wardText">حدد هدفك اليوم لنبدأ الرحلة..</p>
+        <div id="wardProgressContainer" class="hidden">
+          <div class="progress-bar"><div id="wardBar" class="progress-fill"></div></div>
+          <small id="wardProgressText">0 من 0 صفحات</small>
+        </div>
+        <div class="ward-btns">
           <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
+          <button id="addProgressBtn" class="gold-btn-sm hidden" onclick="addProgress()">إضافة +</button>
         </div>
-        <div id="mylistGrid" class="book-grid"></div>
-      </section>
+      </div>
+      <div id="mylistGrid" class="book-grid"></div>
+    </section>
 
-      <!-- [3] أنا (الملف الشخصي والرسالة الذكية) -->
-      <section id="me" class="page-section">
-        <div class="profile-card">
-          <div class="avatar-circle" id="userAvatar"></div>
-          <h2 id="meName" class="royal-font"></h2>
-          <div id="royalGreeting" class="royal-greeting"></div>
-          <div class="user-stats">
-            <div class="stat"><span id="totalBooks">0</span><small>كتاب</small></div>
-            <div class="stat"><span id="doneBooks">0</span><small>مكتمل</small></div>
-          </div>
+    <!-- [3] أنا (الملف الشخصي) -->
+    <section id="me" class="page-section">
+      <div class="profile-card">
+        <div class="avatar-circle"><i class="fas fa-user-shield"></i></div>
+        <h2 id="meName" class="royal-font"></h2>
+        <div id="royalGreeting" class="royal-greeting"></div>
+        <div class="user-stats">
+          <div class="stat"><span id="statBooks">12</span><small>كتاب</small></div>
+          <div class="stat"><span id="statDone">5</span><small>مكتمل</small></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- [4] الإعدادات -->
-      <section id="settings" class="page-section">
-        <h2 class="section-title">⚙️ الإعدادات</h2>
-        <div class="setting-list">
-          <div class="setting-item" onclick="toggleDarkMode()">🌙 المظهر الليلي</div>
-          <div class="setting-item" onclick="logout()">🚪 تسجيل الخروج</div>
-        </div>
-      </section>
-    </main>
+    <!-- [4] الإعدادات -->
+    <section id="settings" class="page-section">
+      <h2 class="section-title">⚙️ الإعدادات</h2>
+      <div class="setting-list">
+        <div class="setting-item" onclick="toggleDarkMode()">🌙 المظهر الليلي</div>
+        <div class="setting-item" onclick="logout()">🚪 تسجيل الخروج</div>
+      </div>
+    </section>
 
-    <!-- الشريط السفلي -->
+    <!-- 📱 الشريط السفلي المطور -->
     <nav class="nav-bar">
       <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
       <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-open"></i><span>مكتبتي</span></button>
       <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
       <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
     </nav>
+  </div>
+
+  <!-- 📖 القارئ الملكي (Overlay) -->
+  <div id="readerOverlay" class="reader-overlay hidden">
+    <div class="reader-header">
+       <button onclick="closeReader()"><i class="fas fa-chevron-right"></i></button>
+       <h2 id="readerTitle" class="royal-font"></h2>
+    </div>
+    <iframe id="bookFrame" src=""></iframe>
+    <div class="reader-footer">
+       <div class="voice-selector">
+          <button onclick="selectVoice('warraq')">الورّاق</button>
+          <button onclick="selectVoice('night')">الليلي</button>
+          <button onclick="selectVoice('researcher')">الباحث</button>
+          <button onclick="selectVoice('friend')">الصديق</button>
+       </div>
+       <div class="reader-actions">
+          <button onclick="changeMode('sample')">العينة</button>
+          <button onclick="changeMode('full')" class="gold-btn">الكامل</button>
+          <button onclick="toggleAudio()"><i class="fas fa-play" id="playIcon"></i></button>
+       </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
