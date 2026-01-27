@@ -1,174 +1,154 @@
-// بيانات الكتب (عدّل الأسماء والمسارات براحتك)
-const books = [
-  {
-    id: 1,
-    title: "الزاد",
-    author: "مؤلف الزاد",
-    cover: "https://via.placeholder.com/200x300?text=%D8%A7%D9%84%D8%B2%D8%A7%D8%AF",
-    sample: "books/zad-sample.pdf",
-    file: "books/zad-full.pdf",
-    done: false
-  },
-  {
-    id: 2,
-    title: "كتاب تجريبي",
-    author: "مؤلف تجريبي",
-    cover: "https://via.placeholder.com/200x300?text=Sample",
-    sample: "books/sample.pdf",
-    file: "books/full.pdf",
-    done: false
-  }
-];
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبيان - النسخة الملكية الكاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-const library = document.getElementById("library");
-const mybooks = document.getElementById("mybooks");
-const reader = document.getElementById("reader");
-const readerTitle = document.getElementById("readerTitle");
-const readerFrame = document.getElementById("readerFrame");
+<div id="splash">
+    <video id="introVideo" playsinline muted autoplay loop><source src="intro.mp4" type="video/mp4"></video>
+    <div class="splash-overlay">
+        <h1 class="royal-font logo-anim">تبيان</h1>
+        <div class="loading-bar"></div>
+    </div>
+</div>
 
-let currentBook = null;
-let audio = new Audio();
-audio.loop = true;
-audio.volume = 0.3;
+<header class="main-header">
+    <h1 class="royal-font">تبيان</h1>
+    <div id="dailyQuoteDisplay" class="daily-quote-box">"بوابة العلم والتحصيل"</div>
+</header>
 
-const sounds = {
-  warraq: "sounds/warraq.mp3",
-  night: "sounds/nightreader.mp3",
-  researcher: "sounds/researcher.mp3",
-  friend: "sounds/friend.mp3"
-};
+<main id="appContent">
+    
+    <section id="home" class="page-section active-section">
+        <div class="search-area">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchField" class="search-bar" placeholder="ابحث عن كتاب، مؤلف..." onkeyup="liveSearch()">
+            </div>
+        </div>
+        <div class="royal-label">✨ المضافة حديثاً</div>
+        <div class="book-grid-horizontal" id="recentGrid"></div>
+        <div class="royal-label">🏛️ المكتبة العامة</div>
+        <div id="mainGrid" class="book-grid"></div>
+    </section>
 
-// تحميل الكتب في المكتبة
-books.forEach((b) => {
-  const d = document.createElement("div");
-  d.className = "book";
-  d.innerHTML = `
-    <img src="${b.cover}" alt="${b.title}" />
-    <h4>${b.title}</h4>
-    <small>${b.author}</small>
-  `;
-  d.onclick = () => openBook(b);
-  library.appendChild(d);
-});
+    <section id="mylist" class="page-section">
+        <div class="glass-card ward-box">
+            <h4>📅 وردي اليومي</h4>
+            <div class="progress-bar"><div id="wardFill" class="fill"></div></div>
+            <div class="ward-controls">
+                <input type="number" id="pageInput" placeholder="الصفحات">
+                <button class="gold-btn" onclick="updateWard()">تحديث</button>
+            </div>
+        </div>
+        <div class="tabs-royal">
+            <button class="tab-btn active" onclick="filterMyList('reading', this)">📖 قيد القراءة</button>
+            <button class="tab-btn" onclick="filterMyList('completed', this)">✅ مكتملة</button>
+        </div>
+        <div id="listGrid" class="book-grid"></div>
+        <div class="glass-card">
+            <h4 class="royal-font"><i class="fas fa-pen-nib"></i> مؤلفيني المفضلين</h4>
+            <div id="authorsList" class="authors-flex"></div>
+        </div>
+    </section>
 
-// تعبئة الملف الشخصي
-document.getElementById("bookCount").innerText = books.length;
-document.getElementById("doneCount").innerText = books.filter((b) => b.done).length;
+    <section id="me" class="page-section">
+        <div class="glass-card profile-card">
+            <div class="avatar-ring"><i class="fas fa-user-shield"></i></div>
+            <h2>حيزوم</h2>
+            <p class="user-bio">محب للكتب التراثية | طالب ثنوي شرعي علمي</p>
+            <div class="stats-grid">
+                <div class="stat-item"><b id="statTotal">0</b><br><small>كتب</small></div>
+                <div class="stat-item"><b id="statDone">0</b><br><small>منتهية</small></div>
+            </div>
+            <div class="notes-section">
+                <h4>📝 ملاحظاتي</h4>
+                <textarea id="userNotes" placeholder="اكتب اقتباساتك هنا..."></textarea>
+                <button class="gold-btn-sm" onclick="saveNotes()">حفظ 💾</button>
+            </div>
+        </div>
+    </section>
 
-// تبويبات
-function showTab(id) {
-  document.querySelectorAll(".tab").forEach((t) => t.classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
+    <section id="settings" class="page-section">
+        <div class="glass-card">
+            <div class="set-row"><span>🌙 الوضع الليلي</span><i class="fas fa-toggle-on"></i></div>
+            <div class="set-row"><span>🎨 تغيير الألوان</span><i class="fas fa-palette"></i></div>
+            <div class="set-row"><span>🔔 الإشعارات</span><input type="checkbox" checked></div>
+            <div class="dev-box">
+                <p>تم البرمجة بواسطة:</p>
+                <b>أحمد محمد محمد علي (حيزوم)</b>
+            </div>
+        </div>
+    </section>
 
-  document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
-  const btn = Array.from(document.querySelectorAll(".tab-btn")).find((b) =>
-    b.getAttribute("onclick").includes(id)
-  );
-  if (btn) btn.classList.add("active");
+    <section id="owner" class="page-section">
+        <div class="glass-card owner-panel">
+            <h3 class="royal-font">🛡️ لوحة التحكم</h3>
+            <div class="input-group">
+                <input type="text" id="newQuote" class="search-bar" placeholder="تغيير حكمة اليوم...">
+                <button class="gold-btn-full" onclick="updateDailyQuote()">تحديث الحكمة</button>
+            </div>
+            <hr>
+            <h4 class="royal-font">إضافة كتاب جديد</h4>
+            <input type="text" id="ownerT" class="search-bar" placeholder="العنوان">
+            <input type="text" id="ownerA" class="search-bar" placeholder="المؤلف">
+            <input type="text" id="ownerSample" class="search-bar" placeholder="رابط العينة (PDF)">
+            <input type="text" id="ownerFull" class="search-bar" placeholder="رابط الكتاب الكامل (PDF)">
+            <button class="gold-btn-full" onclick="publishBook()">نشر 🚀</button>
+        </div>
+    </section>
 
-  if (id === "mybooks") renderMyBooks();
-}
+</main>
 
-function renderMyBooks() {
-  mybooks.innerHTML = "";
-  books
-    .filter((b) => b.done)
-    .forEach((b) => {
-      const d = document.createElement("div");
-      d.className = "book";
-      d.innerHTML = `
-        <img src="${b.cover}" alt="${b.title}" />
-        <h4>${b.title}</h4>
-        <small>${b.author}</small>
-      `;
-      d.onclick = () => openBook(b);
-      mybooks.appendChild(d);
-    });
-}
+<section id="readerView" class="reader-layer hidden">
+    <div class="reader-header">
+        <button class="back-btn" onclick="closeReader()"><i class="fas fa-arrow-right"></i> خروج</button>
+        <h3 id="readerTitle" class="royal-font">عنوان الكتاب</h3>
+    </div>
+    
+    <iframe id="bookFrame" src=""></iframe>
 
-// فتح القارئ
-function openBook(b) {
-  currentBook = b;
-  readerTitle.innerText = b.title;
-  readerFrame.src = b.sample || b.file;
-  reader.classList.remove("hidden");
-}
+    <div class="reader-controls glass-card">
+        <div class="top-controls">
+            <button onclick="openSample()">📄 العينة</button>
+            <button onclick="openFull()">📖 الكامل</button>
+            <button onclick="addToMyListFromReader()">➕ لقائمتي</button>
+            <button onclick="textSummary()">📝 تلخيص</button>
+            <button onclick="audioSummary()">🔊 ملخص صوتي</button>
+        </div>
+        
+        <hr style="border-color: rgba(212,175,55,0.3);">
+        
+        <div class="voice-controls">
+            <span style="font-size:12px; font-weight:bold;">🎙️ رفيق القراءة:</span>
+            <div class="voices-list">
+                <button onclick="selectSound('warraq')">الورّاق</button>
+                <button onclick="selectSound('night')">الليلي</button>
+                <button onclick="selectSound('researcher')">الباحث</button>
+                <button onclick="selectSound('friend')">الصديق</button>
+            </div>
+            <div class="playback">
+                <button onclick="toggleSound()" id="playPauseBtn">⏯️ تشغيل</button>
+                <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+            </div>
+        </div>
+    </div>
+</section>
 
-// إغلاق القارئ
-function closeReader() {
-  reader.classList.add("hidden");
-  readerFrame.src = "";
-  audio.pause();
-}
+<nav class="nav-bar">
+    <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
+    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-bookmark"></i><span>قائمتي</span></button>
+    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
+    <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
+    <button id="ownerNavBtn" class="nav-item" style="display:none;" onclick="nav('owner', this)"><i class="fas fa-crown"></i><span>المالك</span></button>
+</nav>
 
-// PDF sample / full
-function openSample() {
-  if (!currentBook) return;
-  if (!currentBook.sample) {
-    alert("لا توجد نسخة تجريبية لهذا الكتاب.");
-    return;
-  }
-  readerFrame.src = currentBook.sample;
-}
-
-function openFull() {
-  if (!currentBook) return;
-  readerFrame.src = currentBook.file;
-  currentBook.done = true;
-  document.getElementById("doneCount").innerText = books.filter((b) => b.done).length;
-}
-
-// الصوت الخلفي
-function selectSound(type) {
-  if (!sounds[type]) return;
-  audio.src = sounds[type];
-  if (document.getElementById("enableSound").checked) {
-    audio.play();
-  }
-}
-
-function toggleSound() {
-  const enabled = document.getElementById("enableSound").checked;
-  if (!enabled) {
-    audio.pause();
-    return;
-  }
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
-}
-
-// مستوى الصوت من الإعدادات
-document.getElementById("volumeRange").addEventListener("input", (e) => {
-  audio.volume = parseFloat(e.target.value);
-});
-
-// تلخيص نصي (مؤقت Alert)
-function textSummary() {
-  if (!currentBook) return;
-  alert("هنا سيكون التلخيص النصي للكتاب (تكتب التلخيص يدوي أو تولده لاحقاً).");
-}
-
-// تلخيص صوتي باستخدام SpeechSynthesis
-function audioSummary() {
-  const enabled = document.getElementById("enableAudioSummary").checked;
-  if (!enabled) return;
-
-  if (!currentBook) return;
-  const text = `هذا تلخيص صوتي تجريبي لكتاب ${currentBook.title}. 
-  يمكنك استبدال هذا النص بتلخيص حقيقي لاحقاً.`;
-
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ar";
-  speechSynthesis.speak(u);
-}
-
-// الثيم
-function setTheme(t) {
-  document.body.className = ""; // تنظيف
-  if (t === "royal") document.body.classList.add("royal-bg");
-  if (t === "light") document.body.classList.add("light");
-  if (t === "dark") document.body.classList.add("dark");
-}
+<script src="app.js"></script>
+</body>
+</html>
