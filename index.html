@@ -6,43 +6,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="royal-bg">
 
 <header class="header">
   <h1>تبيان</h1>
   <p>مكتبة القراءة الهادئة</p>
 </header>
 
-<!-- المكتبة -->
-<section id="library" class="grid"></section>
+<nav class="tabs">
+  <button onclick="showTab('library')">📚 المكتبة</button>
+  <button onclick="showTab('mybooks')">📖 مكتبتي</button>
+  <button onclick="showTab('profile')">👤 أنا</button>
+  <button onclick="showTab('settings')">⚙️ الإعدادات</button>
+</nav>
 
-<!-- قارئ الكتاب -->
+<section id="library" class="tab grid"></section>
+<section id="mybooks" class="tab hidden grid"></section>
+
+<section id="profile" class="tab hidden profile">
+  <h2 id="userName">حيزوم</h2>
+  <p>📚 عدد الكتب: <span id="bookCount">0</span></p>
+  <p>✅ المكتملة: <span id="doneCount">0</span></p>
+</section>
+
+<section id="settings" class="tab hidden settings">
+  <label>
+    <input type="checkbox" id="enableSound" checked>
+    تفعيل أصوات القراءة
+  </label>
+  <label>
+    <input type="checkbox" id="enableAudioSummary" checked>
+    تفعيل التلخيص الصوتي
+  </label>
+
+  <label>🎧 مستوى الصوت</label>
+  <input type="range" min="0" max="1" step="0.01" id="volumeRange">
+
+  <label>🎨 الخلفية</label>
+  <select onchange="setTheme(this.value)">
+    <option value="royal">ملكية</option>
+    <option value="light">فاتحة</option>
+    <option value="dark">داكنة</option>
+  </select>
+</section>
+
+<!-- القارئ -->
 <section id="reader" class="reader hidden">
-  <div class="reader-header">
-    <h2 id="bookTitle"></h2>
-    <p id="bookAuthor"></p>
+  <h3 id="readerTitle"></h3>
+  <iframe id="readerFrame"></iframe>
+
+  <div class="controls">
+    <button onclick="openSample()">عَيّنة</button>
+    <button onclick="openFull()">كامل</button>
+    <button onclick="toggleSound()">🎧</button>
+    <button onclick="textSummary()">📝</button>
+    <button onclick="audioSummary()">🔊</button>
+    <button onclick="closeReader()">⬅</button>
   </div>
-
-  <iframe id="bookFrame"></iframe>
-
-  <div class="reader-controls">
-    <button onclick="openSample()">📄 العَيّنة</button>
-    <button onclick="openFull()">📖 الكامل</button>
-    <button onclick="toggleSound()">🎧 الصوت</button>
-    <button onclick="textSummary()">📝 تلخيص</button>
-    <button onclick="audioSummary()">🔊 ملخص صوتي</button>
-  </div>
-
-  <div class="voices">
-    <button onclick="selectSound('warraq')">الورّاق</button>
-    <button onclick="selectSound('night')">القارئ الليلي</button>
-    <button onclick="selectSound('researcher')">الباحث</button>
-    <button onclick="selectSound('friend')">الصديق</button>
-  </div>
-
-  <input type="range" min="0" max="1" step="0.01" onchange="setVolume(this.value)">
-
-  <button class="back-btn" onclick="closeReader()">⬅ العودة للمكتبة</button>
 </section>
 
 <script src="app.js"></script>
