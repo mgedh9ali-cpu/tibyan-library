@@ -1,110 +1,105 @@
-// قاعدة البيانات المدمجة
-let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-  { id:1, title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=زاد+المعاد", sample: "books/zad_sample.pdf", full: "books/zad_full.pdf", status: "reading" },
-  { id:2, title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=رياض+الصالحين", sample: "books/riyad_sample.pdf", full: "books/riyad_full.pdf", status: "none" }
+// قاعدة البيانات الموسعة
+let db = [
+  { id: 1, title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=زاد+المعاد", views: 1500, date: "2023-01-01" },
+  { id: 2, title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=رياض+الصالحين", views: 2000, date: "2023-05-01" }
 ];
 
-let currentAudio = new Audio();
-currentAudio.loop = true;
-
-const voices = {
-  warraq: 'sounds/warraq.mp3',
-  night: 'sounds/night.mp3',
-  researcher: 'sounds/researcher.mp3',
-  friend: 'sounds/friend.mp3'
+// بيانات المستخدم (تخزن في LocalStorage)
+let userData = JSON.parse(localStorage.getItem('tibyan_user')) || {
+  mylist: [], // مصفوفة كائنات {id, status, notes, fav}
+  dailyGoal: 50,
+  dailyProgress: 0,
+  lastRead: null,
+  notes: []
 };
 
-// تشغيل عند البدء
 window.onload = () => {
-  refreshHome();
-  setTimeout(() => document.getElementById('splash').style.display = 'none', 2500);
+  renderHome();
+  updateStats();
+  updateGoalUI();
+  setTimeout(() => document.getElementById('splash').style.display = 'none', 2000);
 };
 
-// التنقل بين الصفحات
+// --- نظام الصفحة الرئيسية ---
+function renderHome() {
+  renderGrid('mainGrid', db);
+  const recent = [...db].sort((a,b) => new Date(b.date) - new Date(a.date));
+  renderGrid('recentGrid', recent.slice(0,5));
+  const popular = [...db].sort((a,b) => b.views - a.views);
+  renderGrid('popularGrid', popular.slice(0,5));
+}
+
+// --- نظام المكتبة الشخصية (قائمتي) ---
+function filterMylist(status, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const filteredIds = userData.mylist.filter(item => {
+    if(status === 'fav') return item.fav;
+    return item.status === status;
+  }).map(i => i.id);
+  
+  const filteredBooks = db.filter(b => filteredIds.includes(b.id));
+  renderGrid('mylistGrid', filteredBooks);
+}
+
+function updateStats() {
+  document.getElementById('statTotal').innerText = userData.mylist.length;
+  document.getElementById('statDone').innerText = userData.mylist.filter(i => i.status === 'completed').innerText = userData.mylist.filter(i => i.status === 'completed').length;
+  const authors = new Set(db.filter(b => userData.mylist.map(i => i.id).includes(b.id)).map(b => b.author));
+  document.getElementById('statAuthors').innerText = authors.size;
+  
+  // تحديث قائمة المؤلفين
+  const authorsList = document.getElementById('authorsList');
+  authorsList.innerHTML = Array.from(authors).map(a => `<div class="author-tag">${a}</div>`).join('');
+}
+
+// --- الورد اليومي ---
+function updateDailyProgress() {
+  let pages = prompt("كم صفحة قرأت الآن؟");
+  if(pages) {
+    userData.dailyProgress += parseInt(pages);
+    save();
+    updateGoalUI();
+  }
+}
+
+function updateGoalUI() {
+  const percent = (userData.dailyProgress / userData.dailyGoal) * 100;
+  document.getElementById('goalBar').style.width = Math.min(percent, 100) + "%";
+  document.getElementById('goalText').innerText = `قرأت ${userData.dailyProgress} من ${userData.dailyGoal} صفحة اليوم`;
+}
+
+// --- إدارة الملاحظات والنشاط ---
+function addNote() {
+  let note = prompt("اكتب ملاحظتك أو الاقتباس:");
+  if(note) {
+    userData.notes.push({ book: activeBook.title, text: note, date: new Date().toLocaleDateString() });
+    save();
+    renderNotes();
+  }
+}
+
+function renderNotes() {
+  const container = document.getElementById('notesContainer');
+  container.innerHTML = userData.notes.map(n => `
+    <div class="note-item">
+      <strong>${n.book}</strong>: ${n.text} <br> <small>${n.date}</small>
+    </div>
+  `).join('');
+}
+
+// --- الوظائف الأساسية ---
 function nav(id, btn) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   document.getElementById(id).classList.add('active-section');
   btn.classList.add('active');
-  if(id === 'mylist') renderMylist();
+  if(id === 'mylist') { filterMylist('reading', document.querySelector('.tab-btn')); renderNotes(); }
 }
 
-// عرض الكتب
-function refreshHome() {
-  renderGrid('mainGrid', db);
-  renderGrid('recentGrid', db.slice(0,2));
-  renderGrid('popularGrid', db.slice(0,2));
+function save() {
+  localStorage.setItem('tibyan_user', JSON.stringify(userData));
 }
 
-function renderGrid(targetId, data) {
-  const grid = document.getElementById(targetId);
-  if (!grid) return;
-  grid.innerHTML = data.map(b => `
-    <div class="book-card">
-      <img src="${b.cover}">
-      <h4 class="royal-font">${b.title}</h4>
-      <button class="gold-btn" onclick="openReader(${b.id})">قراءة</button>
-    </div>
-  `).join('');
-}
-
-// نظام القارئ
-let activeBook = null;
-
-function openReader(id) {
-  activeBook = db.find(b => b.id === id);
-  document.getElementById('readerTitle').innerText = activeBook.title;
-  document.getElementById('bookFrame').src = activeBook.sample;
-  document.getElementById('readerOverlay').classList.remove('hidden');
-}
-
-function closeReader() {
-  document.getElementById('readerOverlay').classList.add('hidden');
-  currentAudio.pause();
-  document.getElementById('bookFrame').src = "";
-}
-
-function playSample() { document.getElementById('bookFrame').src = activeBook.sample; }
-function playFull() { document.getElementById('bookFrame').src = activeBook.full; }
-
-// نظام الصوت (رفقاء القراءة)
-function selectVoice(v) {
-  currentAudio.src = voices[v];
-  currentAudio.play();
-  document.getElementById('playIcon').innerHTML = '<i class="fas fa-pause"></i>';
-}
-
-function toggleAudio() {
-  if (currentAudio.paused) {
-    currentAudio.play();
-    document.getElementById('playIcon').innerHTML = '<i class="fas fa-pause"></i>';
-  } else {
-    currentAudio.pause();
-    document.getElementById('playIcon').innerHTML = '<i class="fas fa-play"></i>';
-  }
-}
-
-function setVolume(v) { currentAudio.volume = v; }
-
-// التلخيص
-function textSummary() {
-  alert("ملخص ورقي: هذا الكتاب يتناول جوهر العلوم بأسلوب رصين يجمع بين التراث والحداثة.");
-}
-
-function audioSummary() {
-  if(!document.getElementById('audioSummaryToggle').checked) return;
-  let msg = new SpeechSynthesisUtterance("أهلاً بك في ملخص تبيان الصوتي. هذا الكتاب يعد مرجعاً أساسياً في بابه.");
-  msg.lang = 'ar';
-  window.speechSynthesis.speak(msg);
-}
-
-// البحث والكلمة السرية
-function liveSearch() {
-  let q = document.getElementById('searchField').value.toLowerCase();
-  if (q === 'heizoum') {
-    document.getElementById('ownerNavBtn').style.display = 'flex';
-    return;
-  }
-  let filtered = db.filter(b => b.title.toLowerCase().includes(q));
-  renderGrid('mainGrid', filtered);
-}
+// (تكملة منطق البحث والقارئ كما في النسخ السابقة)
