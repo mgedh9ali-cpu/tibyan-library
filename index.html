@@ -31,60 +31,42 @@
       <div class="search-area">
         <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
       </div>
-      
-      <div id="searchResultsSection" class="hidden">
-        <h2 class="section-title">🔍 نتائج البحث</h2>
-        <div id="searchGrid" class="book-grid"></div>
-      </div>
-
-      <h2 class="section-title">✨ أحدث الكتب</h2>
-      <div id="recentGrid" class="book-grid-horizontal"></div>
-
-      <h2 class="section-title">🔥 الأكثر شعبية</h2>
-      <div id="popularGrid" class="book-grid"></div>
-
       <h2 class="section-title">📚 المكتبة العامة</h2>
       <div id="mainGrid" class="book-grid"></div>
     </section>
 
-    <!-- [2] مكتبتي المتطورة (قائمتي) -->
+    <!-- [2] مكتبتي (قائمتي + الورد اليومي) -->
     <section id="mylist" class="page-section">
-      <!-- الورد اليومي -->
-      <div class="stat-card goal-card">
-        <h3>🌱 الورد اليومي</h3>
-        <div class="goal-progress">
-          <div id="goalBar" class="goal-fill" style="width: 0%"></div>
+      
+      <!-- ميزة الورد اليومي الجديدة -->
+      <div class="stat-card ward-card">
+        <h3>📅 وردي اليومي</h3>
+        <p id="wardText">لم يتم تحديد ورد بعد.</p>
+        <div class="ward-progress-container" id="wardProgressContainer" style="display:none;">
+          <div class="progress-bar"><div id="wardBar" class="progress-fill"></div></div>
+          <small id="wardProgressText">قرأت 0 من 0</small>
         </div>
-        <p id="goalText">قرأت 0 من 50 صفحة اليوم</p>
-        <button class="gold-btn-sm" onclick="updateDailyProgress()">إضافة صفحات +</button>
+        <div class="ward-btns">
+          <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
+          <button id="addPagesBtn" class="gold-btn-sm" onclick="addProgress()" style="display:none;">إضافة صفحات +</button>
+        </div>
       </div>
 
       <!-- إحصائيات الإنجاز -->
       <div class="stats-grid">
-        <div class="stat-box"><h4>المجلدات</h4><span id="statTotal">0</span></div>
+        <div class="stat-box"><h4>مجلداتي</h4><span id="statTotal">0</span></div>
         <div class="stat-box"><h4>مكتملة</h4><span id="statDone">0</span></div>
-        <div class="stat-box"><h4>المؤلفون</h4><span id="statAuthors">0</span></div>
       </div>
 
-      <!-- تبويبات حالة القراءة -->
+      <!-- تبويبات الحالة -->
       <div class="status-tabs">
         <button class="tab-btn active" onclick="filterMylist('reading', this)">📖 قيد القراءة</button>
         <button class="tab-btn" onclick="filterMylist('completed', this)">✅ مكتملة</button>
-        <button class="tab-btn" onclick="filterMylist('fav', this)">⭐ مفضلة</button>
       </div>
-
       <div id="mylistGrid" class="book-grid"></div>
-
-      <!-- المؤلفون المفضلون -->
-      <h2 class="section-title">✍️ مؤلفوك المفضلون</h2>
-      <div id="authorsList" class="authors-scroll"></div>
-
-      <!-- الملاحظات والاقتباسات -->
-      <h2 class="section-title">📝 ملاحظاتي واقتباساتي</h2>
-      <div id="notesContainer" class="notes-area"></div>
     </section>
 
-    <!-- [3] صفحة أنا (النشاط الأخير) -->
+    <!-- [3] صفحة أنا (آخر نشاط) -->
     <section id="me" class="page-section">
       <div class="profile-header">
         <i class="fas fa-user-circle avatar"></i>
@@ -92,32 +74,36 @@
       </div>
       <div class="activity-card">
         <h3>🕒 آخر نشاط</h3>
-        <p id="lastActivity">لم تبدأ القراءة بعد</p>
+        <p id="lastActivity">مرحباً بك في عالم تبيان..</p>
       </div>
     </section>
 
     <!-- [4] الإعدادات -->
     <section id="settings" class="page-section">
       <h2 class="section-title">⚙️ التحكم</h2>
-      <div class="setting-item" onclick="toggleDarkMode()">🌙 الوضع الليلي</div>
-      <div class="setting-item">
-        <label>هدف الصفحات اليومي: </label>
-        <input type="number" id="dailyGoalInput" value="50" onchange="setDailyGoal()">
-      </div>
+      <div class="setting-item" onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</div>
     </section>
   </main>
 
-  <!-- القارئ الملكي (كما في النسخة السابقة) -->
+  <!-- القارئ الملكي (رفقاء القراءة الأربعة) -->
   <div id="readerOverlay" class="reader-overlay hidden">
-    <!-- ... (نفس هيكل القارئ السابق مع أزرار الأصوات) ... -->
     <div class="reader-header">
-       <button onclick="closeReader()">⬅</button>
-       <h2 id="readerTitle"></h2>
+       <button class="back-btn" onclick="closeReader()"><i class="fas fa-arrow-right"></i></button>
+       <h2 id="readerTitle" class="royal-font"></h2>
     </div>
     <iframe id="bookFrame" src=""></iframe>
-    <div class="reader-tools">
-       <button onclick="addNote()">✍️ إضافة ملاحظة</button>
-       <button onclick="markAsDone()">✅ تم اكتمال الكتاب</button>
+    <div class="reader-toolbar">
+       <div class="voice-selector">
+          <button onclick="selectVoice('warraq')">الورّاق</button>
+          <button onclick="selectVoice('night')">الليلي</button>
+          <button onclick="selectVoice('researcher')">الباحث</button>
+          <button onclick="selectVoice('friend')">الصديق</button>
+       </div>
+       <div class="reader-actions">
+          <button onclick="playSample()">العينة</button>
+          <button onclick="playFull()" class="gold-btn">الكامل</button>
+          <button onclick="toggleAudio()"><i class="fas fa-play" id="playIcon"></i></button>
+       </div>
     </div>
   </div>
 
@@ -125,7 +111,7 @@
   <nav class="nav-bar">
     <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
     <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-reader"></i><span>مكتبتي</span></button>
-    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-history"></i><span>نشاطي</span></button>
+    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
     <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
   </nav>
 
