@@ -3,96 +3,87 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تبيان - النسخة الملكية المطورة</title>
+  <title>تبيان - النسخة الملكية</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="royal-bg">
 
-  <!-- شاشة البداية الملكية -->
-  <div id="splash" class="splash">
-    <div class="splash-overlay">
-      <h1 class="royal-font logo-anim">تبيان</h1>
-      <div class="loading-bar"><div class="loading-fill"></div></div>
+  <!-- 🚪 بوابة تسجيل الدخول (تظهر لأول مرة فقط) -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-card">
+      <h1 class="royal-font">تبيان</h1>
+      <p>مرحباً بك في بوابة العلم.. يرجى تسجيل الدخول للبدء</p>
+      <button class="google-btn" onclick="handleGoogleLogin()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_观察_Icons_2023.svg" width="20">
+        تسجيل الدخول عبر جوجل
+      </button>
     </div>
   </div>
 
-  <!-- المحتوى الرئيسي -->
-  <main id="mainContent">
-    
-    <!-- [1] الصفحة الرئيسية -->
-    <section id="home" class="page-section active-section">
-      <header class="main-header">
-        <h1 class="royal-font">تبيان</h1>
-        <div class="daily-quote">بوابة العلم والتحصيل</div>
-      </header>
-      <div class="search-area">
-        <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
-      </div>
-      <h2 class="section-title">📚 المكتبة العامة</h2>
-      <div id="mainGrid" class="book-grid"></div>
-    </section>
+  <!-- شاشة الترحيب باسم المستخدم -->
+  <div id="welcomeSplash" class="welcome-splash hidden">
+    <h2 class="royal-font" id="welcomeMessage"></h2>
+  </div>
 
-    <!-- [2] مكتبتي (قائمتي + الورد اليومي) -->
-    <section id="mylist" class="page-section">
-      <h2 class="section-title">📖 مكتبتي الخاصة</h2>
-      <div class="stat-card ward-card">
-        <h3>📅 وردي اليومي</h3>
-        <p id="wardText">لم يتم تحديد ورد بعد.</p>
-        <div class="ward-progress-container" id="wardProgressContainer" style="display:none;">
-          <div class="progress-bar"><div id="wardBar" class="progress-fill"></div></div>
+  <!-- المحتوى الرئيسي (يظهر بعد تسجيل الدخول) -->
+  <div id="appContent" class="hidden">
+    <main id="mainContent">
+      
+      <!-- [1] الرئيسية -->
+      <section id="home" class="page-section active-section">
+        <header class="main-header">
+          <h1 class="royal-font">تبيان</h1>
+          <div class="search-area">
+            <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
+          </div>
+        </header>
+        <h2 class="section-title">✨ اكتشف جديدنا</h2>
+        <div id="mainGrid" class="book-grid"></div>
+      </section>
+
+      <!-- [2] مكتبتي -->
+      <section id="mylist" class="page-section">
+        <h2 class="section-title">📖 مكتبتي الخاصة</h2>
+        <div class="ward-card">
+          <p id="wardText">وردك اليومي ينتظرك..</p>
+          <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
         </div>
-        <button class="gold-btn-sm" onclick="setWard()">تحديد ورد</button>
-      </div>
-      <div id="mylistGrid" class="book-grid"></div>
-    </section>
+        <div id="mylistGrid" class="book-grid"></div>
+      </section>
 
-    <!-- [3] صفحة أنا -->
-    <section id="me" class="page-section">
-      <div class="profile-card">
-        <i class="fas fa-user-circle avatar"></i>
-        <h3 id="profileName">حيزوم</h3>
-        <p>قارئ ملكي متميز</p>
-      </div>
-    </section>
+      <!-- [3] أنا (الملف الشخصي والرسالة الذكية) -->
+      <section id="me" class="page-section">
+        <div class="profile-card">
+          <div class="avatar-circle" id="userAvatar"></div>
+          <h2 id="meName" class="royal-font"></h2>
+          <div id="royalGreeting" class="royal-greeting"></div>
+          <div class="user-stats">
+            <div class="stat"><span id="totalBooks">0</span><small>كتاب</small></div>
+            <div class="stat"><span id="doneBooks">0</span><small>مكتمل</small></div>
+          </div>
+        </div>
+      </section>
 
-    <!-- [4] الإعدادات -->
-    <section id="settings" class="page-section">
-      <h2 class="section-title">⚙️ الإعدادات</h2>
-      <div class="setting-item" onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</div>
-    </section>
-  </main>
+      <!-- [4] الإعدادات -->
+      <section id="settings" class="page-section">
+        <h2 class="section-title">⚙️ الإعدادات</h2>
+        <div class="setting-list">
+          <div class="setting-item" onclick="toggleDarkMode()">🌙 المظهر الليلي</div>
+          <div class="setting-item" onclick="logout()">🚪 تسجيل الخروج</div>
+        </div>
+      </section>
+    </main>
 
-  <!-- القارئ الملكي (Overlay) -->
-  <div id="readerOverlay" class="reader-overlay hidden">
-    <div class="reader-header">
-       <button class="back-btn" onclick="closeReader()"><i class="fas fa-chevron-right"></i></button>
-       <h2 id="readerTitle" class="royal-font"></h2>
-    </div>
-    <iframe id="bookFrame" src=""></iframe>
-    <!-- لوحة التحكم في الأصوات والتقدم تظهر هنا -->
+    <!-- الشريط السفلي -->
+    <nav class="nav-bar">
+      <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
+      <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-open"></i><span>مكتبتي</span></button>
+      <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
+      <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
+    </nav>
   </div>
-
-  <!-- 🎨 الشريط السفلي المطور (Navigation Bar) -->
-  <nav class="nav-bar">
-    <button class="nav-item active" onclick="nav('home', this)">
-      <i class="fas fa-home"></i>
-      <span>الرئيسية</span>
-    </button>
-    <button class="nav-item" onclick="nav('mylist', this)">
-      <i class="fas fa-book-open"></i>
-      <span>مكتبتي</span>
-    </button>
-    <button class="nav-item" onclick="nav('me', this)">
-      <i class="fas fa-user"></i>
-      <span>أنا</span>
-    </button>
-    <button class="nav-item" onclick="nav('settings', this)">
-      <i class="fas fa-cog"></i>
-      <span>الإعدادات</span>
-    </button>
-  </nav>
 
   <script src="app.js"></script>
 </body>
