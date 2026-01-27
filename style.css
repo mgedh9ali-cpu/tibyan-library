@@ -1,110 +1,100 @@
-:root{
-  --primary: #2C1B18; /* بني ملكي */
-  --gold: #D4AF37;    /* ذهبي فاخر */
-  --bg: #FDFCF9;
-  --card: #ffffff;
-  --muted: #8b8b8b;
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: #fdfcf9;
+  color: #2c1b18;
 }
-
-/* خطوط ملكية */
-body{
-  margin:0;
-  direction: rtl;
-  font-family: 'Cairo', 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--primary);
-  padding-bottom: 90px; /* مساحة للشريط السفلي */
-}
-
-/* دعم الخط الملكي للعناوين */
-.royal-font{
-  font-family: 'Amiri', 'Cairo', serif;
-  letter-spacing: 0.6px;
-  color: var(--primary);
-}
-
-/* شاشة البداية */
-.splash{
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  z-index:2000; overflow:hidden;
-}
-.splash-video{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.18;
-}
-.splash-overlay{
-  position:relative; text-align:center; color:var(--card);
-}
-.logo-anim{ font-size:48px; color:var(--card); text-shadow:0 6px 18px rgba(0,0,0,0.4); }
-.loading-bar{ width:200px; height:6px; background:rgba(255,255,255,0.12); border-radius:6px; margin:12px auto; overflow:hidden;}
-.loading-fill{ width:0%; height:100%; background:var(--gold); animation:fillBar 2.5s linear infinite; }
-@keyframes fillBar { 0%{width:0} 50%{width:80%} 100%{width:0} }
 
 /* الهيدر */
-.main-header{
-  background: linear-gradient(135deg, var(--primary), var(--gold));
-  color:white; padding:18px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  border-radius:0 0 24px 24px;
-}
-.daily-quote-box{ margin-top:8px; font-size:14px; opacity:0.95; background:rgba(255,255,255,0.08); display:inline-block; padding:6px 12px; border-radius:12px; }
-
-/* البحث */
-.search-area{ padding:14px; }
-.search-bar{
-  width:100%; padding:12px 14px; border-radius:20px; border:1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.03); background:white; outline:none;
+.header {
+  text-align: center;
+  padding: 20px;
+  background: #2c1b18;
+  color: #fff;
 }
 
-/* أقسام */
-.page-section{ display:none; padding:18px; animation:fadeIn 0.35s ease; }
-.active-section{ display:block; }
-
-/* قائمة الكتب */
-.book-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; margin-top:12px; }
-.book-card{
-  background:var(--card); border-radius:14px; padding:10px; text-align:center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.04); border:1px solid #f3f3f3; transition:transform .18s;
-}
-.book-card:hover{ transform:translateY(-6px); box-shadow:0 14px 30px rgba(0,0,0,0.06); }
-.book-card img{ width:100%; height:170px; object-fit:cover; border-radius:10px; }
-.book-card h4{ margin:10px 0 6px; font-size:15px; color:var(--primary); }
-
-/* أزرار ذهبية */
-.gold-btn{
-  background: linear-gradient(90deg,var(--gold),#b88f2a); border:none; color:var(--primary);
-  padding:6px 10px; border-radius:10px; cursor:pointer; font-weight:700;
+/* المكتبة */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  padding: 16px;
 }
 
-/* الشريط السفلي */
-.nav-bar{
-  position:fixed; left:0; right:0; bottom:0;
-  display:flex; justify-content:space-around; background:var(--card); padding:10px 6px;
-  box-shadow: 0 -6px 18px rgba(0,0,0,0.06); border-top:1px solid #f0f0f0; z-index:1000;
+.book {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+  cursor: pointer;
 }
-.nav-item{
-  background:none; border:none; display:flex; flex-direction:column; align-items:center;
-  gap:4px; color:var(--muted); cursor:pointer; flex:1; transition:all .22s ease;
+
+.book img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
 }
-.nav-item.active{ color:var(--gold); transform:translateY(-3px); }
-.nav-item i{ font-size:20px; }
-.nav-item span{ font-size:11px; font-weight:600; }
 
-/* زر المالك السري تأثير دخول */
-.secret-item{ animation:slideUp .45s cubic-bezier(.2,.9,.3,1); }
-@keyframes slideUp{ from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+.book h3 {
+  font-size: 15px;
+  margin: 8px 0 4px;
+}
 
-/* لوحة المالك */
-.owner-form{ display:flex; flex-direction:column; gap:10px; max-width:520px; margin-top:8px; }
-.royal-btn{ background:var(--primary); color:white; padding:12px; border-radius:12px; border:none; font-weight:700; cursor:pointer; }
+/* القارئ */
+.reader {
+  position: fixed;
+  inset: 0;
+  background: #fdfcf9;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
 
-/* البروفايل والإحصائيات */
-.profile{ text-align:center; padding:12px; }
-.avatar{ font-size:80px; color:var(--gold); }
-.stats-container{ display:flex; gap:12px; justify-content:center; margin-top:12px; }
-.stat-box{ background:white; padding:10px 14px; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,0.04); }
+.hidden {
+  display: none;
+}
 
-/* أنيميشن وصلاحية */
-@keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+.reader-header {
+  background: #2c1b18;
+  color: white;
+  text-align: center;
+  padding: 12px;
+}
 
-/* الوضع الليلي (تفعيل عبر toggleDarkMode) */
-body.dark-mode{ background:#111; color:#f0eede; }
-body.dark-mode .main-header{ filter:brightness(.9); }
+iframe {
+  width: 100%;
+  flex: 1;
+  border: none;
+}
+
+.reader-controls,
+.voices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #d4af37;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+input[type=range] {
+  width: 90%;
+  margin: 8px auto;
+  display: block;
+}
+
+.back-btn {
+  margin: 10px auto;
+  background: #2c1b18;
+  color: #fff;
+}
