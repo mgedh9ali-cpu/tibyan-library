@@ -1,245 +1,110 @@
-// 1. قاعدة البيانات (مدموج فيها الملفات وروابط العينة)
+// قاعدة البيانات المدمجة
 let db = JSON.parse(localStorage.getItem('tibyan_db')) || [
-    { 
-        id: 1, 
-        title: "زاد المعاد", 
-        author: "ابن القيم", 
-        cover: "https://via.placeholder.com/200x300/3E2723/white?text=زاد+المعاد", 
-        status: "reading", 
-        sample: "books/zad_sample.pdf", // رابط افتراضي للعينة
-        file: "books/zad_full.pdf"      // رابط افتراضي للكتاب الكامل
-    },
-    { 
-        id: 2, 
-        title: "رياض الصالحين", 
-        author: "النووي", 
-        cover: "https://via.placeholder.com/200x300/D4AF37/white?text=رياض+الصالحين", 
-        status: "completed",
-        sample: "books/sample.pdf",
-        file: "books/full.pdf"
-    }
+  { id:1, title: "زاد المعاد", author: "ابن القيم", cover: "https://via.placeholder.com/200x300/3E2723/white?text=زاد+المعاد", sample: "books/zad_sample.pdf", full: "books/zad_full.pdf", status: "reading" },
+  { id:2, title: "رياض الصالحين", author: "النووي", cover: "https://via.placeholder.com/200x300/D4AF37/white?text=رياض+الصالحين", sample: "books/riyad_sample.pdf", full: "books/riyad_full.pdf", status: "none" }
 ];
 
-// المتغيرات العالمية للقارئ والصوت
-let currentBook = null;
-let audio = new Audio();
-audio.loop = true;
-audio.volume = 0.5;
+let currentAudio = new Audio();
+currentAudio.loop = true;
 
-// مسارات الأصوات (يجب أن تكون الملفات موجودة في مجلد sounds)
-const sounds = {
-    warraq: 'sounds/warraq.mp3',
-    night: 'sounds/night_reader.mp3',
-    researcher: 'sounds/researcher.mp3',
-    friend: 'sounds/friend.mp3'
+const voices = {
+  warraq: 'sounds/warraq.mp3',
+  night: 'sounds/night.mp3',
+  researcher: 'sounds/researcher.mp3',
+  friend: 'sounds/friend.mp3'
 };
 
+// تشغيل عند البدء
 window.onload = () => {
-    // استعادة حكمة اليوم
-    const savedQuote = localStorage.getItem('daily_quote') || "بوابة العلم والتحصيل";
-    document.getElementById('dailyQuoteDisplay').innerText = `"${savedQuote}"`;
-    
-    // تحديث الواجهات
-    refreshHome();
-    updateStats();
-    
-    // إخفاء شاشة البداية
-    setTimeout(() => {
-        const splash = document.getElementById("splash");
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = "none", 1000);
-    }, 4000);
+  refreshHome();
+  setTimeout(() => document.getElementById('splash').style.display = 'none', 2500);
 };
 
-/* ================= إدارة التنقل والواجهات ================= */
-
+// التنقل بين الصفحات
 function nav(id, btn) {
-    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    document.getElementById(id).classList.add('active-section');
-    if(btn) btn.classList.add('active');
-    
-    if(id === 'mylist') filterMyList('reading', document.querySelector('.tab-btn'));
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById(id).classList.add('active-section');
+  btn.classList.add('active');
+  if(id === 'mylist') renderMylist();
 }
 
+// عرض الكتب
 function refreshHome() {
-    renderGrid('mainGrid', db);
-    // آخر 3 كتب مضافة
-    renderGrid('recentGrid', db.slice(-3));
+  renderGrid('mainGrid', db);
+  renderGrid('recentGrid', db.slice(0,2));
+  renderGrid('popularGrid', db.slice(0,2));
 }
 
 function renderGrid(targetId, data) {
-    const container = document.getElementById(targetId);
-    if(container) {
-        container.innerHTML = data.map(b => `
-            <div class="book-card" onclick="openReader(${b.id})">
-                <img src="${b.cover}">
-                <h4 class="royal-font" style="margin:5px 0; font-size:14px;">${b.title}</h4>
-                <small style="color:#888;">${b.author}</small>
-            </div>
-        `).join('');
-    }
+  const grid = document.getElementById(targetId);
+  if (!grid) return;
+  grid.innerHTML = data.map(b => `
+    <div class="book-card">
+      <img src="${b.cover}">
+      <h4 class="royal-font">${b.title}</h4>
+      <button class="gold-btn" onclick="openReader(${b.id})">قراءة</button>
+    </div>
+  `).join('');
 }
 
-/* ================= البحث ولوحة المالك (Heizoum) ================= */
+// نظام القارئ
+let activeBook = null;
 
-function liveSearch() {
-    const q = document.getElementById('searchField').value.trim().toLowerCase();
-    
-    // الكود السري
-    if (q === 'heizoum') {
-        document.getElementById('ownerNavBtn').style.display = 'flex';
-        alert("🛡️ أهلاً حيزوم! تم تفعيل لوحة المالك");
-        document.getElementById('searchField').value = '';
-        return;
-    }
-
-    // البحث العادي
-    if(q.length > 0) {
-        const filtered = db.filter(b => b.title.includes(q) || b.author.includes(q));
-        renderGrid('mainGrid', filtered);
-    } else {
-        refreshHome();
-    }
-}
-
-/* ================= قارئ الكتب المدمج (The Reader) ================= */
-
-function openReader(bookId) {
-    const book = db.find(b => b.id === bookId);
-    if(!book) return;
-
-    currentBook = book;
-    document.getElementById('readerTitle').innerText = book.title;
-    
-    // البدء بالعينة افتراضياً
-    document.getElementById('bookFrame').src = book.sample || ""; 
-    
-    // إظهار طبقة القارئ
-    document.getElementById('readerView').classList.remove('hidden');
+function openReader(id) {
+  activeBook = db.find(b => b.id === id);
+  document.getElementById('readerTitle').innerText = activeBook.title;
+  document.getElementById('bookFrame').src = activeBook.sample;
+  document.getElementById('readerOverlay').classList.remove('hidden');
 }
 
 function closeReader() {
-    document.getElementById('readerView').classList.add('hidden');
-    audio.pause(); // إيقاف الصوت عند الخروج
-    currentBook = null;
+  document.getElementById('readerOverlay').classList.add('hidden');
+  currentAudio.pause();
+  document.getElementById('bookFrame').src = "";
 }
 
-function openSample() {
-    if(currentBook) document.getElementById('bookFrame').src = currentBook.sample || "";
+function playSample() { document.getElementById('bookFrame').src = activeBook.sample; }
+function playFull() { document.getElementById('bookFrame').src = activeBook.full; }
+
+// نظام الصوت (رفقاء القراءة)
+function selectVoice(v) {
+  currentAudio.src = voices[v];
+  currentAudio.play();
+  document.getElementById('playIcon').innerHTML = '<i class="fas fa-pause"></i>';
 }
 
-function openFull() {
-    if(currentBook) document.getElementById('bookFrame').src = currentBook.file || "";
+function toggleAudio() {
+  if (currentAudio.paused) {
+    currentAudio.play();
+    document.getElementById('playIcon').innerHTML = '<i class="fas fa-pause"></i>';
+  } else {
+    currentAudio.pause();
+    document.getElementById('playIcon').innerHTML = '<i class="fas fa-play"></i>';
+  }
 }
 
-function addToMyListFromReader() {
-    if(currentBook) {
-        currentBook.status = 'reading';
-        saveData();
-        alert("✅ تمت الإضافة لقائمتك");
-    }
-}
+function setVolume(v) { currentAudio.volume = v; }
 
-/* ================= الأصوات والتلخيص ================= */
-
-function selectSound(type) {
-    audio.src = sounds[type];
-    audio.play();
-}
-
-function toggleSound() {
-    if(audio.paused) audio.play();
-    else audio.pause();
-}
-
-function setVolume(val) {
-    audio.volume = val;
-}
-
+// التلخيص
 function textSummary() {
-    alert("📝 التلخيص الورقي:\nيعرض هذا الكتاب الأفكار الأساسية بأسلوب منهجي وميسر.");
+  alert("ملخص ورقي: هذا الكتاب يتناول جوهر العلوم بأسلوب رصين يجمع بين التراث والحداثة.");
 }
 
 function audioSummary() {
-    const msg = new SpeechSynthesisUtterance("هذا ملخص صوتي سريع لأهم أفكار الكتاب.");
-    msg.lang = 'ar';
-    speechSynthesis.speak(msg);
+  if(!document.getElementById('audioSummaryToggle').checked) return;
+  let msg = new SpeechSynthesisUtterance("أهلاً بك في ملخص تبيان الصوتي. هذا الكتاب يعد مرجعاً أساسياً في بابه.");
+  msg.lang = 'ar';
+  window.speechSynthesis.speak(msg);
 }
 
-/* ================= إدارة القوائم والبيانات (الميزات القديمة) ================= */
-
-function updateWard() {
-    let p = document.getElementById('pageInput').value || 0;
-    let percent = Math.min(100, (p/20)*100);
-    document.getElementById('wardFill').style.width = percent + '%';
-    alert("🚀 تم تحديث الورد اليومي!");
+// البحث والكلمة السرية
+function liveSearch() {
+  let q = document.getElementById('searchField').value.toLowerCase();
+  if (q === 'heizoum') {
+    document.getElementById('ownerNavBtn').style.display = 'flex';
+    return;
+  }
+  let filtered = db.filter(b => b.title.toLowerCase().includes(q));
+  renderGrid('mainGrid', filtered);
 }
-
-function filterMyList(status, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    const filtered = db.filter(b => b.status === status);
-    renderGrid('listGrid', filtered);
-    
-    // تحديث قائمة المؤلفين
-    const authors = [...new Set(db.map(b => b.author))];
-    document.getElementById('authorsList').innerHTML = authors.map(a => `<span style="background:#eee; padding:5px 10px; border-radius:15px; font-size:12px; margin:2px;">${a}</span>`).join('');
-}
-
-function updateDailyQuote() {
-    const q = document.getElementById('newQuote').value;
-    if(q) {
-        localStorage.setItem('daily_quote', q);
-        document.getElementById('dailyQuoteDisplay').innerText = `"${q}"`;
-        alert("✨ تم تحديث الحكمة");
-    }
-}
-
-function publishBook() {
-    const t = document.getElementById('ownerT').value;
-    const a = document.getElementById('ownerA').value;
-    const s = document.getElementById('ownerSample').value;
-    const f = document.getElementById('ownerFull').value;
-
-    if(t && a) {
-        db.push({ 
-            id: Date.now(), 
-            title: t, 
-            author: a, 
-            cover: "https://via.placeholder.com/200x300", // غلاف افتراضي
-            status: 'reading',
-            sample: s || "books/sample.pdf",
-            file: f || "books/full.pdf"
-        });
-        saveData();
-        refreshHome();
-        updateStats();
-        alert("🚀 تم النشر بنجاح!");
-    }
-}
-
-function saveNotes() {
-    localStorage.setItem('user_notes', document.getElementById('userNotes').value);
-    alert("💾 تم حفظ الملاحظات");
-}
-
-function updateStats() {
-    document.getElementById('statTotal').innerText = db.length;
-    document.getElementById('statDone').innerText = db.filter(b => b.status === 'completed').length;
-}
-
-function saveData() {
-    localStorage.setItem('tibyan_db', JSON.stringify(db));
-}
-// في app.js، غير قسم الـ cover لهذا الشكل:
-{ 
-    id: 1, 
-    title: "زاد المعاد", 
-    author: "ابن القيم", 
-    // صورة غلاف حقيقية تجريبية
-    cover: "https://www.noor-book.com/publice/covers_cache_webp/3/9/d/5/29d5b0c03439d5b0c0346387.jpg.webp", 
-    status: "reading",
-    // ... باقي الكود
-},
