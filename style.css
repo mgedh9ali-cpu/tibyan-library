@@ -1,66 +1,29 @@
 :root {
-  --primary: #2C1B18; /* بني ملكي */
-  --gold: #D4AF37;    /* ذهبي */
-  --bg-gradient: radial-gradient(circle at center, #3E2723, #1A0F0E);
-  --glass-bg: rgba(255, 255, 255, 0.92); /* خلفية الشريط الزجاجية */
+  --primary: #2C1B18;
+  --gold: #D4AF37;
+  --bg: #FDFCF9;
 }
 
-body { margin:0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg-gradient); color: #FDFCF9; padding-bottom: 85px; min-height: 100vh; }
+body { margin:0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg); overflow-x: hidden; }
 .royal-font { font-family: 'Amiri', serif; }
 
-/* 🎨 تنسيق الشريط السفلي المطور */
-.nav-bar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: var(--glass-bg);
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
-  border-top: 1px solid rgba(212, 175, 55, 0.3);
-  z-index: 1000;
-  backdrop-filter: blur(10px); /* تأثير التغبيش */
-}
+/* 🚪 بوابة تسجيل الدخول */
+.login-overlay { position:fixed; inset:0; background:var(--primary); z-index:5000; display:flex; align-items:center; justify-content:center; padding:20px; }
+.login-card { background:white; padding:40px; border-radius:20px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-width:400px; width:100%; }
+.google-btn { width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; background:white; display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer; font-weight:700; margin-top:20px; }
 
-.nav-item {
-  background: none;
-  border: none;
-  color: #888;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  flex: 1;
-}
+/* ✨ شاشة الترحيب */
+.welcome-splash { position:fixed; inset:0; background:var(--primary); z-index:4000; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:24px; transition: 0.8s; }
 
-.nav-item i { font-size: 20px; }
-.nav-item span { font-size: 11px; font-weight: 600; }
+/* 👤 الملف الشخصي */
+.profile-card { background:white; margin:20px; padding:30px; border-radius:20px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
+.avatar-circle { width:100px; height:100px; background:var(--gold); border-radius:50%; margin:0 auto 15px; border:4px solid var(--primary); }
+.royal-greeting { color:#888; font-style:italic; margin-bottom:20px; font-size:14px; }
+.user-stats { display:flex; justify-content:space-around; border-top:1px solid #eee; padding-top:20px; }
 
-/* حالة الزر النشط */
-.nav-item.active {
-  color: var(--gold);
-  transform: translateY(-5px) scale(1.1);
-}
-
-.nav-item.active i {
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-/* بطاقات الكتب */
-.book-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  padding: 12px;
-  border-radius: 15px;
-  text-align: center;
-  backdrop-filter: blur(5px);
-}
+/* 📱 الشريط السفلي */
+.nav-bar { position:fixed; bottom:0; width:100%; background:rgba(255,255,255,0.95); display:flex; padding:10px 0; box-shadow:0 -5px 20px rgba(0,0,0,0.05); backdrop-filter:blur(10px); }
+.nav-item { flex:1; border:none; background:none; color:#BDBDBD; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition:0.3s; }
+.nav-item.active { color:var(--gold); transform: scale(1.1); }
 
 .hidden { display: none !important; }
-.page-section { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
-.active-section { display: block; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
