@@ -1,99 +1,67 @@
-/* بيانات الكتب */
 const books = [
   {
-    id: 1,
-    title: "كتاب تجريبي",
-    author: "قارئ مجهول",
-    cover: "https://via.placeholder.com/200x300?text=كتاب",
-    sample: "books/sample.pdf",
-    file: "books/full.pdf"
+    id:1,
+    title:"كتاب تجريبي",
+    author:"قارئ",
+    cover:"https://via.placeholder.com/200x300",
+    sample:"books/sample.pdf",
+    file:"books/full.pdf",
+    done:false
   }
 ];
 
-/* عناصر الصفحة */
 const library = document.getElementById('library');
-const reader = document.getElementById('reader');
-const frame = document.getElementById('bookFrame');
-const titleEl = document.getElementById('bookTitle');
-const authorEl = document.getElementById('bookAuthor');
+const mybooks = document.getElementById('mybooks');
 
-/* عرض المكتبة */
-books.forEach(book => {
-  const div = document.createElement('div');
-  div.className = 'book';
-  div.innerHTML = `
-    <img src="${book.cover}">
-    <h3>${book.title}</h3>
-    <small>${book.author}</small>
-  `;
-  div.onclick = () => openBook(book);
-  library.appendChild(div);
+books.forEach(b=>{
+  const d=document.createElement('div');
+  d.className='book';
+  d.innerHTML=`<img src="${b.cover}"><h4>${b.title}</h4>`;
+  d.onclick=()=>openBook(b);
+  library.appendChild(d);
 });
 
-/* فتح كتاب */
-let currentBook = null;
-let mode = 'sample';
-
-function openBook(book) {
-  currentBook = book;
-  titleEl.innerText = book.title;
-  authorEl.innerText = book.author;
-  frame.src = book.sample;
-  mode = 'sample';
-  reader.classList.remove('hidden');
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
 }
 
-/* إغلاق القارئ */
-function closeReader() {
-  reader.classList.add('hidden');
-  audio.pause();
+let currentBook=null;
+
+function openBook(b){
+  currentBook=b;
+  document.getElementById('readerTitle').innerText=b.title;
+  document.getElementById('readerFrame').src=b.sample;
+  document.getElementById('reader').classList.remove('hidden');
 }
 
-/* العَيّنة والكامل */
-function openSample() {
-  frame.src = currentBook.sample;
-  mode = 'sample';
+function closeReader(){
+  document.getElementById('reader').classList.add('hidden');
 }
 
-function openFull() {
-  frame.src = currentBook.file;
-  mode = 'full';
+function openSample(){ readerFrame.src=currentBook.sample }
+function openFull(){ readerFrame.src=currentBook.file }
+
+let audio=new Audio('sounds/warraq.mp3');
+audio.loop=true;
+
+function toggleSound(){
+  document.getElementById('enableSound').checked
+  ? audio.paused?audio.play():audio.pause()
+  : audio.pause();
 }
 
-/* الأصوات */
-let audio = new Audio();
-audio.loop = true;
-audio.volume = 0.3;
-
-const sounds = {
-  warraq: 'sounds/warraq.mp3',
-  night: 'sounds/night_reader.mp3',
-  researcher: 'sounds/researcher.mp3',
-  friend: 'sounds/friend.mp3'
-};
-
-function selectSound(type) {
-  audio.src = sounds[type];
-  audio.play();
+function textSummary(){
+  alert("ملخص ورقي مختصر للكتاب.");
 }
 
-function toggleSound() {
-  audio.paused ? audio.play() : audio.pause();
+function audioSummary(){
+  if(!document.getElementById('enableAudioSummary').checked) return;
+  let u=new SpeechSynthesisUtterance("هذا ملخص صوتي.");
+  u.lang='ar';
+  speechSynthesis.speak(u);
 }
 
-function setVolume(v) {
-  audio.volume = v;
-}
-
-/* التلخيص */
-function textSummary() {
-  alert("تلخيص ورقي:\nيعرض هذا الكتاب الأفكار الأساسية بأسلوب منظم وميسر.");
-}
-
-function audioSummary() {
-  const msg = new SpeechSynthesisUtterance(
-    "هذا ملخص صوتي مختصر يقدّم أهم أفكار الكتاب للقارئ."
-  );
-  msg.lang = 'ar';
-  speechSynthesis.speak(msg);
+function setTheme(t){
+  document.body.className = t==='royal'?'royal-bg':t;
 }
