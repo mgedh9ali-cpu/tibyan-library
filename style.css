@@ -1,24 +1,29 @@
-:root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --glass: rgba(255, 255, 255, 0.9); }
-body { margin: 0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg); padding-bottom: 90px; }
+:root { --p: #2C1B18; --g: #D4AF37; --bg: #FDFCF9; --glass: rgba(255, 255, 255, 0.95); }
+body { margin: 0; direction: rtl; font-family: 'Cairo', sans-serif; background: var(--bg); padding-bottom: 100px; }
 .royal-font { font-family: 'Amiri', serif; }
 
-/* شاشة الافتتاحية */
+/* Splash */
 #splash { position: fixed; inset: 0; background: var(--p); z-index: 10000; display: flex; justify-content: center; align-items: center; transition: 1s; }
 #introVideo { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
 .logo-anim { font-size: 60px; color: var(--g); position: relative; }
 
-/* الهيدر الملكي */
-.main-header { background: linear-gradient(135deg, var(--p), #4a2c2d); color: var(--g); padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; }
-.daily-quote-box { margin-top: 10px; font-size: 14px; font-style: italic; color: var(--bg); opacity: 0.8; }
+/* Header & Quote */
+.main-header { background: linear-gradient(135deg, var(--p), #4a2c2d); color: var(--g); padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+.daily-quote-box { margin-top: 15px; font-size: 15px; font-style: italic; color: #eee; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 10px; }
 
-/* الأزرار والشبكة */
+/* Cards & Grid */
+.glass-card { background: var(--glass); border: 1.5px solid var(--g); border-radius: 25px; padding: 20px; margin: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
 .book-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-.glass-card { background: var(--glass); border: 1px solid var(--g); border-radius: 20px; padding: 20px; margin: 15px; }
-.gold-btn-full { width: 100%; background: var(--g); color: var(--p); border: none; padding: 15px; border-radius: 15px; font-weight: bold; margin-top: 10px; }
+.search-bar { width: 100%; padding: 12px; border-radius: 25px; border: 1.5px solid var(--g); outline: none; }
 
-/* القائمة السفلية */
-.nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; padding: 12px 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
-.nav-item { flex: 1; border: none; background: none; color: #888; display: flex; flex-direction: column; align-items: center; }
+/* Nav Bar */
+.nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
+.nav-item { flex: 1; border: none; background: none; color: #888; display: flex; flex-direction: column; align-items: center; font-family: 'Cairo'; }
 .nav-item.active { color: var(--g); }
+.nav-item i { font-size: 22px; }
+
 .page-section { display: none; }
-.active-section { display: block; }
+.active-section { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.gold-btn-full { width: 100%; background: var(--g); color: var(--p); border: none; padding: 15px; border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
