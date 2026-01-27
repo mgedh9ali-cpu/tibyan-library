@@ -233,3 +233,13 @@ function updateStats() {
 function saveData() {
     localStorage.setItem('tibyan_db', JSON.stringify(db));
 }
+// في app.js، غير قسم الـ cover لهذا الشكل:
+{ 
+    id: 1, 
+    title: "زاد المعاد", 
+    author: "ابن القيم", 
+    // صورة غلاف حقيقية تجريبية
+    cover: "https://www.noor-book.com/publice/covers_cache_webp/3/9/d/5/29d5b0c03439d5b0c0346387.jpg.webp", 
+    status: "reading",
+    // ... باقي الكود
+},
