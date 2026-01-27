@@ -1,70 +1,91 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تبيان</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>مكتبة تبيان</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="royal-bg">
+  <header class="header">
+    <h1>مكتبة تبيان</h1>
+    <p>اقرأ بهدوء مع صوت الخلفية والتلخيص</p>
+  </header>
 
-<header class="header">
-  <h1>تبيان</h1>
-  <p>مكتبة القراءة الهادئة</p>
-</header>
+  <nav class="tabs">
+    <button onclick="showTab('library')" class="tab-btn active">المكتبة</button>
+    <button onclick="showTab('mybooks')" class="tab-btn">كتبي</button>
+    <button onclick="showTab('profile')" class="tab-btn">الملف الشخصي</button>
+    <button onclick="showTab('settings')" class="tab-btn">الإعدادات</button>
+  </nav>
 
-<nav class="tabs">
-  <button onclick="showTab('library')">📚 المكتبة</button>
-  <button onclick="showTab('mybooks')">📖 مكتبتي</button>
-  <button onclick="showTab('profile')">👤 أنا</button>
-  <button onclick="showTab('settings')">⚙️ الإعدادات</button>
-</nav>
+  <!-- المكتبة -->
+  <section id="library" class="tab grid">
+    <!-- الكتب تُحقن من JS -->
+  </section>
 
-<section id="library" class="tab grid"></section>
-<section id="mybooks" class="tab hidden grid"></section>
+  <!-- كتبي -->
+  <section id="mybooks" class="tab grid hidden">
+    <!-- الكتب المكتملة / المفضلة من JS -->
+  </section>
 
-<section id="profile" class="tab hidden profile">
-  <h2 id="userName">حيزوم</h2>
-  <p>📚 عدد الكتب: <span id="bookCount">0</span></p>
-  <p>✅ المكتملة: <span id="doneCount">0</span></p>
-</section>
+  <!-- الملف الشخصي -->
+  <section id="profile" class="tab hidden profile">
+    <h2 id="userName">قارئ تبيان</h2>
+    <p>عدد الكتب في المكتبة: <span id="bookCount">0</span></p>
+    <p>الكتب المقروءة: <span id="doneCount">0</span></p>
+  </section>
 
-<section id="settings" class="tab hidden settings">
-  <label>
-    <input type="checkbox" id="enableSound" checked>
-    تفعيل أصوات القراءة
-  </label>
-  <label>
-    <input type="checkbox" id="enableAudioSummary" checked>
-    تفعيل التلخيص الصوتي
-  </label>
+  <!-- الإعدادات -->
+  <section id="settings" class="tab hidden settings">
+    <label>
+      <input type="checkbox" id="enableSound" checked />
+      تفعيل صوت الخلفية
+    </label>
 
-  <label>🎧 مستوى الصوت</label>
-  <input type="range" min="0" max="1" step="0.01" id="volumeRange">
+    <label>
+      <input type="checkbox" id="enableAudioSummary" checked />
+      تفعيل التلخيص الصوتي (TTS)
+    </label>
 
-  <label>🎨 الخلفية</label>
-  <select onchange="setTheme(this.value)">
-    <option value="royal">ملكية</option>
-    <option value="light">فاتحة</option>
-    <option value="dark">داكنة</option>
-  </select>
-</section>
+    <label>
+      مستوى صوت الخلفية
+      <input type="range" min="0" max="1" step="0.01" id="volumeRange" value="0.3" />
+    </label>
 
-<!-- القارئ -->
-<section id="reader" class="reader hidden">
-  <h3 id="readerTitle"></h3>
-  <iframe id="readerFrame"></iframe>
+    <label>
+      نمط الواجهة
+      <select onchange="setTheme(this.value)">
+        <option value="royal">ملكي</option>
+        <option value="light">فاتح</option>
+        <option value="dark">داكن</option>
+      </select>
+    </label>
+  </section>
 
-  <div class="controls">
-    <button onclick="openSample()">عَيّنة</button>
-    <button onclick="openFull()">كامل</button>
-    <button onclick="toggleSound()">🎧</button>
-    <button onclick="textSummary()">📝</button>
-    <button onclick="audioSummary()">🔊</button>
-    <button onclick="closeReader()">⬅</button>
-  </div>
-</section>
+  <!-- القارئ -->
+  <section id="reader" class="reader hidden">
+    <h3 id="readerTitle"></h3>
+    <iframe id="readerFrame"></iframe>
 
-<script src="app.js"></script>
+    <div class="controls">
+      <button onclick="openSample()">عرض نسخة تجريبية</button>
+      <button onclick="openFull()">عرض النسخة الكاملة</button>
+      <button onclick="toggleSound()">تشغيل / إيقاف الصوت</button>
+      <button onclick="textSummary()">تلخيص نصي</button>
+      <button onclick="audioSummary()">تلخيص صوتي</button>
+      <button onclick="closeReader()">إغلاق</button>
+    </div>
+
+    <div class="voices">
+      <button onclick="selectSound('warraq')">صوت الورّاق</button>
+      <button onclick="selectSound('night')">قراءة ليلية</button>
+      <button onclick="selectSound('researcher')">الباحث</button>
+      <button onclick="selectSound('friend')">صديقك القارئ</button>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
 </body>
 </html>
