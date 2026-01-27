@@ -1,11 +1,22 @@
 body {
   margin: 0;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
+/* الثيمات */
 .royal-bg {
   background: radial-gradient(circle at top, #3a241f, #1e1210);
   color: #f5e6c8;
+}
+
+.light {
+  background: #fdfcf9;
+  color: #2c1b18;
+}
+
+.dark {
+  background: #111;
+  color: #f0eede;
 }
 
 .header {
@@ -16,47 +27,118 @@ body {
 .tabs {
   display: flex;
   justify-content: space-around;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.tabs button {
+.tab-btn {
   background: none;
   border: none;
   color: inherit;
   padding: 10px;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  border-bottom: 2px solid #d4af37;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 14px;
   padding: 16px;
 }
 
 .book {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   padding: 10px;
   border-radius: 14px;
   text-align: center;
+  cursor: pointer;
 }
 
-.hidden { display: none; }
+.book img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.book h4 {
+  font-size: 15px;
+  margin: 8px 0 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* القارئ */
 
 .reader {
   position: fixed;
   inset: 0;
   background: #111;
+  color: #f5e6c8;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
 }
 
-iframe {
+.reader h3 {
+  text-align: center;
+  padding: 12px;
+}
+
+.reader iframe {
   width: 100%;
   height: 70vh;
   border: none;
+  background: #fff;
 }
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
   padding: 10px;
+}
+
+.controls button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #d4af37;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.voices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.voices button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #3a241f;
+  color: #f5e6c8;
+  cursor: pointer;
+}
+
+/* الإعدادات والملف الشخصي */
+
+.profile,
+.settings {
+  padding: 16px;
+}
+
+.settings label {
+  display: block;
+  margin-bottom: 12px;
 }
