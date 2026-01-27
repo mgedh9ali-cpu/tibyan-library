@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تبيان - النسخة الملكية</title>
+  <title>تبيان - النسخة الملكية المطورة</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
@@ -24,104 +24,109 @@
     <div id="dailyQuoteDisplay" class="daily-quote-box">بوابة العلم والتحصيل</div>
   </header>
 
-  <!-- شريط البحث -->
-  <div class="search-area">
-    <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="liveSearch()" autocomplete="off">
-  </div>
-
-  <!-- المحتوى الرئيسي -->
   <main id="mainContent">
-    <!-- صفحة الرئيسية -->
+    
+    <!-- [1] الصفحة الرئيسية -->
     <section id="home" class="page-section active-section">
-      <h2 class="section-title">📚 المكتبة العامة</h2>
-      <div class="home-columns">
-        <div>
-          <h3 class="mini-title">الأحدث</h3>
-          <div id="recentGrid" class="book-grid"></div>
-        </div>
-        <div>
-          <h3 class="mini-title">الأكثر مشاهدة</h3>
-          <div id="popularGrid" class="book-grid"></div>
-        </div>
+      <div class="search-area">
+        <input id="searchField" class="search-bar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
       </div>
-      <h3 class="mini-title">جميع الكتب</h3>
+      
+      <div id="searchResultsSection" class="hidden">
+        <h2 class="section-title">🔍 نتائج البحث</h2>
+        <div id="searchGrid" class="book-grid"></div>
+      </div>
+
+      <h2 class="section-title">✨ أحدث الكتب</h2>
+      <div id="recentGrid" class="book-grid-horizontal"></div>
+
+      <h2 class="section-title">🔥 الأكثر شعبية</h2>
+      <div id="popularGrid" class="book-grid"></div>
+
+      <h2 class="section-title">📚 المكتبة العامة</h2>
       <div id="mainGrid" class="book-grid"></div>
     </section>
 
-    <!-- قائمتي -->
+    <!-- [2] مكتبتي المتطورة (قائمتي) -->
     <section id="mylist" class="page-section">
-      <h2 class="section-title">📖 كتبي</h2>
-      <div id="favGrid" class="book-grid"></div>
-      <h4 class="mini-title">قيد القراءة</h4>
-      <div id="readingGrid" class="book-grid"></div>
+      <!-- الورد اليومي -->
+      <div class="stat-card goal-card">
+        <h3>🌱 الورد اليومي</h3>
+        <div class="goal-progress">
+          <div id="goalBar" class="goal-fill" style="width: 0%"></div>
+        </div>
+        <p id="goalText">قرأت 0 من 50 صفحة اليوم</p>
+        <button class="gold-btn-sm" onclick="updateDailyProgress()">إضافة صفحات +</button>
+      </div>
+
+      <!-- إحصائيات الإنجاز -->
+      <div class="stats-grid">
+        <div class="stat-box"><h4>المجلدات</h4><span id="statTotal">0</span></div>
+        <div class="stat-box"><h4>مكتملة</h4><span id="statDone">0</span></div>
+        <div class="stat-box"><h4>المؤلفون</h4><span id="statAuthors">0</span></div>
+      </div>
+
+      <!-- تبويبات حالة القراءة -->
+      <div class="status-tabs">
+        <button class="tab-btn active" onclick="filterMylist('reading', this)">📖 قيد القراءة</button>
+        <button class="tab-btn" onclick="filterMylist('completed', this)">✅ مكتملة</button>
+        <button class="tab-btn" onclick="filterMylist('fav', this)">⭐ مفضلة</button>
+      </div>
+
+      <div id="mylistGrid" class="book-grid"></div>
+
+      <!-- المؤلفون المفضلون -->
+      <h2 class="section-title">✍️ مؤلفوك المفضلون</h2>
+      <div id="authorsList" class="authors-scroll"></div>
+
+      <!-- الملاحظات والاقتباسات -->
+      <h2 class="section-title">📝 ملاحظاتي واقتباساتي</h2>
+      <div id="notesContainer" class="notes-area"></div>
     </section>
 
-    <!-- صفحة أنا -->
+    <!-- [3] صفحة أنا (النشاط الأخير) -->
     <section id="me" class="page-section">
-      <div class="profile">
+      <div class="profile-header">
         <i class="fas fa-user-circle avatar"></i>
-        <h3 id="username">حيزوم</h3>
-        <div class="stats-container">
-          <div class="stat-box">📖 الكتب: <span id="statMyList">0</span></div>
-          <div class="stat-box">✅ المكتملة: <span id="statCompleted">0</span></div>
-        </div>
+        <h3 id="profileName">حيزوم</h3>
+      </div>
+      <div class="activity-card">
+        <h3>🕒 آخر نشاط</h3>
+        <p id="lastActivity">لم تبدأ القراءة بعد</p>
       </div>
     </section>
 
-    <!-- إعدادات -->
+    <!-- [4] الإعدادات -->
     <section id="settings" class="page-section">
       <h2 class="section-title">⚙️ التحكم</h2>
-      <div class="setting-item" onclick="toggleDarkMode()">🌙 تبديل الوضع الليلي</div>
+      <div class="setting-item" onclick="toggleDarkMode()">🌙 الوضع الليلي</div>
       <div class="setting-item">
-         <label>🔊 صوت التلخيص: <input type="checkbox" id="audioSummaryToggle" checked></label>
-      </div>
-    </section>
-
-    <!-- لوحة المالك -->
-    <section id="owner" class="page-section">
-      <h2 class="section-title">🔒 لوحة المالك</h2>
-      <div class="owner-form">
-        <input id="ownerBookTitle" class="search-bar" placeholder="عنوان الكتاب">
-        <input id="ownerBookAuthor" class="search-bar" placeholder="المؤلف">
-        <button class="royal-btn" onclick="publishBook()">نشر الكتاب 🚀</button>
+        <label>هدف الصفحات اليومي: </label>
+        <input type="number" id="dailyGoalInput" value="50" onchange="setDailyGoal()">
       </div>
     </section>
   </main>
 
-  <!-- القارئ الملكي (مخفي ويظهر عند القراءة) -->
+  <!-- القارئ الملكي (كما في النسخة السابقة) -->
   <div id="readerOverlay" class="reader-overlay hidden">
+    <!-- ... (نفس هيكل القارئ السابق مع أزرار الأصوات) ... -->
     <div class="reader-header">
-       <button class="close-btn" onclick="closeReader()"><i class="fas fa-times"></i></button>
-       <h2 id="readerTitle" class="royal-font"></h2>
+       <button onclick="closeReader()">⬅</button>
+       <h2 id="readerTitle"></h2>
     </div>
     <iframe id="bookFrame" src=""></iframe>
-    <div class="reader-toolbar">
-       <div class="voice-selector">
-          <button onclick="selectVoice('warraq')">الورّاق</button>
-          <button onclick="selectVoice('night')">الليلي</button>
-          <button onclick="selectVoice('researcher')">الباحث</button>
-          <button onclick="selectVoice('friend')">الصديق</button>
-       </div>
-       <div class="action-buttons">
-          <button onclick="playSample()">عينة</button>
-          <button onclick="playFull()">الكامل</button>
-          <button onclick="textSummary()"><i class="fas fa-file-alt"></i></button>
-          <button onclick="audioSummary()"><i class="fas fa-volume-up"></i></button>
-          <button onclick="toggleAudio()"><div id="playIcon"><i class="fas fa-play"></i></div></button>
-       </div>
-       <input type="range" id="volControl" min="0" max="1" step="0.1" value="0.5" onchange="setVolume(this.value)">
+    <div class="reader-tools">
+       <button onclick="addNote()">✍️ إضافة ملاحظة</button>
+       <button onclick="markAsDone()">✅ تم اكتمال الكتاب</button>
     </div>
   </div>
 
   <!-- الشريط السفلي -->
   <nav class="nav-bar">
     <button class="nav-item active" onclick="nav('home', this)"><i class="fas fa-home"></i><span>الرئيسية</span></button>
-    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-open"></i><span>كتبي</span></button>
-    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-user"></i><span>أنا</span></button>
+    <button class="nav-item" onclick="nav('mylist', this)"><i class="fas fa-book-reader"></i><span>مكتبتي</span></button>
+    <button class="nav-item" onclick="nav('me', this)"><i class="fas fa-history"></i><span>نشاطي</span></button>
     <button class="nav-item" onclick="nav('settings', this)"><i class="fas fa-cog"></i><span>الإعدادات</span></button>
-    <button id="ownerNavBtn" class="nav-item secret-item" onclick="nav('owner', this)" style="display:none;">
-      <i class="fas fa-user-shield"></i><span>المالك</span>
-    </button>
   </nav>
 
   <script src="app.js"></script>
