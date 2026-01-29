@@ -181,3 +181,60 @@ body {
   color: #eee;
   border-color: #D4AF37;
 }
+/* الخطوط */
+body {
+  font-family: 'Amiri', 'Scheherazade', serif;
+  margin: 0;
+  background: linear-gradient(135deg, #2C1B18 0%, #D4AF37 100%);
+  color: #2C1B18;
+}
+
+/* خلفية مزخرفة */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('pattern.png'); /* صورة زخرفة هندسية شفافة */
+  opacity: 0.05;
+  z-index: -1;
+}
+
+/* العناوين */
+.section-title {
+  font-size: 26px;
+  color: #D4AF37;
+  border-bottom: 2px solid #D4AF37;
+  margin: 20px;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+/* البطاقات */
+.book-card, .profile-card, .quote-card, .stat-card {
+  background: #fff;
+  border: 1px solid #D4AF37;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.book-card:hover, .profile-card:hover, .quote-card:hover, .stat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* الشريط السفلي */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: #2C1B18;
+  color: white;
+}
+.nav-bar button.active {
+  background: #D4AF37;
+  color: black;
+  font-weight: bold;
+}
