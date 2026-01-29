@@ -2,13 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تبيان - النسخة الملكية</title>
+  <title>📚 مكتبة تبيان الملكية</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- الشريط العلوي -->
   <header class="main-header">
     <h1 class="royal-font">📚 تبيان</h1>
+    <!-- حقل البحث: كلمة heizoum تفتح صفحة المالك -->
     <input id="searchField" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="smartSearch()">
   </header>
 
@@ -16,8 +17,10 @@
   <section id="home" class="page-section active-section">
     <h2 class="section-title">✨ اكتشف جديدنا</h2>
     <div id="mainGrid" class="book-grid"></div>
+
     <h2 class="section-title">🔥 الأكثر قراءة</h2>
     <div id="popularGrid" class="book-grid"></div>
+
     <h2 class="section-title">📅 كتاب اليوم</h2>
     <div id="dailyBook" class="book-card"></div>
   </section>
@@ -38,7 +41,7 @@
   <!-- أنا -->
   <section id="me" class="page-section">
     <div class="profile-card">
-      <div class="avatar-circle" onclick="changeAvatar()"><i class="fas fa-user"></i></div>
+      <div class="avatar-circle" onclick="changeAvatar()">👤</div>
       <h2 id="meName" class="royal-font"></h2>
       <div class="user-stats">
         <div class="stat"><span id="statBooks">0</span><small>كتاب</small></div>
@@ -61,6 +64,10 @@
       <div class="setting-item" onclick="setWard()">📅 إعداد ورد يومي</div>
       <div class="setting-item" onclick="toggleNotifications()">🔔 الإشعارات</div>
       <div class="setting-item" onclick="exportQuotes()">📤 تصدير الاقتباسات</div>
+      <div class="setting-item">
+        🤖 الدعم وطلب إضافة كتب
+        <a href="https://t.me/اسم_البوت" target="_blank">فتح بوت التليجرام</a>
+      </div>
       <div class="setting-item" onclick="logout()">🚪 تسجيل الخروج</div>
     </div>
   </section>
@@ -71,6 +78,21 @@
     <div id="suggestedQuotes" class="quote-list"></div>
     <div id="quotesList" class="quote-list"></div>
     <button onclick="exportQuotes()">📤 تصدير الاقتباسات</button>
+  </section>
+
+  <!-- صفحة المالك -->
+  <section id="ownerPage" class="page-section">
+    <h2 class="section-title">👑 صفحة المالك</h2>
+    <div class="owner-stats">
+      <div class="stat-card"><h3>📚 عدد الكتب</h3><p id="statBooksOwner">0</p></div>
+      <div class="stat-card"><h3>👥 عدد المستخدمين</h3><p id="statUsersOwner">0</p></div>
+      <div class="stat-card"><h3>📑 عدد الاقتباسات</h3><p id="statQuotesOwner">0</p></div>
+    </div>
+    <div class="owner-options">
+      <button onclick="addBook()">➕ إضافة كتاب جديد</button>
+      <button onclick="showUsers()">👥 عدد المستخدمين</button>
+      <button onclick="updateDailyWord()">📅 تعديل كلمة اليوم</button>
+    </div>
   </section>
 
   <!-- الشريط السفلي -->
